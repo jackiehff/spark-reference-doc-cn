@@ -21,6 +21,31 @@ Spark 2.2.x 中文官方参考文档
    programming-guide/ml-guide
 
 
+部署
+=====================================================
+
+.. toctree::
+:maxdepth: 3
+
+      deploy-guide/cluster-overview
+      deploy-guide/submitting-applications
+      deploy-guide/spark-standalone
+      deploy-guide/running-on-mesos
+      deploy-guide/running-on-yarn
+
+
+更多
+=====================================================
+
+.. toctree::
+:maxdepth: 3
+
+      more-guide/configuration
+      more-guide/monitoring
+      more-guide/tuning
+      more-guide/job-scheduling
+      more-guide/security
+
 Indices and tables
 ==================
 

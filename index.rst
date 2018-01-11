@@ -15,7 +15,7 @@ RDD编程指南
 ----------------------
 
 .. toctree::
-:caption:
+   :caption:
 
       rdd-programming-guide/overview
       rdd-programming-guide/linking-with-spark
@@ -25,7 +25,7 @@ Spark SQL, DataFrame以及Dataset编程指南
 ----------------------
 
 .. toctree::
-:caption:
+   :caption:
 
       sql-programming-guide/overview
       sql-programming-guide/getting-started
@@ -35,7 +35,7 @@ Structured Streaming编程指南
 ----------------------
 
 .. toctree::
-:caption:
+   :caption:
 
       structured-streaming-programming-guide/overview
       structured-streaming-programming-guide/quick-example
@@ -45,10 +45,20 @@ Spark Streaming编程指南
 ----------------------
 
 .. toctree::
-:caption:
+   :caption:
 
       streaming-programming-guide/overview
       streaming-programming-guide/a-quick-example
+
+
+机器学习库(MLib)编程指南
+----------------------
+
+.. toctree::
+   :caption:
+
+         ml-guide/ml-statistics
+         ml-guide/ml-pipeline
 
 
 Indices and tables

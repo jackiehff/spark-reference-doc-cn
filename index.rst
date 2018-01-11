@@ -25,7 +25,7 @@ Spark 2.2.x 中文官方参考文档
 =====================================================
 
 .. toctree::
-:maxdepth: 3
+   :maxdepth: 3
 
       deploy-guide/cluster-overview
       deploy-guide/submitting-applications

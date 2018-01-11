@@ -12,50 +12,50 @@ Spark 2.2.x 中文官方参考文档
 
 
 RDD编程指南
-----------------------
+=====================================================
 
 .. toctree::
-   :caption:
+   :caption: RDD编程指南
 
       rdd-programming-guide/overview
       rdd-programming-guide/linking-with-spark
 
 
 Spark SQL, DataFrame以及Dataset编程指南
-----------------------
+=====================================================
 
 .. toctree::
-   :caption:
+   :caption: Spark SQL, DataFrame以及Dataset编程指南
 
       sql-programming-guide/overview
       sql-programming-guide/getting-started
 
 
 Structured Streaming编程指南
-----------------------
+=====================================================
 
 .. toctree::
-   :caption:
+   :caption: Structured Streaming编程指南
 
       structured-streaming-programming-guide/overview
       structured-streaming-programming-guide/quick-example
 
 
 Spark Streaming编程指南
-----------------------
+=====================================================
 
 .. toctree::
-   :caption:
+   :caption: Spark Streaming编程指南
 
       streaming-programming-guide/overview
       streaming-programming-guide/a-quick-example
 
 
 机器学习库(MLib)编程指南
-----------------------
+=====================================================
 
 .. toctree::
-   :caption:
+   :caption: 机器学习库(MLib)编程指南
 
          ml-guide/ml-statistics
          ml-guide/ml-pipeline

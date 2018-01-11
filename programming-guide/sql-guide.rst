@@ -1,4 +1,4 @@
-Spark SQL, DataFrame和Dataset编程指南
+Spark SQL, DataFrame 和 Dataset 编程指南
 ============================================
 
 概述

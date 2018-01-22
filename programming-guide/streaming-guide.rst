@@ -16,7 +16,7 @@ Spark Streaming 是对核心 Spark API 的一个扩展，它能够实现对实�
   :scale: 90 %
   :align: center
 
-下图展示了Spark Streaming的内部工作原理。Spark Streaming 接收实时输入数据流并将数据划分为一个个小的批次供 Spark Engine 处理，最终生成多个批次的结果流。
+下图展示了 Spark Streaming 的内部工作原理。Spark Streaming 接收实时输入数据流并将数据划分为一个个小的批次供 Spark Engine 处理，最终生成多个批次的结果流。
 
 .. image:: imgs/streaming-flow.png
   :scale: 90 %
@@ -26,19 +26,19 @@ Spark Streaming 为这种持续的数据流提供了一个高级抽象，即：d
 
 本文档将向你展示如何用 DStream 进行 Spark Streaming 编程。Spark Streaming 支持 Scala、Java 和 Python（始于Spark 1.2），本文档的示例包括这三种语言。
 
-注意：对Python来说，有一部分API尚不支持，或者是和Scala、Java不同。本文档中会用高亮形式来注明这部分 Python API。
+注意：对 Python 来说，有一部分 API 尚不支持，或者是和 Scala、Java 不同。本文档中会用高亮形式来注明这部分 Python API。
 
 
 *****************************
 一个小例子
 *****************************
 
-在深入Spark Streaming编程细节之前，我们先来看看一个简单的小例子以便有个感性认识。假设我们在一个TCP端口上监听一个数据服务器的数据，并对收到的文本数据中的单词计数。以下你所需的全部工作：
+在深入 Spark Streaming 编程细节之前，我们先来看看一个简单的小例子以便有个感性认识。假设我们在一个 TCP 端口上监听一个数据服务器的数据，并对收到的文本数据中的单词计数。以下你所需的全部工作：
 
 
 * Scala
 
-首先，我们需要导入Spark Streaming的相关class的一些包，以及一些支持 StreamingContext 隐式转换的包（这些隐式转换能给DStream之类的class增加一些有用的方法）。StreamingContext 是Spark Streaming的入口。我们将会创建一个本地 StreamingContext对象，包含两个执行线程，并将批次间隔设为1秒。
+首先，我们需要导入Spark Streaming的相关class的一些包，以及一些支持 StreamingContext 隐式转换的包（这些隐式转换能给DStream之类的class增加一些有用的方法）。StreamingContext 是 Spark Streaming 的入口。我们将会创建一个本地 StreamingContext 对象，包含两个执行线程，并将批次间隔设为1秒。
 
 .. code-block:: Scala
 
@@ -79,18 +79,18 @@ flatMap 是一种 “一到多”（one-to-many）的映射算子，它可以将
 
 words这个DStream对象经过map算子（一到一的映射）转换为一个包含（word, 1）键值对的DStream对象pairs，再对pairs使用reduce算子，得到每个批次中各个单词的出现频率。最后，wordCounts.print() 将会每秒（前面设定的批次间隔）打印一些单词计数到控制台上。
 
-注意，执行以上代码后，Spark Streaming只是将计算逻辑设置好，此时并未真正的开始处理数据。要启动之前的处理逻辑，我们还需要如下调用：
+注意，执行以上代码后，Spark Streaming 只是将计算逻辑设置好，此时并未真正的开始处理数据。要启动之前的处理逻辑，我们还需要如下调用：
 
 .. code-block:: Scala
 
   ssc.start()            // 启动流式计算
   ssc.awaitTermination()  // 等待直到计算终止
 
-完整的代码可以在Spark Streaming的例子 NetworkWordCount 中找到。
+完整的代码可以在 Spark Streaming 的例子 NetworkWordCount 中找到。
 
-如果你已经有一个Spark包（下载在这里downloaded，自定义构建在这里built），就可以执行按如下步骤运行这个例子。
+如果你已经有一个 Spark 包（下载在这里downloaded，自定义构建在这里built），就可以执行按如下步骤运行这个例子。
 
-首先，你需要运行netcat（Unix-like系统都会有这个小工具），将其作为data server
+首先，你需要运行 netcat（Unix-like系统都会有这个小工具），将其作为data server
 
 .. code-block:: Shell
 
@@ -102,7 +102,7 @@ words这个DStream对象经过map算子（一到一的映射）转换为一个�
 
   $ ./bin/run-example streaming.NetworkWordCount localhost 9999
 
-好了，现在你尝试可以在运行netcat的终端里敲几个单词，你会发现这些单词以及相应的计数会出现在启动Spark Streaming例子的终端屏幕上。看上去应该和下面这个示意图类似：
+好了，现在你尝试可以在运行 netcat 的终端里敲几个单词，你会发现这些单词以及相应的计数会出现在启动 Spark Streaming 例子的终端屏幕上。看上去应该和下面这个示意图类似：
 
 # TERMINAL 1:
 # Running Netcat
@@ -128,13 +128,15 @@ Time: 1357008430000 ms
 基本概念
 *****************************
 
-下面，我们在之前的小栗子基础上，继续深入了解一下Spark Streaming的一些基本概念。
+下面，我们在之前的小栗子基础上，继续深入了解一下 Spark Streaming 的一些基本概念。
 
 链接依赖项
 =============================
 
-和Spark类似，Spark Streaming也能在Maven库中找到。如果你需要编写Spark Streaming程序，你就需要将以下依赖加入到你的SBT或Maven工程依赖中。
+和 Spark 类似，Spark Streaming 也能在 Maven 库中找到。如果你需要编写 Spark Streaming 程序，你就需要将以下依赖加入到你的 SBT 或 Maven 工程依赖中。
+
 * Maven
+
 .. code-block:: XML
 
   <dependency>
@@ -149,7 +151,7 @@ Time: 1357008430000 ms
 
   libraryDependencies += "org.apache.spark" % "spark-streaming_2.11" % "2.2.1"
 
-还有，对于从Kafka、Flume以及Kinesis这类数据源提取数据的流式应用来说，还需要额外增加相应的依赖项，下表列出了各种数据源对应的额外依赖项：
+还有，对于从 Kafka、Flume 以及 Kinesis 这类数据源提取数据的流式应用来说，还需要额外增加相应的依赖项，下表列出了各种数据源对应的额外依赖项：
 
 ==========      ============
 数据源           Maven构件
@@ -159,17 +161,17 @@ Flume           spark-streaming-flume_2.11
 Kinesis         spark-streaming-kinesis-asl_2.11 [Amazon Software License]
 ==========      ============
 
-最新的依赖项信息（包括源代码和Maven工件）请参考Maven repository。
+最新的依赖项信息（包括源代码和 Maven 构件）请参考 Maven repository。
 
 
 初始化StreamingContext
 =============================
 
-要初始化任何一个Spark Streaming程序，都需要在入口代码中创建一个StreamingContext对象。
+要初始化任何一个 Spark Streaming 程序，都需要在入口代码中创建一个 StreamingContext 对象。
 
 * Scala
 
-而StreamingContext对象需要一个SparkConf对象作为其构造参数。
+而 StreamingContext 对象需要一个 SparkConf 对象作为其构造参数。
 
 .. code-block:: Scala
 
@@ -179,11 +181,11 @@ Kinesis         spark-streaming-kinesis-asl_2.11 [Amazon Software License]
   val conf = new SparkConf().setAppName(appName).setMaster(master)
   val ssc = new StreamingContext(conf, Seconds(1))
 
-上面代码中的 appName 是你给该应用起的名字，这个名字会展示在Spark集群的web UI上。而 master 是Spark, Mesos or YARN cluster URL，如果支持本地测试，你也可以用”local[*]”为其赋值。通常在实际工作中，你不应该将master参数硬编码到代码里，而是应用通过spark-submit的参数来传递master的值（launch the application with spark-submit ）。不过对本地测试来说，”local[*]”足够了（该值传给master后，Spark Streaming将在本地进程中，启动n个线程运行，n与本地系统CPU core数相同）。注意，StreamingContext在内部会创建一个  SparkContext 对象（SparkContext是所有Spark应用的入口，在StreamingContext对象中可以这样访问：ssc.sparkContext）。
+上面代码中的 appName 是你给该应用起的名字，这个名字会展示在 Spark 集群的 web UI上。而 master 是 Spark, Mesos or YARN cluster URL，如果支持本地测试，你也可以用”local[*]”为其赋值。通常在实际工作中，你不应该将master参数硬编码到代码里，而是应用通过spark-submit的参数来传递master的值（launch the application with spark-submit ）。不过对本地测试来说，”local[*]”足够了（该值传给master后，Spark Streaming将在本地进程中，启动n个线程运行，n与本地系统CPU core数相同）。注意，StreamingContext在内部会创建一个  SparkContext 对象（SparkContext是所有Spark应用的入口，在StreamingContext对象中可以这样访问：ssc.sparkContext）。
 
-StreamingContext还有另一个构造参数，即：批次间隔，这个值的大小需要根据应用的具体需求和可用的集群资源来确定。详见Spark性能调优（ Performance Tuning）。
+StreamingContext 还有另一个构造参数，即：批次间隔，这个值的大小需要根据应用的具体需求和可用的集群资源来确定。详见Spark性能调优（ Performance Tuning）。
 
-StreamingContext对象也可以通过已有的SparkContext对象来创建，示例如下：
+StreamingContext 对象也可以通过已有的 SparkContext 对象来创建，示例如下：
 
 .. code-block:: Scala
 
@@ -192,7 +194,7 @@ StreamingContext对象也可以通过已有的SparkContext对象来创建，示�
   val sc = ...                // 已有的SparkContext
   val ssc = new StreamingContext(sc, Seconds(1))
 
-StreamingContext对象创建后，你还需要如下步骤：
+StreamingContext 对象创建后，你还需要如下步骤：
 
 1. 创建 DStream 对象，并定义好输入数据源。
 2. 基于数据源 DStream 定义好计算逻辑和输出。
@@ -218,7 +220,7 @@ StreamingContext对象创建后，你还需要如下步骤：
   :scale: 90 %
   :align: center
 
-任何作用于DStream的算子，其实都会被转化为对其内部RDD的操作。例如，在前面的例子中，我们将 lines 这个 DStream 转成 words DStream 对象，其实作用于 lines 上的 flatMap 算子，会施加于 lines 中的每个 RDD 上，并生成新的对应的 RDD，而这些新生成的 RDD 对象就组成了 words 这个 DStream 对象。其过程如下图所示：
+任何作用于 DStream 的算子，其实都会被转化为对其内部 RDD 的操作。例如，在前面的例子中，我们将 lines 这个 DStream 转成 words DStream 对象，其实作用于 lines 上的 flatMap 算子，会施加于 lines 中的每个 RDD 上，并生成新的对应的 RDD，而这些新生成的 RDD 对象就组成了 words 这个 DStream 对象。其过程如下图所示：
 
 .. image:: imgs/streaming-dstream-ops.png
   :scale: 90 %
@@ -230,16 +232,16 @@ StreamingContext对象创建后，你还需要如下步骤：
 输入DStream和接收器
 =============================
 
-输入DStream代表从某种流式数据源流入的数据流。在之前的例子里，lines 对象就是输入DStream，它代表从netcat server收到的数据流。每个输入DStream（除文件数据流外）都和一个接收器（Receiver – Scala doc, Java doc）相关联，而接收器则是专门从数据源拉取数据到内存中的对象。
+输入 DStream 代表从某种流式数据源流入的数据流。在之前的例子里，lines 对象就是输入 DStream，它代表从 netcat server收到的数据流。每个输入DStream（除文件数据流外）都和一个接收器（Receiver – Scala doc, Java doc）相关联，而接收器则是专门从数据源拉取数据到内存中的对象。
 
-Spark Streaming主要提供两种内建的流式数据源：
+Spark Streaming 主要提供两种内建的流式数据源：
 
 * 基础数据源（Basic sources）: 在 StreamingContext API 中可直接使用的源，如：文件系统，套接字连接或者Akka actor。
 * 高级数据源（Advanced sources）: 需要依赖额外工具类的源，如：Kafka、Flume、Kinesis、Twitter等数据源。这些数据源都需要增加额外的依赖，详见依赖链接（linking）这一节。
 
 本节中，我们将会从每种数据源中挑几个继续深入讨论。
 
-:attention: 如果你需要同时从多个数据源拉取数据，那么你就需要创建多个DStream对象（详见后续的性能调优这一小节）。多个 DStream 对象其实也就同时创建了多个数据流接收器。但是请注意，Spark的 worker/executor 都是长期运行的，因此它们都会各自占用一个分配给 Spark Streaming 应用的 CPU。所以，在运行nSpark Streaming 应用的时候，需要注意分配足够的CPU core（本地运行时，需要足够的线程）来处理接收到的数据，同时还要足够的CPU core来运行这些接收器。
+:attention: 如果你需要同时从多个数据源拉取数据，那么你就需要创建多个 DStream 对象（详见后续的性能调优这一小节）。多个 DStream 对象其实也就同时创建了多个数据流接收器。但是请注意，Spark的 worker/executor 都是长期运行的，因此它们都会各自占用一个分配给 Spark Streaming 应用的 CPU。所以，在运行nSpark Streaming 应用的时候，需要注意分配足够的CPU core（本地运行时，需要足够的线程）来处理接收到的数据，同时还要足够的CPU core来运行这些接收器。
 
 要点
 
@@ -265,12 +267,12 @@ Spark Streaming主要提供两种内建的流式数据源：
 
 高级数据源
 
-Python API 自 Spark 1.6.1 起，Kafka、Kinesis、Flume和MQTT这些数据源将支持Python。
+Python API 自 Spark 1.6.1 起，Kafka、Kinesis、Flume 和 MQTT 这些数据源将支持 Python。
 
 使用这类数据源需要依赖一些额外的代码库，有些依赖还挺复杂的（如：Kafka、Flume）。因此为了减少依赖项版本冲突问题，各个数据源DStream的相关功能被分割到不同的代码包中，只有用到的时候才需要链接打包进来。例如，如果你需要使用Twitter的tweets作为数据源，你需要以下步骤：
 1. Linking: 将spark-streaming-twitter_2.10工件加入到SBT/Maven项目依赖中。
-1. Programming: 导入TwitterUtils class，然后调用 TwitterUtils.createStream 创建一个DStream，具体代码见下放。
-1. Deploying: 生成一个uber Jar包，并包含其所有依赖项（包括 spark-streaming-twitter_2.10及其自身的依赖树），再部署这个Jar包。部署详情请参考部署这一节（Deploying section）。
+2. Programming: 导入TwitterUtils class，然后调用 TwitterUtils.createStream 创建一个DStream，具体代码见下放。
+3. Deploying: 生成一个uber Jar包，并包含其所有依赖项（包括 spark-streaming-twitter_2.10及其自身的依赖树），再部署这个Jar包。部署详情请参考部署这一节（Deploying section）。
 * Scala
 * Java
 import org.apache.spark.streaming.twitter._
@@ -364,7 +366,9 @@ val cleanedDStream = wordCounts.transform(rdd => {
 基于窗口（window）的算子
 Spark Streaming 同样也提供基于时间窗口的计算，也就是说，你可以对某一个滑动时间窗内的数据施加特定tranformation算子。如下图所示：
 
-
+.. image:: imgs/streaming-dstream-window.png
+  :scale: 90 %
+  :align: center
 
 如上图所示，每次窗口滑动时，源 DStream 中落入窗口的 RDDs 就会被合并成新的 windowed DStream。在上图的例子中，这个操作会施加于3个RDD单元，而滑动距离是2个RDD单元。由此可以得出任何窗口相关操作都需要指定一下两个参数：
 * （窗口长度）window length – 窗口覆盖的时间长度（上图中为3）

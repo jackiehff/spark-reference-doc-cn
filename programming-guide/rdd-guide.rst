@@ -113,9 +113,9 @@ PySpark requires the same minor version of Python in both driver and workers. It
 Scala
 ==============
 
-Spark应用程序需要做的第一件事就是创建一个 SparkContext 对象，SparkContext对象决定了Spark如何访问集群。而要新建一个SparkContext对象，你还得需要构造一个 SparkConf 对象，SparkConf对象包含了你的应用程序的配置信息。
+Spark 应用程序需要做的第一件事就是创建一个 SparkContext 对象，SparkContext 对象决定了 Spark 如何访问集群。而要新建一个 SparkContext 对象，你还得需要构造一个 SparkConf 对象，SparkConf对象包含了你的应用程序的配置信息。
 
-每个JVM进程中，只能有一个活跃（active）的SparkContext对象。如果你非要再新建一个，那首先必须将之前那个活跃的SparkContext 对象stop()掉。
+每个JVM进程中，只能有一个活跃（active）的 SparkContext 对象。如果你非要再新建一个，那首先必须将之前那个活跃的 SparkContext 对象stop()掉。
 
 .. code-block:: Scala
 
@@ -154,35 +154,53 @@ Scala
 
 在Spark Shell中，默认已经为你新建了一个 SparkContext 对象，变量名为sc。所以 spark-shell 里不能自建SparkContext对象。你可以通过–master参数设置要连接到哪个集群，而且可以给–jars参数传一个逗号分隔的jar包列表，以便将这些jar包加到classpath中。你还可以通过–packages设置逗号分隔的maven工件列表，以便增加额外的依赖项。同样，还可以通过–repositories参数增加maven repository地址。下面是一个示例，在本地4个CPU core上运行的实例：
 
-$ ./bin/spark-shell –master local[4]
+.. code-block:: Shell
+
+  $ ./bin/spark-shell –master local[4]
 
 或者，将 code.jar 添加到 classpath 下：
 
-$ ./bin/spark-shell --master local[4] --jars code.jar
+.. code-block:: Shell
+
+  $ ./bin/spark-shell --master local[4] --jars code.jar
 
 通过 maven标识添加依赖：
 
-$ ./bin/spark-shell --master local[4] --packages "org.example:example:0.1"
+.. code-block:: Shell
 
-spark-shell –help可以查看完整的选项列表。实际上，spark-shell是在后台调用spark-submit来实现其功能的（spark-submit script.）
+  $ ./bin/spark-shell --master local[4] --packages "org.example:example:0.1"
+
+spark-shell –help 可以查看完整的选项列表。实际上，spark-shell 是在后台调用 spark-submit 来实现其功能的（spark-submit script.）
 
 
 Python
 =========================
 In the PySpark shell, a special interpreter-aware SparkContext is already created for you, in the variable called sc. Making your own SparkContext will not work. You can set which master the context connects to using the --master argument, and you can add Python .zip, .egg or .py files to the runtime path by passing a comma-separated list to --py-files. You can also add dependencies (e.g. Spark Packages) to your shell session by supplying a comma-separated list of Maven coordinates to the --packages argument. Any additional repositories where dependencies might exist (e.g. Sonatype) can be passed to the --repositories argument. Any Python dependencies a Spark package has (listed in the requirements.txt of that package) must be manually installed using pip when necessary. For example, to run bin/pyspark on exactly four cores, use:
 
-$ ./bin/pyspark --master local[4]
+.. code-block:: Shell
+
+  $ ./bin/pyspark --master local[4]
+
 Or, to also add code.py to the search path (in order to later be able to import code), use:
 
-$ ./bin/pyspark --master local[4] --py-files code.py
+.. code-block:: Shell
+
+  $ ./bin/pyspark --master local[4] --py-files code.py
+
 For a complete list of options, run pyspark --help. Behind the scenes, pyspark invokes the more general spark-submit script.
 
 It is also possible to launch the PySpark shell in IPython, the enhanced Python interpreter. PySpark works with IPython 1.0.0 and later. To use IPython, set the PYSPARK_DRIVER_PYTHON variable to ipython when running bin/pyspark:
 
-$ PYSPARK_DRIVER_PYTHON=ipython ./bin/pyspark
+.. code-block:: Shell
+
+  $ PYSPARK_DRIVER_PYTHON=ipython ./bin/pyspark
+
 To use the Jupyter notebook (previously known as the IPython notebook),
 
-$ PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIVER_PYTHON_OPTS=notebook ./bin/pyspark
+.. code-block:: Shell
+
+  $ PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIVER_PYTHON_OPTS=notebook ./bin/pyspark
+
 You can customize the ipython or jupyter commands by setting PYSPARK_DRIVER_PYTHON_OPTS.
 
 After the Jupyter Notebook server is launched, you can create a new “Python 2” notebook from the “Files” tab. Inside the notebook, you can input the command %pylab inline as part of your notebook before you start to try Spark from the Jupyter notebook.
@@ -192,16 +210,15 @@ After the Jupyter Notebook server is launched, you can create a new “Python 2�
 弹性分布式数据集(RDD)
 ***********************
 
-Spark的核心概念是弹性分布式数据集（RDD），RDD是一个可容错、可并行操作的分布式元素集合。总体上有两种方法可以创建RDD对象：由驱动程序中的集合对象通过并行化操作创建，或者从外部存储系统中数据集加载（如：共享文件系统、HDFS、HBase或者其他Hadoop支持的数据源）。
+Spark的核心概念是弹性分布式数据集(RDD)，RDD是一个可容错、可并行操作的分布式元素集合。总体上有两种方法可以创建 RDD 对象：由驱动程序中的集合对象通过并行化操作创建，或者从外部存储系统中数据集加载（如：共享文件系统、HDFS、HBase或者其他Hadoop支持的数据源）。
 
 
 并行集合
 =======================
 
-Scala
----------------
+* Scala
 
-并行化集合是以一个已有的集合对象（例如：Scala Seq）为参数，调用 SparkContext.parallelize() 方法创建得到的RDD。集合对象中所有的元素都将被复制到一个可并行操作的分布式数据集中。例如，以下代码将一个1到5组成的数组并行化成一个RDD：
+并行化集合是以一个已有的集合对象（例如：Scala Seq）为参数，调用 SparkContext.parallelize() 方法创建得到的 RDD。集合对象中所有的元素都将被复制到一个可并行操作的分布式数据集中。例如，以下代码将一个1到5组成的数组并行化成一个RDD：
 
 .. code-block:: Scala
 
@@ -210,8 +227,7 @@ Scala
 
 一旦创建成功，该分布式数据集（上例中的distData）就可以执行一些并行操作。如，distData.reduce((a, b) => a + b)，这段代码会将集合中所有元素加和。后面我们还会继续讨论分布式数据集上的各种操作。
 
-Java
---------------
+* Java
 
 Parallelized collections are created by calling JavaSparkContext’s parallelize method on an existing Collection in your driver program. The elements of the collection are copied to form a distributed dataset that can be operated on in parallel. For example, here is how to create a parallelized collection holding the numbers 1 to 5:
 
@@ -223,8 +239,7 @@ Parallelized collections are created by calling JavaSparkContext’s parallelize
 Once created, the distributed dataset (distData) can be operated on in parallel. For example, we might call distData.reduce((a, b) -> a + b) to add up the elements of the list. We describe operations on distributed datasets later on.
 
 
-Python
---------------
+* Python
 
 Parallelized collections are created by calling SparkContext’s parallelize method on an existing iterable or collection in your driver program. The elements of the collection are copied to form a distributed dataset that can be operated on in parallel. For example, here is how to create a parallelized collection holding the numbers 1 to 5:
 
@@ -234,7 +249,6 @@ Parallelized collections are created by calling SparkContext’s parallelize met
   distData = sc.parallelize(data)
 
 Once created, the distributed dataset (distData) can be operated on in parallel. For example, we can call distData.reduce(lambda a, b: a + b) to add up the elements of the list. We describe operations on distributed datasets later on.
-
 
 并行化集合的一个重要参数是分区（partition），即这个分布式数据集可以分割为多少片。Spark中每个任务（task）都是基于分区的，每个分区一个对应的任务（task）。典型场景下，一般每个CPU对应2~4个分区。并且一般而言，Spark会基于集群的情况，自动设置这个分区数。当然，你还是可以手动控制这个分区数，只需给parallelize方法再传一个参数即可（如：sc.parallelize(data, 10) ）。注意：Spark代码里有些地方仍然使用分片（slice）这个术语，这只不过是分区的一个别名，主要为了保持向后兼容。
 
@@ -252,23 +266,23 @@ distFile: RDD[String] = MappedRDD@1d4cee08
 
 创建后，distFile 就可以执行数据集的一些操作。比如，我们可以把所有文本行的长度加和：distFile.map(s => s.length).reduce((a, b) => a + b)
 
-以下是一些Spark读取文件的要点：
+以下是一些 Spark 读取文件的要点：
 
-* 如果是本地文件系统，那么这个文件必须在所有的worker节点上能够以相同的路径访问到。所以要么把文件复制到所有worker节点上同一路径下，要么挂载一个共享文件系统。
-* 所有Spark基于文件输入的方法（包括textFile）都支持输入参数为：目录，压缩文件，以及通配符。例如：textFile(“/my/directory”), textFile(“/my/directory/*.txt”), 以及 textFile(“/my/directory/*.gz”)
-* textFile方法同时还支持一个可选参数，用以控制数据的分区个数。默认地，Spark会为文件的每一个block创建一个分区（HDFS上默认block大小为64MB），你可以通过调整这个参数来控制数据的分区数。注意，分区数不能少于block个数。除了文本文件之外，Spark的Scala API还支持其他几种数据格式：
+* 如果是本地文件系统，那么这个文件必须在所有的 worker 节点上能够以相同的路径访问到。所以要么把文件复制到所有worker节点上同一路径下，要么挂载一个共享文件系统。
+* 所有 Spark 基于文件输入的方法（包括textFile）都支持输入参数为：目录，压缩文件，以及通配符。例如：textFile(“/my/directory”), textFile(“/my/directory/*.txt”), 以及 textFile(“/my/directory/*.gz”)
+* textFile 方法同时还支持一个可选参数，用以控制数据的分区个数。默认地，Spark会为文件的每一个block创建一个分区（HDFS上默认block大小为64MB），你可以通过调整这个参数来控制数据的分区数。注意，分区数不能少于block个数。除了文本文件之外，Spark的Scala API还支持其他几种数据格式：
 * SparkContext.wholeTextFiles 可以读取一个包含很多小文本文件的目录，并且以 (filename, content) 键值对的形式返回结果。这与textFile 不同，textFile只返回文件的内容，每行作为一个元素。
-* 对于SequenceFiles，可以调用 SparkContext.sequenceFile[K, V]，其中 K 和 V 分别是文件中key和value的类型。这些类型都应该是 Writable 接口的子类, 如：IntWritable and Text 等。另外，Spark 允许你为一些常用Writable指定原生类型，例如：sequenceFile[Int, String] 将自动读取 IntWritable 和 Text。
-* 对于其他的Hadoop InputFormat，你可以用 SparkContext.hadoopRDD 方法，并传入任意的JobConf 对象和 InputFormat，以及key class、value class。这和设置Hadoop job的输入源是同样的方法。你还可以使用 SparkContext.newAPIHadoopRDD，该方法接收一个基于新版Hadoop MapReduce API （org.apache.hadoop.mapreduce）的InputFormat作为参数。
-* RDD.saveAsObjectFile 和 SparkContext.objectFile 支持将RDD中元素以Java对象序列化的格式保存成文件。虽然这种序列化方式不如Avro效率高，却为保存RDD提供了一种简便方式。
+* 对于 SequenceFiles，可以调用 SparkContext.sequenceFile[K, V]，其中 K 和 V 分别是文件中 key 和 value 的类型。这些类型都应该是 Writable 接口的子类, 如：IntWritable and Text 等。另外，Spark 允许你为一些常用Writable指定原生类型，例如：sequenceFile[Int, String] 将自动读取 IntWritable 和 Text。
+* 对于其他的 Hadoop InputFormat，你可以用 SparkContext.hadoopRDD 方法，并传入任意的 JobConf 对象和 InputFormat，以及 key class、value class。这和设置 Hadoop job 的输入源是同样的方法。你还可以使用 SparkContext.newAPIHadoopRDD，该方法接收一个基于新版Hadoop MapReduce API （org.apache.hadoop.mapreduce）的InputFormat作为参数。
+* RDD.saveAsObjectFile 和 SparkContext.objectFile 支持将 RDD 中元素以 Java 对象序列化的格式保存成文件。虽然这种序列化方式不如 Avro 效率高，却为保存 RDD 提供了一种简便方式。
 
 
-RDD算子
+RDD 算子
 =======================
 
-RDD支持两种类型的算子（operation）：transformation 算子 和 action算子；transformation算子可以将已有RDD转换得到一个新的RDD，而action算子则是基于RDD的计算，并将结果返回给驱动器（driver）。例如，map 是一个 transformation 算子，它将数据集中每个元素传给一个指定的函数，并将该函数返回结果构建为一个新的RDD；而 reduce 是一个 action 算子，它可以将 RDD 中所有元素传给指定的聚合函数，并将最终的聚合结果返回给驱动器（还有一个 reduceByKey 算子，其返回的聚合结果是一个 RDD）。
+RDD 支持两种类型的算子：transformation 和 action。transformation算子可以将已有RDD转换得到一个新的RDD，而action算子则是基于RDD的计算，并将结果返回给驱动器（driver）。例如，map 是一个 transformation 算子，它将数据集中每个元素传给一个指定的函数，并将该函数返回结果构建为一个新的RDD；而 reduce 是一个 action 算子，它可以将 RDD 中所有元素传给指定的聚合函数，并将最终的聚合结果返回给驱动器（还有一个 reduceByKey 算子，其返回的聚合结果是一个 RDD）。
 
-Spark中所有 transformation 算子都是懒惰的，也就是说，transformation 算子并不立即计算结果，而是记录下对基础数据集（如：一个数据文件）的转换操作。只有等到某个 action 算子需要计算一个结果返回给驱动器的时候，transformation 算子所记录的操作才会被计算。这种设计使Spark可以运行得更加高效 – 例如，map算子创建了一个数据集，同时该数据集下一步会调用reduce算子，那么Spark将只会返回reduce的最终聚合结果（单独的一个数据）给驱动器，而不是将map所产生的数据集整个返回给驱动器。
+Spark 中所有 transformation 算子都是懒惰的，也就是说，transformation 算子并不立即计算结果，而是记录下对基础数据集（如：一个数据文件）的转换操作。只有等到某个 action 算子需要计算一个结果返回给驱动器的时候，transformation 算子所记录的操作才会被计算。这种设计使Spark可以运行得更加高效 – 例如，map算子创建了一个数据集，同时该数据集下一步会调用reduce算子，那么Spark将只会返回reduce的最终聚合结果（单独的一个数据）给驱动器，而不是将map所产生的数据集整个返回给驱动器。
 
 默认情况下，每次调用 action 算子的时候，每个由 transformation 转换得到的RDD都会被重新计算。然而，你也可以通过调用 persist（或者cache）操作来持久化一个 RDD，这意味着 Spark 将会把 RDD 的元素都保存在集群中，因此下一次访问这些元素的速度将大大提高。同时，Spark 还支持将RDD元素持久化到内存或者磁盘上，甚至可以支持跨节点多副本。
 
@@ -378,7 +392,7 @@ Or, if writing the functions inline is unwieldy:
   JavaRDD<Integer> lineLengths = lines.map(new GetLength());
   int totalLength = lineLengths.reduce(new Sum());
 
-Note that anonymous inner classes in Java can also access variables in the enclosing scope as long as they are marked final. Spark will ship copies of these variables to each worker node as it does for other languages.
+:attention: anonymous inner classes in Java can also access variables in the enclosing scope as long as they are marked final. Spark will ship copies of these variables to each worker node as it does for other languages.
 
 Python
 ^^^^^^^^^^^^^^^^^

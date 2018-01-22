@@ -2154,30 +2154,19 @@ REFRESH TABLE my_table;
 配置
 
 Parquet配置可以使用 SparkSession上的 setConf方法或者使用SQL语句中的 SET key=value 命令来完成。
-属性名
-默认值
-含义
-spark.sql.parquet.binaryAsString
-false
-一些其它的Parquet生产系统, 特别是Impala，Hive以及老版本的Spark SQL，当写Parquet schema时都不区分二进制数据和字符串。这个标识告诉Spark SQL把二进制数据当字符串处理，以兼容老系统。
-spark.sql.parquet.int96AsTimestamp
-true
-一些Parquet生产系统, 特别是Impala和Hive，把时间戳存成INT96。这个标识告诉Spark SQL将INT96数据解析成timestamp，以兼容老系统。
-spark.sql.parquet.cacheMetadata
-true
-开启Parquet schema元数据缓存。可以提升查询静态数据的速度。
-spark.sql.parquet.compression.codec
-gzip
-当写Parquet文件时，设置压缩编码格式。可接受的值有：uncompressed, snappy, gzip, lzo
-spark.sql.parquet.filterPushdown
-true
-当设置为true时启用Parquet过滤器下推优化
-spark.sql.hive.convertMetastoreParquet
-true
-当设置为false时，Spark SQL将使用Hive SerDe，而不是内建的Parquet tables支持
-spark.sql.parquet.mergeSchema
-false
-如果设为true，那么Parquet数据源将会合并所有数据文件的schema，否则，从汇总文件中选取schema，如果没有汇总文件，则随机选取一个数据文件）
+
+========================================      ========      ========
+属性名                                         默认值         含义
+========================================      ========      ========
+spark.sql.parquet.binaryAsString              false         一些其它的Parquet生产系统, 特别是Impala，Hive以及老版本的Spark SQL，当写Parquet schema时都不区分二进制数据和字符串。这个标识告诉Spark SQL把二进制数据当字符串处理，以兼容老系统。
+spark.sql.parquet.int96AsTimestamp            true          一些Parquet生产系统, 特别是Impala和Hive，把时间戳存成INT96。这个标识告诉Spark SQL将INT96数据解析成timestamp，以兼容老系统。
+spark.sql.parquet.cacheMetadata               true          开启Parquet schema元数据缓存。可以提升查询静态数据的速度。
+spark.sql.parquet.compression.codec           gzip          当写Parquet文件时，设置压缩编码格式。可接受的值有：uncompressed, snappy, gzip, lzo
+spark.sql.parquet.filterPushdown              true          当设置为true时启用Parquet过滤器下推优化
+spark.sql.hive.convertMetastoreParquet        true          当设置为false时，Spark SQL将使用Hive SerDe，而不是内建的Parquet tables支持
+spark.sql.parquet.mergeSchema                 false         如果设为true，那么Parquet数据源将会合并所有数据文件的schema，否则，从汇总文件中选取schema，如果没有汇总文件，则随机选取一个数据文件）
+========================================      ========      ========
+
 
 JSON Datasets
 ==============================

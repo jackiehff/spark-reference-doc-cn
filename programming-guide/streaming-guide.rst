@@ -704,59 +704,152 @@ Accumulators, Broadcast Variables, and Checkpoints
 ====================================================
 Accumulators and Broadcast variables cannot be recovered from checkpoint in Spark Streaming. If you enable checkpointing and use Accumulators or Broadcast variables as well, you’ll have to create lazily instantiated singleton instances for Accumulators and Broadcast variables so that they can be re-instantiated after the driver restarts on failure. This is shown in the following example.
 
-Scala
-Java
-Python
-object WordBlacklist {
+**Scala**
 
-  @volatile private var instance: Broadcast[Seq[String]] = null
+.. code-block:: Scala
 
-  def getInstance(sc: SparkContext): Broadcast[Seq[String]] = {
-    if (instance == null) {
-      synchronized {
-        if (instance == null) {
-          val wordBlacklist = Seq("a", "b", "c")
-          instance = sc.broadcast(wordBlacklist)
+  object WordBlacklist {
+
+    @volatile private var instance: Broadcast[Seq[String]] = null
+
+    def getInstance(sc: SparkContext): Broadcast[Seq[String]] = {
+      if (instance == null) {
+        synchronized {
+          if (instance == null) {
+            val wordBlacklist = Seq("a", "b", "c")
+            instance = sc.broadcast(wordBlacklist)
+          }
         }
       }
+      instance
     }
-    instance
   }
-}
 
-object DroppedWordsCounter {
+  object DroppedWordsCounter {
 
-  @volatile private var instance: LongAccumulator = null
+    @volatile private var instance: LongAccumulator = null
 
-  def getInstance(sc: SparkContext): LongAccumulator = {
-    if (instance == null) {
-      synchronized {
-        if (instance == null) {
-          instance = sc.longAccumulator("WordsInBlacklistCounter")
+    def getInstance(sc: SparkContext): LongAccumulator = {
+      if (instance == null) {
+        synchronized {
+          if (instance == null) {
+            instance = sc.longAccumulator("WordsInBlacklistCounter")
+          }
         }
       }
+      instance
     }
-    instance
   }
-}
 
-wordCounts.foreachRDD { (rdd: RDD[(String, Int)], time: Time) =>
-  // Get or register the blacklist Broadcast
-  val blacklist = WordBlacklist.getInstance(rdd.sparkContext)
-  // Get or register the droppedWordsCounter Accumulator
-  val droppedWordsCounter = DroppedWordsCounter.getInstance(rdd.sparkContext)
-  // Use blacklist to drop words and use droppedWordsCounter to count them
-  val counts = rdd.filter { case (word, count) =>
-    if (blacklist.value.contains(word)) {
-      droppedWordsCounter.add(count)
-      false
-    } else {
-      true
-    }
-  }.collect().mkString("[", ", ", "]")
-  val output = "Counts at time " + time + " " + counts
-})
+  wordCounts.foreachRDD { (rdd: RDD[(String, Int)], time: Time) =>
+    // Get or register the blacklist Broadcast
+    val blacklist = WordBlacklist.getInstance(rdd.sparkContext)
+    // Get or register the droppedWordsCounter Accumulator
+    val droppedWordsCounter = DroppedWordsCounter.getInstance(rdd.sparkContext)
+    // Use blacklist to drop words and use droppedWordsCounter to count them
+    val counts = rdd.filter { case (word, count) =>
+      if (blacklist.value.contains(word)) {
+        droppedWordsCounter.add(count)
+        false
+      } else {
+        true
+      }
+    }.collect().mkString("[", ", ", "]")
+    val output = "Counts at time " + time + " " + counts
+  })
+
 See the full source code.
+
+**Java**
+
+.. code-block:: Java
+
+  class JavaWordBlacklist {
+
+    private static volatile Broadcast<List<String>> instance = null;
+
+    public static Broadcast<List<String>> getInstance(JavaSparkContext jsc) {
+      if (instance == null) {
+        synchronized (JavaWordBlacklist.class) {
+          if (instance == null) {
+            List<String> wordBlacklist = Arrays.asList("a", "b", "c");
+            instance = jsc.broadcast(wordBlacklist);
+          }
+        }
+      }
+      return instance;
+    }
+  }
+
+  class JavaDroppedWordsCounter {
+
+    private static volatile LongAccumulator instance = null;
+
+    public static LongAccumulator getInstance(JavaSparkContext jsc) {
+      if (instance == null) {
+        synchronized (JavaDroppedWordsCounter.class) {
+          if (instance == null) {
+            instance = jsc.sc().longAccumulator("WordsInBlacklistCounter");
+          }
+        }
+      }
+      return instance;
+    }
+  }
+
+  wordCounts.foreachRDD((rdd, time) -> {
+    // Get or register the blacklist Broadcast
+    Broadcast<List<String>> blacklist = JavaWordBlacklist.getInstance(new JavaSparkContext(rdd.context()));
+    // Get or register the droppedWordsCounter Accumulator
+    LongAccumulator droppedWordsCounter = JavaDroppedWordsCounter.getInstance(new JavaSparkContext(rdd.context()));
+    // Use blacklist to drop words and use droppedWordsCounter to count them
+    String counts = rdd.filter(wordCount -> {
+      if (blacklist.value().contains(wordCount._1())) {
+        droppedWordsCounter.add(wordCount._2());
+        return false;
+      } else {
+        return true;
+      }
+    }).collect().toString();
+    String output = "Counts at time " + time + " " + counts;
+  }
+
+See the full source code.
+
+**Python**
+
+.. code-block:: Python
+
+  def getWordBlacklist(sparkContext):
+      if ("wordBlacklist" not in globals()):
+          globals()["wordBlacklist"] = sparkContext.broadcast(["a", "b", "c"])
+      return globals()["wordBlacklist"]
+
+  def getDroppedWordsCounter(sparkContext):
+      if ("droppedWordsCounter" not in globals()):
+          globals()["droppedWordsCounter"] = sparkContext.accumulator(0)
+      return globals()["droppedWordsCounter"]
+
+  def echo(time, rdd):
+      # Get or register the blacklist Broadcast
+      blacklist = getWordBlacklist(rdd.context)
+      # Get or register the droppedWordsCounter Accumulator
+      droppedWordsCounter = getDroppedWordsCounter(rdd.context)
+
+      # Use blacklist to drop words and use droppedWordsCounter to count them
+      def filterFunc(wordCount):
+          if wordCount[0] in blacklist.value:
+              droppedWordsCounter.add(wordCount[1])
+              False
+          else:
+              True
+
+      counts = "Counts at time %s %s" % (time, rdd.filter(filterFunc).collect())
+
+  wordCounts.foreachRDD(echo)
+
+See the full source code.
+
 
 部署应用
 =============================
@@ -819,7 +912,7 @@ Spark Streaming程序的处理进度可以用StreamingListener接口来监听，
 
 如果接收数据的过程是系统瓶颈，那么可以考虑增加数据接收的并行度。注意，每个输入DStream只包含一个单独的接收器（receiver，运行约worker节点），每个接收器单独接收一路数据流。所以，配置多个输入DStream就能从数据源的不同分区分别接收多个数据流。例如，可以将从Kafka拉取两个topic的数据流分成两个Kafka输入数据流，每个数据流拉取其中一个topic的数据，这样一来会同时有两个接收器并行地接收数据，因而增加了总体的吞吐量。同时，另一方面我们又可以把这些DStream数据流合并成一个，然后可以在合并后的DStream上使用任何可用的transformation算子。示例代码如下：
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -828,7 +921,7 @@ Spark Streaming程序的处理进度可以用StreamingListener接口来监听，
   val unifiedStream = streamingContext.union(kafkaStreams)
   unifiedStream.print()
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -1012,7 +1105,7 @@ Spark 1.2及以后版本，并启用WAL                                   若使
 从Kafka Direct API接收数据
 ---------------------------------
 
-从Spark 1.3开始，我们引入Kafka Direct API，该API能为Kafka数据源提供“精确一次”语义保证。有了这个输入API，再加上输出算子的“精确一次”保证，你就能真正实现端到端的“精确一次”语义保证。（改功能截止Spark 1.6.1还是实验性的）更详细的说明见：Kafka Integration Guide。
+从Spark 1.3开始，我们引入 Kafka Direct API，该API能为Kafka数据源提供“精确一次”语义保证。有了这个输入API，再加上输出算子的“精确一次”保证，你就能真正实现端到端的“精确一次”语义保证。（改功能截止Spark 1.6.1还是实验性的）更详细的说明见：Kafka Integration Guide。
 
 输出算子的语义
 ---------------------------

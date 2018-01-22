@@ -71,7 +71,7 @@ Spark 中所有功能的入口是 SparkSession 类。要创建一个基本的 Sp
 
 **Java**
 
-Spark 中所有功能的入口是 SparkSession 类。To create a basic SparkSession, just use SparkSession.builder():
+Spark 中所有功能的入口是 SparkSession 类。要创建一个基本的 SparkSession 对象, 只需要使用 SparkSession.builder():
 
 .. code-block:: Java
 
@@ -87,7 +87,7 @@ Spark 中所有功能的入口是 SparkSession 类。To create a basic SparkSess
 
 **Python**
 
-Spark 中所有功能的入口是 SparkSession 类。To create a basic SparkSession, just use SparkSession.builder:
+Spark 中所有功能的入口是 SparkSession 类。要创建一个基本的 SparkSession 对象, 只需要使用 SparkSession.builder:
 
 .. code-block:: Python
 
@@ -103,7 +103,7 @@ Spark 中所有功能的入口是 SparkSession 类。To create a basic SparkSess
 
 **R**
 
-Spark 中所有功能的入口是 SparkSession 类。To initialize a basic SparkSession, just call sparkR.session():
+Spark 中所有功能的入口是 SparkSession 类。要初始化一个基本的 SparkSession 对象, 只需要调用 sparkR.session():
 
 .. code-block:: R
 
@@ -111,10 +111,10 @@ Spark 中所有功能的入口是 SparkSession 类。To initialize a basic Spark
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
-.. attention:: when invoked for the first time, sparkR.session() initializes a global SparkSession singleton instance, and always returns a reference to this instance for successive invocations. In this way, users only need to initialize the SparkSession once, then SparkR functions like read.df will be able to access this global instance implicitly, and users don’t need to pass the SparkSession instance around.
+.. attention:: 当第一次调用时, sparkR.session() 会初始化一个全局的 SparkSession 单例实例, 并且总是为后续的调用返回该实例的引用。这样的话, 用户只需要初始化 SparkSession 一次, 然后像 read.df 这样的 SparkR 函数就可以隐式地访问该全局实例, 并且用户不需要传递 SparkSession 实例。
 
-SparkSession in Spark 2.0 provides builtin support for Hive features including the ability to write queries using HiveQL, access to Hive UDFs, and the ability to read data from Hive tables. To use these features, you do not need to have an existing Hive setup.
 
+Spark 2.0 中的 SparkSession 提供了对 Hive 特性的内置支持，包括使用 HiveQL 编写查询，访问 Hive UDF 以及从 Hive 表读取数据。要使用这些特性，你不需要预先安装 Hive。
 
 
 创建 DataFrame
@@ -122,9 +122,9 @@ SparkSession in Spark 2.0 provides builtin support for Hive features including t
 
 **Scala**
 
-With a SparkSession, applications can create DataFrames from an existing RDD, from a Hive table, or from Spark data sources.
+应用程序可以使用 SparkSession 从一个现有的 RDD，Hive 表或 Spark 数据源创建 DataFrame。
 
-As an example, the following creates a DataFrame based on the content of a JSON file:
+举个例子, 下面基于一个 JSON 文件的内容创建一个 DataFrame:
 
 .. code-block:: Scala
 
@@ -144,9 +144,9 @@ As an example, the following creates a DataFrame based on the content of a JSON 
 
 **Java**
 
-With a SparkSession, applications can create DataFrames from an existing RDD, from a Hive table, or from Spark data sources.
+应用程序可以使用 SparkSession 从一个现有的 RDD，Hive 表或 Spark 数据源创建 DataFrame。
 
-As an example, the following creates a DataFrame based on the content of a JSON file:
+举个例子, 下面基于一个 JSON 文件的内容创建一个 DataFrame:
 
 .. code-block:: Java
 
@@ -169,9 +169,9 @@ As an example, the following creates a DataFrame based on the content of a JSON 
 
 **Python**
 
-With a SparkSession, applications can create DataFrames from an existing RDD, from a Hive table, or from Spark data sources.
+应用程序可以使用 SparkSession 从一个现有的 RDD，Hive 表或 Spark 数据源创建 DataFrame。
 
-As an example, the following creates a DataFrame based on the content of a JSON file:
+举个例子, 下面基于一个 JSON 文件的内容创建一个 DataFrame:
 
 .. code-block:: Python
 
@@ -191,9 +191,9 @@ As an example, the following creates a DataFrame based on the content of a JSON 
 
 **R**
 
-With a SparkSession, applications can create DataFrames from a local R data.frame, from a Hive table, or from Spark data sources.
+应用程序可以使用 SparkSession 从一个本地的 R data.frame, Hive 表或 Spark 数据源创建 DataFrame。
 
-As an example, the following creates a DataFrame based on the content of a JSON file:
+举个例子, 下面基于一个 JSON 文件的内容创建一个 DataFrame:
 
 .. code-block:: R
 
@@ -1704,7 +1704,7 @@ partitionBy creates a directory structure as described in the Partition Discover
 Parquet Files
 ==============================
 
-Parquet 是一种列式存储格式，很多其它的数据处理系统都支持它。Spark SQL提供了对Parquet文件的读写支持，而且Parquet文件能够自动保存原始数据的schema。写Parquet文件的时候，所有列都自动地转化成nullable，以便向后兼容。
+Parquet 是一种列式存储格式，很多其它的数据处理系统都支持它。Spark SQL 提供了对 Parquet 文件的读写支持，而且 Parquet 文件能够自动保存原始数据的 schema。写 Parquet 文件的时候，所有列都自动地转化成 nullable，以便向后兼容。
 
 编程方式加载数据
 -----------------------
@@ -2323,11 +2323,11 @@ For a regular multi-line JSON file, set a named parameter multiLine to TRUE.
 Hive Tables
 ==============================
 
-Spark SQL还支持从Apache Hive读写数据。然而，由于Hive依赖项太多，这些依赖没有包含在默认的Spark发行版本中。如果在classpath上配置了Hive依赖，那么Spark会自动加载它们。注意，Hive依赖也必须放到所有的worker节点上，因为如果要访问Hive中的数据它们需要访问Hive序列化和反序列化库（SerDes)。
+Spark SQL 还支持从 Apache Hive 读写数据。然而，由于 Hive 依赖项太多，这些依赖没有包含在默认的 Spark 发行版本中。如果在classpath上配置了Hive依赖，那么Spark会自动加载它们。注意，Hive依赖也必须放到所有的worker节点上，因为如果要访问Hive中的数据它们需要访问Hive序列化和反序列化库（SerDes)。
 
 Hive配置是通过将 hive-site.xml，core-site.xml（用于安全配置）以及 hdfs-site.xml（用于HDFS配置）文件放置在conf/目录下来完成的。
 
-如果要使用Hive, 你必须要实例化一个支持Hive的 SparkSession, 包括连接到一个持久化的 Hive metastore, 支持 Hive serdes以及 Hive用户自定义函数。即使用户没有安装部署Hive也仍然可以启用Hive支持。如果没有在 hive-site.xml 文件中配置, Spark应用程序启动之后，上下文会自动在当前目录下创建一个 metastore_db 目录并创建一个由 spark.sql.warehouse.dir 配置的、默认值是当前目录下的 spark-warehouse 目录的目录。请注意: 从 Spark 2.0.0 版本开始, hive-site.xml 中的 hive.metastore.warehouse.dir 属性就已经过时了, 你可以使用 spark.sql.warehouse.dir 来指定仓库中数据库的默认存储位置。你可能还需要给启动Spark应用程序的用户赋予写权限。
+如果要使用 Hive, 你必须要实例化一个支持 Hive 的 SparkSession, 包括连接到一个持久化的 Hive metastore, 支持 Hive serdes以及 Hive用户自定义函数。即使用户没有安装部署Hive也仍然可以启用Hive支持。如果没有在 hive-site.xml 文件中配置, Spark应用程序启动之后，上下文会自动在当前目录下创建一个 metastore_db 目录并创建一个由 spark.sql.warehouse.dir 配置的、默认值是当前目录下的 spark-warehouse 目录的目录。请注意: 从 Spark 2.0.0 版本开始, hive-site.xml 中的 hive.metastore.warehouse.dir 属性就已经过时了, 你可以使用 spark.sql.warehouse.dir 来指定仓库中数据库的默认存储位置。你可能还需要给启动Spark应用程序的用户赋予写权限。
 
 **Scala**
 
@@ -2404,7 +2404,7 @@ Hive配置是通过将 hive-site.xml，core-site.xml（用于安全配置）以�
   // |  5| val_5|  5| val_5|
   // ...
 
-完整示例代码参见 Spark 仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/hive/SparkHiveExample.scala" 文件。
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/hive/SparkHiveExample.scala" 文件。
 
 **Java**
 
@@ -2579,7 +2579,7 @@ Hive配置是通过将 hive-site.xml，core-site.xml（用于安全配置）以�
   # |  5| val_5|  5| val_5|
   # ...
 
-完整示例代码参见 Spark  源码仓库中的 "examples/src/main/python/sql/hive.py" 文件。
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/hive.py" 文件。
 
 **R**
 
@@ -2604,7 +2604,7 @@ Specifying storage format for Hive tables
 When you create a Hive table, you need to define how this table should read/write data from/to file system, i.e. the “input format” and “output format”. You also need to define how this table should deserialize the data to rows, or serialize rows to data, i.e. the “serde”. The following options can be used to specify the storage format(“serde”, “input format”, “output format”), e.g. CREATE TABLE src(id int) USING hive OPTIONS(fileFormat 'parquet'). By default, we will read the table files as plain text. Note that, Hive storage handler is not supported yet when creating table, you can create a table using storage handler at Hive side, and use Spark SQL to read it.
 
 ==========================================          ===============
-Property Name	                                      Meaning
+属性名         	                                      含义
 ==========================================          ===============
 fileFormat	                                        A fileFormat is kind of a package of storage format specifications, including "serde", "input format" and "output format". Currently we support 6 fileFormats: 'sequencefile', 'rcfile', 'orc', 'parquet', 'textfile' and 'avro'.
 inputFormat, outputFormat	                          These 2 options specify the name of a corresponding `InputFormat` and `OutputFormat` class as a string literal, e.g. `org.apache.hadoop.hive.ql.io.orc.OrcInputFormat`. These 2 options must be appeared in pair, and you can not specify them if you already specified the `fileFormat` option.
@@ -2624,7 +2624,7 @@ Spark SQL对Hive最重要的一个支持就是可以和Hive metastore进行交�
 下面的选项可用来配置用于检索元数据的Hive版本：
 
 ==========================================      ==========================      ==========
-Property Name	                                  Default	                        Meaning
+属性名         	                                  默认值	                          含义
 ==========================================      ==========================      ==========
 spark.sql.hive.metastore.version	              1.2.1	                          Version of the Hive metastore. Available options are 0.12.0 through 1.2.1.
 spark.sql.hive.metastore.jars	                  builtin	                        Location of the jars that should be used to instantiate the HiveMetastoreClient. This property can be one of three options:
@@ -2644,16 +2644,16 @@ JDBC To Other Databases
 
 Spark SQL也包括一个可以使用JDBC从其它数据库读取数据的数据源。该功能应该优于使用JdbcRDD，因为它的返回结果是一个DataFrame，而在Spark SQL中DataFrame处理简单，且和其它数据源进行关联操作。JDBC数据源在Java和Python中用起来很简单，因为不需要用户提供一个ClassTag。（注意，这和 Spark SQL JDBC server不同，Spark SQL JDBC server 允许其它应用程序使用Spark SQL执行查询）
 
-首先，你需要在Spark classpath中包含对应数据库的JDBC driver。例如，为了从Spark Shell连接到 postgres 数据库，你需要运行下面的命令：
+首先，你需要在 Spark classpath 中包含对应数据库的 JDBC driver。例如，为了从 Spark Shell 连接到 postgres 数据库，你需要运行下面的命令：
 
 .. code-block:: Shell
 
   bin/spark-shell --driver-class-path postgresql-9.4.1207.jar --jars postgresql-9.4.1207.jar
 
-通过使用Data Sources API, 远程数据库的表可以加载为一个 DataFrame 或 Spark SQL 临时表。支持的选项如下：
+通过使用 Data Sources API, 远程数据库的表可以加载为一个 DataFrame 或 Spark SQL 临时表。支持的选项如下：
 
 ==========================================        ====================
-Property Name	                                    Meaning
+属性名	                                            含义
 ==========================================        ====================
 url	                                              The JDBC URL to connect to. The source-specific connection properties may be specified in the URL. e.g., jdbc:postgresql://localhost/test?user=fred&password=secret
 dbtable	                                          The JDBC table that should be read. Note that anything that is valid in a FROM clause of a SQL query can be used. For example, instead of a full table you could also use a subquery in parentheses.
@@ -2870,31 +2870,41 @@ spark.sql.shuffle.partitions                     200                            
 
 要启动JDBC/ODBC server， 需要在Spark安装目录下运行下面这个命令：
 
-./sbin/start-thriftserver.sh
+.. code-block:: Shell
+
+  ./sbin/start-thriftserver.sh
 
 这个脚本能接受所有 bin/spark-submit 命令行选项，外加一个用于指定Hive属性的 --hiveconf 选项。你可以运行 ./sbin/start-thriftserver.sh —help 来查看所有可用选项的完整列表。默认情况下，启动的 server 将会在 localhost:10000 上进行监听。你可以覆盖该行为, 比如使用以下环境变量：
 
-export HIVE_SERVER2_THRIFT_PORT=<listening-port>
-export HIVE_SERVER2_THRIFT_BIND_HOST=<listening-host>
-./sbin/start-thriftserver.sh \
-  --master <master-uri> \
-  ...
+.. code-block:: Shell
+
+  export HIVE_SERVER2_THRIFT_PORT=<listening-port>
+  export HIVE_SERVER2_THRIFT_BIND_HOST=<listening-host>
+  ./sbin/start-thriftserver.sh \
+    --master <master-uri> \
+    ...
 
 或者系统属性：
 
-./sbin/start-thriftserver.sh \
-  --hiveconf hive.server2.thrift.port=<listening-port> \
-  --hiveconf hive.server2.thrift.bind.host=<listening-host> \
-  --master <master-uri>
-  ...
+.. code-block:: Shell
+
+  ./sbin/start-thriftserver.sh \
+    --hiveconf hive.server2.thrift.port=<listening-port> \
+    --hiveconf hive.server2.thrift.bind.host=<listening-host> \
+    --master <master-uri>
+    ...
 
 现在你可以使用 beeline来测试这个Thrift JDBC/ODBC server:
 
-./bin/beeline
+.. code-block:: Shell
+
+  ./bin/beeline
 
 在beeline中使用以下命令连接到JDBC/ODBC server：
 
-beeline> !connect jdbc:hive2://localhost:10000
+.. code-block:: Shell
+
+  beeline> !connect jdbc:hive2://localhost:10000
 
 Beeline会要求你输入用户名和密码。在非安全模式下，只需要输入你本机的用户名和一个空密码即可。对于安全模式，请参考beeline文档中的指示.
 
@@ -2910,7 +2920,9 @@ hive.server2.http.endpoint - HTTP endpoint; default is cliservice
 
 为了测试，下面在HTTP模式中使用beeline连接到JDBC/ODBC server:
 
-beeline> !connect jdbc:hive2://<host>:<port>/<database>?hive.server2.transport.mode=http;hive.server2.thrift.http.path=<http_endpoint>
+.. code-block:: Shell
+
+  beeline> !connect jdbc:hive2://<host>:<port>/<database>?hive.server2.transport.mode=http;hive.server2.thrift.http.path=<http_endpoint>
 
 
 运行 Spark SQL CLI
@@ -2920,7 +2932,9 @@ Spark SQL CLI是一个很方便的工具，它可以在本地模式下运行Hive
 
 要启动用Spark SQL CLI, 可以在Spark安装目录运行下面的命令:
 
-./bin/spark-sql
+.. code-block:: Shell
+
+  ./bin/spark-sql
 
 将 hive-site.xml，core-site.xml以及hdfs-site.xml文件放置在conf目录下可以完成Hive配置。你可以运行 ./bin/spark-sql –help 来获取所有可用选项的完整列表。
 
@@ -3065,9 +3079,9 @@ SchemaRDD重命名为DataFrame
 统一Java和Scala API
 --------------------------
 
-Spark 1.3之前的版本中有两个单独的Java兼容类（JavaSQLContext和JavaSchemaRDD）可以映射到 Scala API。Spark 1.3版本将Java API和Scala API进行了统一。两种语言的用户都应该使用SQLContext和DataFrame。通常情况下这些类都会使用两种语言中都支持的类型（例如：使用Array来取代语言特有的集合）。有些情况下没有通用的类型（例如：闭包或maps中用于传值），则会使用函数重载。
+Spark 1.3 之前的版本中有两个单独的Java兼容类（JavaSQLContext 和 JavaSchemaRDD）可以映射到 Scala API。Spark 1.3版本将Java API和Scala API进行了统一。两种语言的用户都应该使用SQLContext和DataFrame。通常情况下这些类都会使用两种语言中都支持的类型（例如：使用Array来取代语言特有的集合）。有些情况下没有通用的类型（例如：闭包或maps中用于传值），则会使用函数重载。
 
-另外，移除了Java特有的类型API。Scala和Java用户都应该使用org.apache.spark.sql.types包中的类来编程式地描述schema。
+另外，移除了Java特有的类型API。Scala 和 Java 用户都应该使用 org.apache.spark.sql.types 包中的类来编程式地描述 schema。
 
 隔离隐式转换并删除dsl包(仅针对Scala)
 --------------------------------------------------

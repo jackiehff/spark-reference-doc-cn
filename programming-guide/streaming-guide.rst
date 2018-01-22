@@ -33,47 +33,58 @@ Spark Streaming 为这种持续的数据流提供了一个高级抽象，即：d
 一个小例子
 *****************************
 
-在深入Spark Streaming编程细节之前，我们先来看看一个简单的小栗子以便有个感性认识。假设我们在一个TCP端口上监听一个数据服务器的数据，并对收到的文本数据中的单词计数。以下你所需的全部工作：
+在深入Spark Streaming编程细节之前，我们先来看看一个简单的小例子以便有个感性认识。假设我们在一个TCP端口上监听一个数据服务器的数据，并对收到的文本数据中的单词计数。以下你所需的全部工作：
+
+
 * Scala
-* Java
-* Python
+
 首先，我们需要导入Spark Streaming的相关class的一些包，以及一些支持 StreamingContext 隐式转换的包（这些隐式转换能给DStream之类的class增加一些有用的方法）。StreamingContext 是Spark Streaming的入口。我们将会创建一个本地 StreamingContext对象，包含两个执行线程，并将批次间隔设为1秒。
 
-import org.apache.spark._
-import org.apache.spark.streaming._
-import org.apache.spark.streaming.StreamingContext._ // 从Spark 1.3之后这行就可以不需要了
+.. code-block:: Scala
 
-// 创建一个local StreamingContext，包含2个工作线程，并将批次间隔设为1秒
-// master至少需要2个CPU核，以避免出现任务饿死的情况
-val conf = new SparkConf().setMaster("local[2]").setAppName("NetworkWordCount")
-val ssc = new StreamingContext(conf, Seconds(1))
+  import org.apache.spark._
+  import org.apache.spark.streaming._
+  import org.apache.spark.streaming.StreamingContext._ // 从Spark 1.3之后这行就可以不需要了
+
+  // 创建一个local StreamingContext，包含2个工作线程，并将批次间隔设为1秒
+  // master至少需要2个CPU核，以避免出现任务饿死的情况
+  val conf = new SparkConf().setMaster("local[2]").setAppName("NetworkWordCount")
+  val ssc = new StreamingContext(conf, Seconds(1))
 
 利用这个上下文对象（StreamingContext），我们可以创建一个DStream，该DStream代表从前面的TCP数据源流入的数据流，同时TCP数据源是由主机名（如：hostnam）和端口（如：9999）来描述的。
 
-// 创建一个连接到hostname:port的DStream，如：localhost:9999
-val lines = ssc.socketTextStream("localhost", 9999)
+.. code-block:: Scala
+
+  // 创建一个连接到hostname:port的DStream，如：localhost:9999
+  val lines = ssc.socketTextStream("localhost", 9999)
 
 这里的 lines 就是从数据server接收到的数据流。其中每一条记录都是一行文本。接下来，我们就需要把这些文本行按空格分割成单词。
 
-// 将每一行分割成多个单词
-val words = lines.flatMap(_.split(" "))
+.. code-block:: Scala
+
+  // 将每一行分割成多个单词
+  val words = lines.flatMap(_.split(" "))
 
 flatMap 是一种 “一到多”（one-to-many）的映射算子，它可以将源DStream中每一条记录映射成多条记录，从而产生一个新的DStream对象。在本例中，lines中的每一行都会被flatMap映射为多个单词，从而生成新的words DStream对象。然后，我们就能对这些单词进行计数了。
 
-import org.apache.spark.streaming.StreamingContext._ // Spark 1.3之后不再需要这行
-// 对每一批次中的单词进行计数
-val pairs = words.map(word => (word, 1))
-val wordCounts = pairs.reduceByKey(_ + _)
+.. code-block:: Scala
 
-// 将该DStream产生的RDD的头十个元素打印到控制台上
-wordCounts.print()
+  import org.apache.spark.streaming.StreamingContext._ // Spark 1.3之后不再需要这行
+  // 对每一批次中的单词进行计数
+  val pairs = words.map(word => (word, 1))
+  val wordCounts = pairs.reduceByKey(_ + _)
+
+  // 将该DStream产生的RDD的头十个元素打印到控制台上
+  wordCounts.print()
 
 words这个DStream对象经过map算子（一到一的映射）转换为一个包含（word, 1）键值对的DStream对象pairs，再对pairs使用reduce算子，得到每个批次中各个单词的出现频率。最后，wordCounts.print() 将会每秒（前面设定的批次间隔）打印一些单词计数到控制台上。
 
 注意，执行以上代码后，Spark Streaming只是将计算逻辑设置好，此时并未真正的开始处理数据。要启动之前的处理逻辑，我们还需要如下调用：
 
-ssc.start()            // 启动流式计算
-ssc.awaitTermination()  // 等待直到计算终止
+.. code-block:: Scala
+
+  ssc.start()            // 启动流式计算
+  ssc.awaitTermination()  // 等待直到计算终止
 
 完整的代码可以在Spark Streaming的例子 NetworkWordCount 中找到。
 
@@ -81,22 +92,24 @@ ssc.awaitTermination()  // 等待直到计算终止
 
 首先，你需要运行netcat（Unix-like系统都会有这个小工具），将其作为data server
 
-$ nc -lk 9999
+.. code-block:: Shell
+
+  $ nc -lk 9999
 
 然后，在另一个终端，按如下指令执行这个例子
-* Scala
-* Java
-* Python
-$ ./bin/run-example streaming.NetworkWordCount localhost 9999
+
+.. code-block:: Shell
+
+  $ ./bin/run-example streaming.NetworkWordCount localhost 9999
 
 好了，现在你尝试可以在运行netcat的终端里敲几个单词，你会发现这些单词以及相应的计数会出现在启动Spark Streaming例子的终端屏幕上。看上去应该和下面这个示意图类似：
+
 # TERMINAL 1:
 # Running Netcat
 
 $ nc -lk 9999
 
 hello world
-
 
 
 ...
@@ -122,29 +135,29 @@ Time: 1357008430000 ms
 
 和Spark类似，Spark Streaming也能在Maven库中找到。如果你需要编写Spark Streaming程序，你就需要将以下依赖加入到你的SBT或Maven工程依赖中。
 * Maven
+.. code-block:: XML
+
+  <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-streaming_2.10</artifactId>
+      <version>1.6.1</version>
+  </dependency>
+
 * SBT
-<dependency>
-    <groupId>org.apache.spark</groupId>
-    <artifactId>spark-streaming_2.10</artifactId>
-    <version>1.6.1</version>
-</dependency>
+
+.. code-block:: TEXT
+
+  libraryDependencies += "org.apache.spark" % "spark-streaming_2.11" % "2.2.1"
 
 还有，对于从Kafka、Flume以及Kinesis这类数据源提取数据的流式应用来说，还需要额外增加相应的依赖项，下表列出了各种数据源对应的额外依赖项：
-数据源
-Maven工件
-Kafka
-spark-streaming-kafka_2.10
-Flume
-spark-streaming-flume_2.10
-Kinesis
-spark-streaming-kinesis-asl_2.10 [Amazon Software License]
-Twitter
-spark-streaming-twitter_2.10
-ZeroMQ
-spark-streaming-zeromq_2.10
-MQTT
-spark-streaming-mqtt_2.10
 
+==========      ============
+数据源           Maven构件
+==========      ==========
+Kafka           spark-streaming-kafka_2.11
+Flume           spark-streaming-flume_2.11
+Kinesis         spark-streaming-kinesis-asl_2.11 [Amazon Software License]
+==========      ============
 
 最新的依赖项信息（包括源代码和Maven工件）请参考Maven repository。
 
@@ -153,17 +166,18 @@ spark-streaming-mqtt_2.10
 =============================
 
 要初始化任何一个Spark Streaming程序，都需要在入口代码中创建一个StreamingContext对象。
+
 * Scala
-* Java
-* Python
 
 而StreamingContext对象需要一个SparkConf对象作为其构造参数。
 
-import org.apache.spark._
-import org.apache.spark.streaming._
+.. code-block:: Scala
 
-val conf = new SparkConf().setAppName(appName).setMaster(master)
-val ssc = new StreamingContext(conf, Seconds(1))
+  import org.apache.spark._
+  import org.apache.spark.streaming._
+
+  val conf = new SparkConf().setAppName(appName).setMaster(master)
+  val ssc = new StreamingContext(conf, Seconds(1))
 
 上面代码中的 appName 是你给该应用起的名字，这个名字会展示在Spark集群的web UI上。而 master 是Spark, Mesos or YARN cluster URL，如果支持本地测试，你也可以用”local[*]”为其赋值。通常在实际工作中，你不应该将master参数硬编码到代码里，而是应用通过spark-submit的参数来传递master的值（launch the application with spark-submit ）。不过对本地测试来说，”local[*]”足够了（该值传给master后，Spark Streaming将在本地进程中，启动n个线程运行，n与本地系统CPU core数相同）。注意，StreamingContext在内部会创建一个  SparkContext 对象（SparkContext是所有Spark应用的入口，在StreamingContext对象中可以这样访问：ssc.sparkContext）。
 
@@ -171,19 +185,23 @@ StreamingContext还有另一个构造参数，即：批次间隔，这个值的�
 
 StreamingContext对象也可以通过已有的SparkContext对象来创建，示例如下：
 
-import org.apache.spark.streaming._
+.. code-block:: Scala
 
-val sc = ...                // 已有的SparkContext
-val ssc = new StreamingContext(sc, Seconds(1))
+  import org.apache.spark.streaming._
+
+  val sc = ...                // 已有的SparkContext
+  val ssc = new StreamingContext(sc, Seconds(1))
 
 StreamingContext对象创建后，你还需要如下步骤：
+
 1. 创建 DStream 对象，并定义好输入数据源。
-1. 基于数据源 DStream 定义好计算逻辑和输出。
-1. 调用 streamingContext.start() 启动接收并处理数据。
-1. 调用 streamingContext.awaitTermination() 等待流式处理结束（不管是手动结束，还是发生异常错误）
-1. 你可以主动调用 streamingContext.stop() 来手动停止处理流程。
+2. 基于数据源 DStream 定义好计算逻辑和输出。
+3. 调用 streamingContext.start() 启动接收并处理数据。
+4. 调用 streamingContext.awaitTermination() 等待流式处理结束（不管是手动结束，还是发生异常错误）
+5. 你可以主动调用 streamingContext.stop() 来手动停止处理流程。
 
 需要关注的重点:
+
 * 一旦 streamingContext 启动，就不能再对其计算逻辑进行添加或修改。
 * 一旦 streamingContext 被 stop 掉，就不能 restart。
 * 单个 JVM 虚机 同一时间只能包含一个 active 的 StreamingContext。
@@ -196,11 +214,15 @@ StreamingContext对象创建后，你还需要如下步骤：
 
 离散数据流（DStream）是 Spark Streaming 最基本的抽象。它代表了一种连续的数据流，要么从某种数据源提取数据，要么从其他数据流映射转换而来。DStream 内部是由一系列连续的RDD组成的，每个RDD都是不可变、分布式的数据集（详见Spark编程指南 – Spark Programming Guide）。每个 RDD 都包含了特定时间间隔内的一批数据，如下图所示：
 
-
+.. image:: imgs/streaming-dstream.png
+  :scale: 90 %
+  :align: center
 
 任何作用于DStream的算子，其实都会被转化为对其内部RDD的操作。例如，在前面的例子中，我们将 lines 这个 DStream 转成 words DStream 对象，其实作用于 lines 上的 flatMap 算子，会施加于 lines 中的每个 RDD 上，并生成新的对应的 RDD，而这些新生成的 RDD 对象就组成了 words 这个 DStream 对象。其过程如下图所示：
 
-
+.. image:: imgs/streaming-dstream-ops.png
+  :scale: 90 %
+  :align: center
 
 底层的 RDD 转换仍然是由 Spark 引擎来计算。DStream 的算子将这些细节隐藏了起来，并为开发者提供了更为方便的高级API。后续会详细讨论这些高级算子。
 
@@ -211,15 +233,20 @@ StreamingContext对象创建后，你还需要如下步骤：
 输入DStream代表从某种流式数据源流入的数据流。在之前的例子里，lines 对象就是输入DStream，它代表从netcat server收到的数据流。每个输入DStream（除文件数据流外）都和一个接收器（Receiver – Scala doc, Java doc）相关联，而接收器则是专门从数据源拉取数据到内存中的对象。
 
 Spark Streaming主要提供两种内建的流式数据源：
+
 * 基础数据源（Basic sources）: 在 StreamingContext API 中可直接使用的源，如：文件系统，套接字连接或者Akka actor。
 * 高级数据源（Advanced sources）: 需要依赖额外工具类的源，如：Kafka、Flume、Kinesis、Twitter等数据源。这些数据源都需要增加额外的依赖，详见依赖链接（linking）这一节。
+
 本节中，我们将会从每种数据源中挑几个继续深入讨论。
 
-注意，如果你需要同时从多个数据源拉取数据，那么你就需要创建多个DStream对象（详见后续的性能调优这一小节）。多个 DStream 对象其实也就同时创建了多个数据流接收器。但是请注意，Spark的 worker/executor 都是长期运行的，因此它们都会各自占用一个分配给 Spark Streaming 应用的 CPU。所以，在运行nSpark Streaming 应用的时候，需要注意分配足够的CPU core（本地运行时，需要足够的线程）来处理接收到的数据，同时还要足够的CPU core来运行这些接收器。
+:attention: 如果你需要同时从多个数据源拉取数据，那么你就需要创建多个DStream对象（详见后续的性能调优这一小节）。多个 DStream 对象其实也就同时创建了多个数据流接收器。但是请注意，Spark的 worker/executor 都是长期运行的，因此它们都会各自占用一个分配给 Spark Streaming 应用的 CPU。所以，在运行nSpark Streaming 应用的时候，需要注意分配足够的CPU core（本地运行时，需要足够的线程）来处理接收到的数据，同时还要足够的CPU core来运行这些接收器。
 
 要点
+
 * 如果本地运行 Spark Streaming 应用，记得不能将 master 设为 ”local” 或 “local[1]”。这两个值都只会在本地启动一个线程。而如果此时你使用一个包含接收器（如：套接字、Kafka、Flume等）的输入DStream，那么这一个线程只能用于运行这个接收器，而处理数据的逻辑就没有线程来执行了。因此，本地运行时，一定要将 master 设为 ”local[n]”，其中 n > 接收器的个数（有关master的详情请参考Spark Properties）。
+
 * 将 Spark Streaming 应用置于集群中运行时，同样，分配给该应用的 CPU core 数必须大于接收器的总数。否则，该应用就只会接收数据，而不会处理数据。
+
 基础数据源
 
 前面的小栗子中，我们已经看到，使用ssc.socketTextStream(…) 可以从一个TCP连接中接收文本数据。而除了TCP套接字外，StreamingContext API 还支持从文件或者Akka actor中拉取数据。
@@ -275,34 +302,24 @@ DStream支持的transformation算子
 =============================
 
 和 RDD 类似，DStream 也支持从输入 DStream 经过各种 transformation 算子映射成新的 DStream。DStream 支持很多 RDD 上常见的 transformation 算子，一些常用的见下表：
-Transformation算子
-用途
-map(func)
-返回会一个新的DStream，并将源DStream中每个元素通过func映射为新的元素
-flatMap(func)
-和map类似，不过每个输入元素不再是映射为一个输出，而是映射为0到多个输出
-filter(func)
-返回一个新的DStream，并包含源DStream中被func选中（func返回true）的元素
-repartition(numPartitions)
-更改DStream的并行度（增加或减少分区数）
-union(otherStream)
-返回新的DStream，包含源DStream和otherDStream元素的并集
-count()
-返回一个包含单元素RDDs的DStream，其中每个元素是源DStream中各个RDD中的元素个数
-reduce(func)
-返回一个包含单元素RDDs的DStream，其中每个元素是通过源RDD中各个RDD的元素经func（func输入两个参数并返回一个同类型结果数据）聚合得到的结果。func必须满足结合律，以便支持并行计算。
-countByValue()
-如果源DStream包含的元素类型为K，那么该算子返回新的DStream包含元素为(K, Long)键值对，其中K为源DStream各个元素，而Long为该元素出现的次数。
-reduceByKey(func, [numTasks])
-如果源DStream 包含的元素为 (K, V) 键值对，则该算子返回一个新的也包含(K, V)键值对的DStream，其中V是由func聚合得到的。注意：默认情况下，该算子使用Spark的默认并发任务数（本地模式为2，集群模式下由spark.default.parallelism 决定）。你可以通过可选参数numTasks来指定并发任务个数。
-join(otherStream, [numTasks])
-如果源DStream包含元素为(K, V)，同时otherDStream包含元素为(K, W)键值对，则该算子返回一个新的DStream，其中源DStream和otherDStream中每个K都对应一个 (K, (V, W))键值对元素。
-cogroup(otherStream, [numTasks])
-如果源DStream包含元素为(K, V)，同时otherDStream包含元素为(K, W)键值对，则该算子返回一个新的DStream，其中每个元素类型为包含(K, Seq[V], Seq[W])的tuple。
-transform(func)
-返回一个新的DStream，其包含的RDD为源RDD经过func操作后得到的结果。利用该算子可以对DStream施加任意的操作。
-updateStateByKey(func)
-返回一个包含新”状态”的DStream。源DStream中每个key及其对应的values会作为func的输入，而func可以用于对每个key的“状态”数据作任意的更新操作。
+
+==================================        =====================
+Transformation算子                         用途
+==================================        =====================
+map(func)                                 返回会一个新的DStream，并将源DStream中每个元素通过func映射为新的元素
+flatMap(func)                             和map类似，不过每个输入元素不再是映射为一个输出，而是映射为0到多个输出
+filter(func)                              返回一个新的DStream，并包含源DStream中被func选中（func返回true）的元素
+repartition(numPartitions)                更改DStream的并行度（增加或减少分区数）
+union(otherStream)                        返回新的DStream，包含源DStream和otherDStream元素的并集
+count()                                   返回一个包含单元素RDDs的DStream，其中每个元素是源DStream中各个RDD中的元素个数
+reduce(func)                              返回一个包含单元素RDDs的DStream，其中每个元素是通过源RDD中各个RDD的元素经func（func输入两个参数并返回一个同类型结果数据）聚合得到的结果。func必须满足结合律，以便支持并行计算。
+countByValue()                            如果源DStream包含的元素类型为K，那么该算子返回新的DStream包含元素为(K, Long)键值对，其中K为源DStream各个元素，而Long为该元素出现的次数。
+reduceByKey(func, [numTasks])             如果源DStream 包含的元素为 (K, V) 键值对，则该算子返回一个新的也包含(K, V)键值对的DStream，其中V是由func聚合得到的。注意：默认情况下，该算子使用Spark的默认并发任务数（本地模式为2，集群模式下由spark.default.parallelism 决定）。你可以通过可选参数numTasks来指定并发任务个数。
+join(otherStream, [numTasks])             如果源DStream包含元素为(K, V)，同时otherDStream包含元素为(K, W)键值对，则该算子返回一个新的DStream，其中源DStream和otherDStream中每个K都对应一个 (K, (V, W))键值对元素。
+cogroup(otherStream, [numTasks])          如果源DStream包含元素为(K, V)，同时otherDStream包含元素为(K, W)键值对，则该算子返回一个新的DStream，其中每个元素类型为包含(K, Seq[V], Seq[W])的tuple。
+transform(func)                           返回一个新的DStream，其包含的RDD为源RDD经过func操作后得到的结果。利用该算子可以对DStream施加任意的操作。
+updateStateByKey(func)                    返回一个包含新”状态”的DStream。源DStream中每个key及其对应的values会作为func的输入，而func可以用于对每个key的“状态”数据作任意的更新操作。
+==================================        =====================
 
 
 下面我们会挑几个transformation算子深入讨论一下。
@@ -566,32 +583,32 @@ DataFrame和SQL相关算子
 =============================
 
 在Streaming应用中可以调用DataFrames and SQL来处理流式数据。开发者可以用通过StreamingContext中的SparkContext对象来创建一个SQLContext，并且，开发者需要确保一旦驱动器（driver）故障恢复后，该SQLContext对象能重新创建出来。同样，你还是可以使用懒惰创建的单例模式来实例化SQLContext，如下面的代码所示，这里我们将最开始的那个小栗子做了一些修改，使用DataFrame和SQL来统计单词计数。其实就是，将每个RDD都转化成一个DataFrame，然后注册成临时表，再用SQL查询这些临时表。
+
 * Scala
-* Java
-* Python
-/** streaming应用中调用DataFrame算子 */
 
-val words: DStream[String] = ...
+.. code-block:: Scala
 
-words.foreachRDD { rdd =>
+  /** streaming应用中调用DataFrame算子 */
 
-  // 获得SQLContext单例
-  val sqlContext = SQLContext.getOrCreate(rdd.sparkContext)
-  import sqlContext.implicits._
+  val words: DStream[String] = ...
 
-  // 将RDD[String] 转为 DataFrame
-  val wordsDataFrame = rdd.toDF("word")
+  words.foreachRDD { rdd =>
 
-  // DataFrame注册为临时表
-  wordsDataFrame.registerTempTable("words")
+    // 获得SQLContext单例
+    val sqlContext = SQLContext.getOrCreate(rdd.sparkContext)
+    import sqlContext.implicits._
 
-  // 再用SQL语句查询，并打印出来
-  val wordCountsDataFrame =
-    sqlContext.sql("select word, count(*) as total from words group by word")
-  wordCountsDataFrame.show()
-}
+    // 将RDD[String] 转为 DataFrame
+    val wordsDataFrame = rdd.toDF("word")
 
-See the full source code.
+    // DataFrame注册为临时表
+    wordsDataFrame.registerTempTable("words")
+
+    // 再用SQL语句查询，并打印出来
+    val wordCountsDataFrame =
+      sqlContext.sql("select word, count(*) as total from words group by word")
+    wordCountsDataFrame.show()
+  }
 
 这里有完整代码：source code。
 
@@ -628,39 +645,49 @@ MLlib 提供了很多机器学习算法。首先，你需要关注的是流式�
 总之，元数据检查点主要是为了恢复驱动器节点上的故障，而数据或RDD检查点是为了支持对有状态转换操作的恢复。
 
 何时启用检查点
+----------------
+
 如果有以下情况出现，你就必须启用检查点了：
+
 * 使用了有状态的转换算子（Usage of stateful transformations） – 不管是用了 updateStateByKey 还是用了 reduceByKeyAndWindow（有”反归约”函数的那个版本），你都必须配置检查点目录来周期性地保存RDD检查点。
 * 支持驱动器故障中恢复（Recovering from failures of the driver running the application） – 这时候需要元数据检查点以便恢复流式处理的进度信息。
+
 注意，一些简单的流式应用，如果没有用到前面所说的有状态转换算子，则完全可以不开启检查点。不过这样的话，驱动器（driver）故障恢复后，有可能会丢失部分数据（有些已经接收但还未处理的数据可能会丢失）。不过通常这点丢失时可接受的，很多Spark Streaming应用也是这样运行的。对非Hadoop环境的支持未来还会继续改进。
 
 如何配置检查点
+----------------
+
 检查点的启用，只需要设置好保存检查点信息的检查点目录即可，一般会会将这个目录设为一些可容错的、可靠性较高的文件系统（如：HDFS、S3等）。开发者只需要调用 streamingContext.checkpoint(checkpointDirectory)。设置好检查点，你就可以使用前面提到的有状态转换算子了。另外，如果你需要你的应用能够支持从驱动器故障中恢复，你可能需要重写部分代码，实现以下行为：
+
 * 如果程序是首次启动，就需要new一个新的StreamingContext，并定义好所有的数据流处理，然后调用StreamingContext.start()。
 * 如果程序是故障后重启，就需要从检查点目录中的数据中重新构建StreamingContext对象。
 
-* Scala
-* Java
-* Python
+
 不过这个行为可以用StreamingContext.getOrCreate来实现，示例如下：
 
-// 首次创建StreamingContext并定义好数据流处理逻辑
-def functionToCreateContext(): StreamingContext = {
-    val ssc = new StreamingContext(...)  // 新建一个StreamingContext对象
-    val lines = ssc.socketTextStream(...) // 创建DStreams
-    ...
-    ssc.checkpoint(checkpointDirectory)  // 设置好检查点目录
-    ssc
-}
+* Scala
 
-// 创建新的StreamingContext对象，或者从检查点构造一个
-val context = StreamingContext.getOrCreate(checkpointDirectory, functionToCreateContext _)
+.. code-block:: Scala
 
-// 无论是否是首次启动都需要设置的工作在这里
-context. ...
+  // 首次创建StreamingContext并定义好数据流处理逻辑
+  def functionToCreateContext(): StreamingContext = {
+      val ssc = new StreamingContext(...)  // 新建一个StreamingContext对象
+      val lines = ssc.socketTextStream(...) // 创建DStreams
+      ...
+      ssc.checkpoint(checkpointDirectory)  // 设置好检查点目录
+      ssc
+  }
 
-// 启动StreamingContext对象
-context.start()
-context.awaitTermination()
+  // 创建新的StreamingContext对象，或者从检查点构造一个
+  val context = StreamingContext.getOrCreate(checkpointDirectory, functionToCreateContext _)
+
+  // Do additional setup on context that needs to be done,
+  // irrespective of whether it is being started or restarted
+  context. ...
+
+  // 启动StreamingContext对象
+  context.start()
+  context.awaitTermination()
 
 如果 checkpointDirectory 目录存在，则context对象会从检查点数据重新构建出来。如果该目录不存在（如：首次运行），则 functionToCreateContext 函数会被调用，创建一个新的StreamingContext对象并定义好DStream数据流。完整的示例请参见RecoverableNetworkWordCount，这个例子会将网络数据中的单词计数统计结果添加到一个文件中。
 
@@ -668,6 +695,64 @@ context.awaitTermination()
 
 另外需要注意的是，RDD检查点会增加额外的保存数据的开销。这可能会导致数据流的处理时间变长。因此，你必须仔细的调整检查点间隔时间。如果批次间隔太小（比如：1秒），那么对每个批次保存检查点数据将大大减小吞吐量。另一方面，检查点保存过于频繁又会导致血统信息和任务个数的增加，这同样会影响系统性能。对于需要RDD检查点的有状态转换算子，默认的间隔是批次间隔的整数倍，且最小10秒。开发人员可以这样来自定义这个间隔：dstream.checkpoint(checkpointInterval)。一般推荐设为批次间隔时间的5~10倍。
 
+
+Accumulators, Broadcast Variables, and Checkpoints
+====================================================
+Accumulators and Broadcast variables cannot be recovered from checkpoint in Spark Streaming. If you enable checkpointing and use Accumulators or Broadcast variables as well, you’ll have to create lazily instantiated singleton instances for Accumulators and Broadcast variables so that they can be re-instantiated after the driver restarts on failure. This is shown in the following example.
+
+Scala
+Java
+Python
+object WordBlacklist {
+
+  @volatile private var instance: Broadcast[Seq[String]] = null
+
+  def getInstance(sc: SparkContext): Broadcast[Seq[String]] = {
+    if (instance == null) {
+      synchronized {
+        if (instance == null) {
+          val wordBlacklist = Seq("a", "b", "c")
+          instance = sc.broadcast(wordBlacklist)
+        }
+      }
+    }
+    instance
+  }
+}
+
+object DroppedWordsCounter {
+
+  @volatile private var instance: LongAccumulator = null
+
+  def getInstance(sc: SparkContext): LongAccumulator = {
+    if (instance == null) {
+      synchronized {
+        if (instance == null) {
+          instance = sc.longAccumulator("WordsInBlacklistCounter")
+        }
+      }
+    }
+    instance
+  }
+}
+
+wordCounts.foreachRDD { (rdd: RDD[(String, Int)], time: Time) =>
+  // Get or register the blacklist Broadcast
+  val blacklist = WordBlacklist.getInstance(rdd.sparkContext)
+  // Get or register the droppedWordsCounter Accumulator
+  val droppedWordsCounter = DroppedWordsCounter.getInstance(rdd.sparkContext)
+  // Use blacklist to drop words and use droppedWordsCounter to count them
+  val counts = rdd.filter { case (word, count) =>
+    if (blacklist.value.contains(word)) {
+      droppedWordsCounter.add(count)
+      false
+    } else {
+      true
+    }
+  }.collect().mkString("[", ", ", "]")
+  val output = "Counts at time " + time + " " + counts
+})
+See the full source code.
 
 部署应用
 =============================
@@ -677,6 +762,7 @@ context.awaitTermination()
 前提条件
 
 要运行一个Spark Streaming 应用，你首先需要具备以下条件：
+
 * 集群以及集群管理器 – 这是一般Spark应用的基本要求，详见 deployment guide。
 * 给Spark应用打个JAR包 – 你需要将你的应用打成一个JAR包。如果使用spark-submit 提交应用，那么你不需要提供Spark和Spark Streaming的相关JAR包。但是，如果你使用了高级数据源（advanced sources – 如：Kafka、Flume、Twitter等），那么你需要将这些高级数据源相关的JAR包及其依赖一起打包并部署。例如，如果你使用了TwitterUtils，那么就必须将spark-streaming-twitter_2.10及其相关依赖都打到应用的JAR包中。
 * 为执行器（executor）预留足够的内存 – 执行器必须配置预留好足够的内存，因为接受到的数据都得存在内存里。注意，如果某些窗口长度达到10分钟，那也就是说你的系统必须知道保留10分钟的数据在内存里。可见，到底预留多少内存是取决于你的应用处理逻辑的。
@@ -712,8 +798,9 @@ Spark Streaming程序的处理进度可以用StreamingListener接口来监听，
 *****************************
 
 要获得Spark Streaming应用的最佳性能需要一点点调优工作。本节将深入解释一些能够改进Streaming应用性能的配置和参数。总体上来说，你需要考虑这两方面的事情：
+
 1. 提高集群资源利用率，减少单批次处理耗时。
-1. 设置合适的批次大小，以便使数据处理速度能跟上数据接收速度。
+2. 设置合适的批次大小，以便使数据处理速度能跟上数据接收速度。
 
 
 减少批次处理时间
@@ -722,40 +809,71 @@ Spark Streaming程序的处理进度可以用StreamingListener接口来监听，
 有不少优化手段都可以减少Spark对每个批次的处理时间。细节将在优化指南（Tuning Guide）中详谈。这里仅列举一些最重要的。
 
 数据接收并发度
+-------------------
 
 跨网络接收数据（如：从Kafka、Flume、socket等接收数据）需要在Spark中序列化并存储数据。
 
 如果接收数据的过程是系统瓶颈，那么可以考虑增加数据接收的并行度。注意，每个输入DStream只包含一个单独的接收器（receiver，运行约worker节点），每个接收器单独接收一路数据流。所以，配置多个输入DStream就能从数据源的不同分区分别接收多个数据流。例如，可以将从Kafka拉取两个topic的数据流分成两个Kafka输入数据流，每个数据流拉取其中一个topic的数据，这样一来会同时有两个接收器并行地接收数据，因而增加了总体的吞吐量。同时，另一方面我们又可以把这些DStream数据流合并成一个，然后可以在合并后的DStream上使用任何可用的transformation算子。示例代码如下：
+
 * Scala
+
+.. code-block:: Scala
+
+  val numStreams = 5
+  val kafkaStreams = (1 to numStreams).map { i => KafkaUtils.createStream(...) }
+  val unifiedStream = streamingContext.union(kafkaStreams)
+  unifiedStream.print()
+
 * Java
+
+.. code-block:: Java
+
+  int numStreams = 5;
+  List<JavaPairDStream<String, String>> kafkaStreams = new ArrayList<>(numStreams);
+  for (int i = 0; i < numStreams; i++) {
+    kafkaStreams.add(KafkaUtils.createStream(...));
+  }
+  JavaPairDStream<String, String> unifiedStream = streamingContext.union(kafkaStreams.get(0), kafkaStreams.subList(1, kafkaStreams.size()));
+  unifiedStream.print();
+
 * Python
-val numStreams = 5
-val kafkaStreams = (1 to numStreams).map { i => KafkaUtils.createStream(...) }
-val unifiedStream = streamingContext.union(kafkaStreams)
-unifiedStream.print()
+
+.. code-block:: Python
+
+  numStreams = 5
+  kafkaStreams = [KafkaUtils.createStream(...) for _ in range (numStreams)]
+  unifiedStream = streamingContext.union(*kafkaStreams)
+  unifiedStream.pprint()
 
 另一个可以考虑优化的参数就是接收器的阻塞间隔，该参数由配置参数（configuration parameter）spark.streaming.blockInterval决定。大多数接收器都会将数据合并成一个个数据块，然后再保存到spark内存中。对于map类算子来说，每个批次中数据块的个数将会决定处理这批数据并行任务的个数，每个接收器每批次数据处理任务数约等于 （批次间隔 / 数据块间隔）。例如，对于2秒的批次间隔，如果数据块间隔为200ms，则创建的并发任务数为10。如果任务数太少（少于单机cpu core个数），则资源利用不够充分。如需增加这个任务数，对于给定的批次间隔来说，只需要减少数据块间隔即可。不过，我们还是建议数据块间隔至少要50ms，否则任务的启动开销占比就太高了。
 
 另一个切分接收数据流的方法是，显示地将输入数据流划分为多个分区（使用 inputStream.repartition(<number of partitions>)）。该操作会在处理前，将数据散开重新分发到集群中多个节点上。
 
 数据处理并发度
+---------------------
 
 在计算各个阶段（stage）中，任何一个阶段的并发任务数不足都有可能造成集群资源利用率低。例如，对于reduce类的算子，如：reduceByKey 和 reduceByKeyAndWindow，其默认的并发任务数是由 spark.default.parallelism 决定的。你既可以修改这个默认值（spark.default.parallelism），也可以通过参数指定这个并发数量（见PairDStreamFunctions）。
 
 数据序列化
+--------------------
 
 调整数据的序列化格式可以大大减少数据序列化的开销。在spark Streaming中主要有两种类型的数据需要序列化：
+
 * 输入数据: 默认地，接收器收到的数据是以 StorageLevel.MEMORY_AND_DISK_SER_2 的存储级别存储到执行器（executor）内存中的。也就是说，收到的数据会被序列化以减少GC开销，同时保存两个副本以容错。同时，数据会优先保存在内存里，当内存不足时才吐出到磁盘上。很明显，这个过程中会有数据序列化的开销 – 接收器首先将收到的数据反序列化，然后再以spark所配置指定的格式来序列化数据。
 * Streaming算子所生产的持久化的RDDs: Streaming计算所生成的RDD可能会持久化到内存中。例如，基于窗口的算子会将数据持久化到内存，因为窗口数据可能会多次处理。所不同的是，spark core默认用 StorageLevel.MEMORY_ONLY 级别持久化RDD数据，而spark streaming默认使用StorageLevel.MEMORY_ONLY_SER 级别持久化接收到的数据，以便尽量减少GC开销。
+
 不管是上面哪一种数据，都可以使用Kryo序列化来减少CPU和内存开销，详见Spark Tuning Guide。另，对于Kryo，你可以考虑这些优化：注册自定义类型，禁用对象引用跟踪（详见Configuration Guide）。
 
 在一些特定的场景下，如果数据量不是很大，那么你可以考虑不用序列化格式，不过你需要注意的是取消序列化是否会导致大量的GC开销。例如，如果你的批次间隔比较短（几秒）并且没有使用基于窗口的算子，这种情况下你可以考虑禁用序列化格式。这样可以减少序列化的CPU开销以优化性能，同时GC的增长也不多。
 
 任务启动开销
+--------------------
 
 如果每秒启动的任务数过多（比如每秒50个以上），那么将任务发送给slave节点的开销会明显增加，那么你也就很难达到亚秒级（sub-second）的延迟。不过以下两个方法可以减少任务的启动开销：
+
 * 任务序列化（Task Serialization）: 使用Kryo来序列化任务，以减少任务本身的大小，从而提高发送任务的速度。任务的序列化格式是由 spark.closure.serializer 属性决定的。不过，目前还不支持闭包序列化，未来的版本可能会增加对此的支持。
 * 执行模式（Execution mode）: Spark独立部署或者Mesos粗粒度模式下任务的启动时间比Mesos细粒度模式下的任务启动时间要短。详见Running on Mesos guide。
+
 这些调整有可能能够减少100ms的批次处理时间，这也使得亚秒级的批次间隔成为可能。
 
 
@@ -781,6 +899,7 @@ Spark Streaming应用在集群中占用的内存量严重依赖于具体所使�
 另一个内存调优的方向就是垃圾回收。因为streaming应用往往都需要低延迟，所以肯定不希望出现大量的或耗时较长的JVM垃圾回收暂停。
 
 以下是一些能够帮助你减少内存占用和GC开销的参数或手段：
+
 * DStream持久化级别（Persistence Level of DStreams）: 前面数据序列化（Data Serialization）这小节已经提到过，默认streaming的输入RDD会被持久化成序列化的字节流。相对于非序列化数据，这样可以减少内存占用和GC开销。如果启用Kryo序列化，还能进一步减少序列化数据大小和内存占用量。如果你还需要进一步减少内存占用的话，可以开启数据压缩（通过spark.rdd.compress这个配置设定），只不过数据压缩会增加CPU消耗。
 * 清除老数据（Clearing old data）: 默认情况下，所有的输入数据以及DStream的transformation算子产生的持久化RDD都是自动清理的。Spark Streaming会根据所使用的transformation算子来清理老数据。例如，你用了一个窗口操作处理最近10分钟的数据，那么Spark Streaming会保留至少10分钟的数据，并且会主动把更早的数据都删掉。当然，你可以设置 streamingContext.remember 以保留更长时间段的数据（比如：你可能会需要交互式地查询更老的数据）。
 * CMS垃圾回收器（CMS Garbage Collector）: 为了尽量减少GC暂停的时间，我们强烈建议使用CMS垃圾回收器（concurrent mark-and-sweep GC）。虽然CMS GC会稍微降低系统的总体吞吐量，但我们仍建议使用它，因为CMS GC能使批次处理的时间保持在一个比较恒定的水平上。最后，你需要确保在驱动器（通过spark-submit中的–driver-java-options设置）和执行器（使用spark.executor.extraJavaOptions配置参数）上都设置了CMS GC。
@@ -788,7 +907,21 @@ Spark Streaming应用在集群中占用的内存量严重依赖于具体所使�
     * 配合Tachyon使用堆外内存来持久化RDD。详见Spark编程指南（Spark Programming Guide）
     * 使用更多但是更小的执行器进程。这样GC压力就会分散到更多的JVM堆中。
 
+Important points to remember:
 
+A DStream is associated with a single receiver. For attaining read parallelism multiple receivers i.e. multiple DStreams need to be created. A receiver is run within an executor. It occupies one core. Ensure that there are enough cores for processing after receiver slots are booked i.e. spark.cores.max should take the receiver slots into account. The receivers are allocated to executors in a round robin fashion.
+
+When data is received from a stream source, receiver creates blocks of data. A new block of data is generated every blockInterval milliseconds. N blocks of data are created during the batchInterval where N = batchInterval/blockInterval. These blocks are distributed by the BlockManager of the current executor to the block managers of other executors. After that, the Network Input Tracker running on the driver is informed about the block locations for further processing.
+
+An RDD is created on the driver for the blocks created during the batchInterval. The blocks generated during the batchInterval are partitions of the RDD. Each partition is a task in spark. blockInterval== batchinterval would mean that a single partition is created and probably it is processed locally.
+
+The map tasks on the blocks are processed in the executors (one that received the block, and another where the block was replicated) that has the blocks irrespective of block interval, unless non-local scheduling kicks in. Having bigger blockinterval means bigger blocks. A high value of spark.locality.wait increases the chance of processing a block on the local node. A balance needs to be found out between these two parameters to ensure that the bigger blocks are processed locally.
+
+Instead of relying on batchInterval and blockInterval, you can define the number of partitions by calling inputDstream.repartition(n). This reshuffles the data in RDD randomly to create n number of partitions. Yes, for greater parallelism. Though comes at the cost of a shuffle. An RDD’s processing is scheduled by driver’s jobscheduler as a job. At a given point of time only one job is active. So, if one job is executing the other jobs are queued.
+
+If you have two dstreams there will be two RDDs formed and there will be two jobs created which will be scheduled one after the another. To avoid this, you can union two dstreams. This will ensure that a single unionRDD is formed for the two RDDs of the dstreams. This unionRDD is then considered as a single job. However the partitioning of the RDDs is not impacted.
+
+If the batch processing time is more than batchinterval then obviously the receiver’s memory will start filling up and will end up in throwing exceptions (most probably BlockNotFoundException). Currently there is no way to pause the receiver. Using SparkConf configuration spark.streaming.receiver.maxRate, rate of receiver can be limited.
 
 *****************************
 容错语义
@@ -797,102 +930,105 @@ Spark Streaming应用在集群中占用的内存量严重依赖于具体所使�
 本节中，我们将讨论Spark Streaming应用在出现失败时的具体行为。
 
 背景
+===================
 
 要理解Spark Streaming所提供的容错语义，我们首先需要回忆一下Spark RDD所提供的基本容错语义。
+
 1. RDD是不可变的，可重算的，分布式数据集。每个RDD都记录了其创建算子的血统信息，其中每个算子都以可容错的数据集作为输入数据。
-1. 如果RDD的某个分区因为节点失效而丢失，则该分区可以根据RDD的血统信息以及相应的原始输入数据集重新计算出来。
-1. 假定所有RDD transformation算子计算过程都是确定性的，那么通过这些算子得到的最终RDD总是包含相同的数据，而与Spark集群的是否故障无关。
+2. 如果RDD的某个分区因为节点失效而丢失，则该分区可以根据RDD的血统信息以及相应的原始输入数据集重新计算出来。
+3. 假定所有RDD transformation算子计算过程都是确定性的，那么通过这些算子得到的最终RDD总是包含相同的数据，而与Spark集群的是否故障无关。
+
 Spark主要操作一些可容错文件系统的数据，如：HDFS或S3。因此，所有从这些可容错数据源产生的RDD也是可容错的。然而，对于Spark Streaming并非如此，因为多数情况下Streaming需要从网络远端接收数据，这回导致Streaming的数据源并不可靠（尤其是对于使用了fileStream的应用）。要实现RDD相同的容错属性，数据接收就必须用多个不同worker节点上的Spark执行器来实现（默认副本因子是2）。因此一旦出现故障，系统需要恢复两种数据：
+
 1. 接收并保存了副本的数据 – 数据不会因为单个worker节点故障而丢失，因为有副本！
-1. 接收但尚未保存副本数据 – 因为数据并没有副本，所以一旦故障，只能从数据源重新获取。
+2. 接收但尚未保存副本数据 – 因为数据并没有副本，所以一旦故障，只能从数据源重新获取。
+
 此外，还有两种可能的故障类型需要考虑：
+
 1. Worker节点故障 – 任何运行执行器的worker节点一旦故障，节点上内存中的数据都会丢失。如果这些节点上有接收器在运行，那么其包含的缓存数据也会丢失。
-1. Driver节点故障 – 如果Spark Streaming的驱动节点故障，那么很显然SparkContext对象就没了，所有执行器及其内存数据也会丢失。
+2. Driver节点故障 – 如果Spark Streaming的驱动节点故障，那么很显然SparkContext对象就没了，所有执行器及其内存数据也会丢失。
+
 有了以上这些基本知识，下面我们就进一步了解一下Spark Streaming的容错语义。
 
 定义
+===================
 
 流式系统的可靠度语义可以据此来分类：单条记录在系统中被处理的次数保证。一个流式系统可能提供保证必定是以下三种之一（不管系统是否出现故障）：
+
 1. 至多一次（At most once）: 每条记录要么被处理一次，要么就没有处理。
-1. 至少一次（At least once）: 每条记录至少被处理过一次（一次或多次）。这种保证能确保没有数据丢失，比“至多一次”要强。但有可能出现数据重复。
-1. 精确一次（Exactly once）: 每条记录都精确地只被处理一次 – 也就是说，既没有数据丢失，也不会出现数据重复。这是三种保证中最强的一种。
+2. 至少一次（At least once）: 每条记录至少被处理过一次（一次或多次）。这种保证能确保没有数据丢失，比“至多一次”要强。但有可能出现数据重复。
+3. 精确一次（Exactly once）: 每条记录都精确地只被处理一次 – 也就是说，既没有数据丢失，也不会出现数据重复。这是三种保证中最强的一种。
+
 基础语义
+===================
 
 任何流式处理系统一般都会包含以下三个数据处理步骤：
+
 1. 数据接收（Receiving the data）: 从数据源拉取数据。
-1. 数据转换（Transforming the data）: 将接收到的数据进行转换（使用DStream和RDD transformation算子）。
-1. 数据推送（Pushing out the data）: 将转换后最终数据推送到外部文件系统，数据库或其他展示系统。
+2. 数据转换（Transforming the data）: 将接收到的数据进行转换（使用DStream和RDD transformation算子）。
+3. 数据推送（Pushing out the data）: 将转换后最终数据推送到外部文件系统，数据库或其他展示系统。
+
 如果Streaming应用需要做到端到端的“精确一次”的保证，那么就必须在以上三个步骤中各自都保证精确一次：即，每条记录必须，只接收一次、处理一次、推送一次。下面让我们在Spark Streaming的上下文环境中来理解一下这三个步骤的语义：
+
 1. 数据接收: 不同数据源提供的保证不同，下一节再详细讨论。
-1. 数据转换: 所有的数据都会被“精确一次”处理，这要归功于RDD提供的保障。即使出现故障，只要数据源还能访问，最终所转换得到的RDD总是包含相同的内容。
-1. 数据推送: 输出操作默认保证“至少一次”的语义，是否能“精确一次”还要看所使用的输出算子（是否幂等）以及下游系统（是否支持事务）。不过用户也可以开发自己的事务机制来实现“精确一次”语义。这个后续会有详细讨论。
+2. 数据转换: 所有的数据都会被“精确一次”处理，这要归功于RDD提供的保障。即使出现故障，只要数据源还能访问，最终所转换得到的RDD总是包含相同的内容。
+3. 数据推送: 输出操作默认保证“至少一次”的语义，是否能“精确一次”还要看所使用的输出算子（是否幂等）以及下游系统（是否支持事务）。不过用户也可以开发自己的事务机制来实现“精确一次”语义。这个后续会有详细讨论。
+
 接收数据语义
+===================
 
 不同的输入源提供不同的数据可靠性级别，从“至少一次”到“精确一次”。
 
 从文件接收数据
+-----------------------
 
 如果所有的输入数据都来源于可容错的文件系统，如HDFS，那么Spark Streaming就能在任何故障中恢复并处理所有的数据。这种情况下就能保证精确一次语义，也就是说不管出现什么故障，所有的数据总是精确地只处理一次，不多也不少。
 
 基于接收器接收数据
+-----------------------
 
 对于基于接收器的输入源，容错语义将同时依赖于故障场景和接收器类型。前面也已经提到过，spark Streaming主要有两种类型的接收器：
+
 1. 可靠接收器 – 这类接收器会在数据接收并保存好副本后，向可靠数据源发送确认信息。这类接收器故障时，是不会给缓存的（已接收但尚未保存副本）数据发送确认信息。因此，一旦接收器重启，没有收到确认的数据，会重新从数据源再获取一遍，所以即使有故障也不会丢数据。
-1. 不可靠接收器 – 这类接收器不会发送确认信息，因此一旦worker和driver出现故障，就有可能会丢失数据。
+2. 不可靠接收器 – 这类接收器不会发送确认信息，因此一旦worker和driver出现故障，就有可能会丢失数据。
+
 对于不同的接收器，我们可以获得如下不同的语义。如果一个worker节点故障了，对于可靠接收器来书，不会有数据丢失。而对于不可靠接收器，缓存的（接收但尚未保存副本）数据可能会丢失。如果driver节点故障了，除了接收到的数据之外，其他的已经接收且已经保存了内存副本的数据都会丢失，这将会影响有状态算子的计算结果。
 
 为了避免丢失已经收到且保存副本的数，从 spark 1.2 开始引入了WAL（write ahead logs），以便将这些数据写入到可容错的存储中。只要你使用可靠接收器，同时启用WAL（write ahead logs enabled），那么久再也不用为数据丢失而担心了。并且这时候，还能提供“至少一次”的语义保证。
 
 下表总结了故障情况下的各种语义：
-部署场景
-Worker 故障
-Driver 故障
-Spark 1.1及以前版本 或者
-
-Spark 1.2及以后版本，且未开启WAL
-若使用不可靠接收器，则可能丢失缓存（已接收但尚未保存副本）数据；
-
-若使用可靠接收器，则没有数据丢失，且提供至少一次处理语义
-若使用不可靠接收器，则缓存数据和已保存数据都可能丢失；
-
-若使用可靠接收器，则没有缓存数据丢失，但已保存数据可能丢失，且不提供语义保证
-Spark 1.2及以后版本，并启用WAL
-若使用可靠接收器，则没有数据丢失，且提供至少一次语义保证
-若使用可靠接收器和文件，则无数据丢失，且提供至少一次语义保证
-
-
+====================================================          ==================================================        ======================
+部署场景                                                        Worker 故障                                               Driver 故障
+====================================================          ==================================================        ======================
+Spark 1.1及以前版本或者Spark 1.2及以后版本，且未开启WAL             若使用不可靠接收器，则可能丢失缓存（已接收但尚未保存副本）数据；      若使用不可靠接收器，则缓存数据和已保存数据都可能丢失；
+                                                              若使用可靠接收器，则没有数据丢失，且提供至少一次处理语义            若使用可靠接收器，则没有缓存数据丢失，但已保存数据可能丢失，且不提供语义保证
+Spark 1.2及以后版本，并启用WAL                                   若使用可靠接收器，则没有数据丢失，且提供至少一次语义保证             若使用可靠接收器和文件，则无数据丢失，且提供至少一次语义保证
+====================================================          ==================================================        ======================
 
 从Kafka Direct API接收数据
+---------------------------------
 
 从Spark 1.3开始，我们引入Kafka Direct API，该API能为Kafka数据源提供“精确一次”语义保证。有了这个输入API，再加上输出算子的“精确一次”保证，你就能真正实现端到端的“精确一次”语义保证。（改功能截止Spark 1.6.1还是实验性的）更详细的说明见：Kafka Integration Guide。
 
 输出算子的语义
+---------------------------
+
 
 输出算子（如 foreachRDD）提供“至少一次”语义保证，也就是说，如果worker故障，单条输出数据可能会被多次写入外部实体中。不过这对于文件系统来说是可以接受的（使用saveAs***Files 多次保存文件会覆盖之前的），所以我们需要一些额外的工作来实现“精确一次”语义。主要有两种实现方式：
 * 幂等更新（Idempotent updates）: 就是说多次操作，产生的结果相同。例如，多次调用saveAs***Files保存的文件总是包含相同的数据。
 * 事务更新（Transactional updates）: 所有的更新都是事务性的，这样一来就能保证更新的原子性。以下是一种实现方式：
     * 用批次时间（在foreachRDD中可用）和分区索引创建一个唯一标识，该标识代表流式应用中唯一的一个数据块。
-    * 基于这个标识建立更新事务，并使用数据块数据更新外部系统。也就是说，如果该标识未被提交，则原子地将标识代表的数据更新到外部系统。否则，就认为该标识已经被提交，直接忽略之。dstream.foreachRDD { (rdd, time) =>
-  rdd.foreachPartition { partitionIterator =>
-    val partitionId = TaskContext.get.partitionId()
-    val uniqueId = generateUniqueId(time.milliseconds, partitionId)
-    // 使用uniqueId作为事务的唯一标识，基于uniqueId实现partitionIterator所指向数据的原子事务提交
+    * 基于这个标识建立更新事务，并使用数据块数据更新外部系统。也就是说，如果该标识未被提交，则原子地将标识代表的数据更新到外部系统。否则，就认为该标识已经被提交，直接忽略之。
+
+.. code-block:: Scala
+
+  dstream.foreachRDD { (rdd, time) =>
+    rdd.foreachPartition { partitionIterator =>
+      val partitionId = TaskContext.get.partitionId()
+      val uniqueId = generateUniqueId(time.milliseconds, partitionId)
+      // 使用uniqueId作为事务的唯一标识，基于uniqueId实现partitionIterator所指向数据的原子事务提交
+    }
   }
-}
-
-迁移指南 – 从0.9.1及以下升级到1.x
-
-在Spark 0.9.1和Spark 1.0之间，有一些API接口变更，变更目的是为了保障未来版本API的稳定。本节将详细说明一下从已有版本迁移升级到1.0所需的工作。
-
-输入DStream（Input DStreams）: 所有创建输入流的算子（如：StreamingContext.socketStream, FlumeUtils.createStream 等）的返回值不再是DStream（对Java来说是JavaDStream），而是 InputDStream / ReceiverInputDStream（对Java来说是JavaInputDStream / JavaPairInputDStream /JavaReceiverInputDStream / JavaPairReceiverInputDStream）。这样才能确保特定输入流的功能能够在未来持续增加到这些class中，而不会打破二进制兼容性。注意，已有的Spark Streaming应用应该不需要任何代码修改（新的返回类型都是DStream的子类），只不过需要基于Spark 1.0重新编译一把。
-
-定制网络接收器（Custom Network Receivers）: 自从Spark Streaming发布以来，Scala就能基于NetworkReceiver来定制网络接收器。但由于错误处理和汇报API方便的限制，该类型不能在Java中使用。所以Spark 1.0开始，用 Receiver 来替换掉这个NetworkReceiver，主要的好处如下：
-* 该类型新增了stop和restart方法，便于控制接收器的生命周期。详见custom receiver guide。
-* 定制接收器用Scala和Java都能实现。
-为了将已有的基于NetworkReceiver的自定义接收器迁移到Receiver上来，你需要如下工作：
-* 首先你的自定义接收器类型需要从 org.apache.spark.streaming.receiver.Receiver继承，而不再是org.apache.spark.streaming.dstream.NetworkReceiver。
-* 原先，我们需要在自定义接收器中创建一个BlockGenerator来保存接收到的数据。你必须显示的实现onStart() 和 onStop() 方法。而在新的Receiver class中，这些都不需要了，你只需要调用它的store系列的方法就能将数据保存到Spark中。所以你接下来需要做的迁移工作就是，删除BlockGenerator对象（这个类型在Spark 1.0之后也没有了~），然后用store(…)方法来保存接收到的数据。
-基于Actor的接收器（Actor-based Receivers）: 从actor class继承后，并实现了org.apache.spark.streaming.receiver.Receiver 后，即可从Akka Actors中获取数据。获取数据的类被重命名为  org.apache.spark.streaming.receiver.ActorHelper ，而保存数据的pushBlocks(…)方法也被重命名为 store(…)。其他org.apache.spark.streaming.receivers包中的工具类也被移到  org.apache.spark.streaming.receiver 包下并重命名，新的类名应该比之前更加清晰。
 
 
 *****************************

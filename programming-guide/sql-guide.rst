@@ -3351,7 +3351,7 @@ DateType	                                    datetime.date	                     
 ArrayType	                                    list, tuple, or array	                      ArrayType(elementType, [containsNull]) Note: The default value of containsNull is True.
 MapType	                                      dict	                                      MapType(keyType, valueType, [valueContainsNull]) Note: The default value of valueContainsNull is True.
 StructType	                                  list or tuple	                              StructType(fields) Note: fields is a Seq of StructFields. Also, two fields with the same name are not allowed.
-StructField                                   The value type in Python of the data
+StructField                                   The value type in Python of the data        StructField(name, dataType, [nullable]) Note: The default value of nullable is True.
                                               type of this field (For example, Int
                                               for a StructField with the data type
                                               IntegerType)

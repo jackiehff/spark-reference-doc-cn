@@ -49,7 +49,7 @@ DataFrame API 支持 Scala, Java, Python 以及 R 语言。在 Scala 和 Java �
 入口: SparkSession
 ===================
 
-* **Scala**
+**Scala**
 
 Spark 中所有功能的入口是 SparkSession 类。要创建一个基本的 SparkSession 对象, 只需要使用 SparkSession.builder():
 
@@ -69,7 +69,7 @@ Spark 中所有功能的入口是 SparkSession 类。要创建一个基本的 Sp
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 
-* **Java**
+**Java**
 
 Spark 中所有功能的入口是 SparkSession 类。To create a basic SparkSession, just use SparkSession.builder():
 
@@ -85,7 +85,7 @@ Spark 中所有功能的入口是 SparkSession 类。To create a basic SparkSess
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
-* **Python**
+**Python**
 
 Spark 中所有功能的入口是 SparkSession 类。To create a basic SparkSession, just use SparkSession.builder:
 
@@ -101,7 +101,7 @@ Spark 中所有功能的入口是 SparkSession 类。To create a basic SparkSess
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
-* **R**
+**R**
 
 Spark 中所有功能的入口是 SparkSession 类。To initialize a basic SparkSession, just call sparkR.session():
 
@@ -120,7 +120,7 @@ SparkSession in Spark 2.0 provides builtin support for Hive features including t
 创建 DataFrame
 =================
 
-* **Scala**
+**Scala**
 
 With a SparkSession, applications can create DataFrames from an existing RDD, from a Hive table, or from Spark data sources.
 
@@ -142,7 +142,7 @@ As an example, the following creates a DataFrame based on the content of a JSON 
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
-* **Java**
+**Java**
 
 With a SparkSession, applications can create DataFrames from an existing RDD, from a Hive table, or from Spark data sources.
 
@@ -167,7 +167,7 @@ As an example, the following creates a DataFrame based on the content of a JSON 
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
-* **Python**
+**Python**
 
 With a SparkSession, applications can create DataFrames from an existing RDD, from a Hive table, or from Spark data sources.
 
@@ -189,7 +189,7 @@ As an example, the following creates a DataFrame based on the content of a JSON 
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
-* **R**
+**R**
 
 With a SparkSession, applications can create DataFrames from a local R data.frame, from a Hive table, or from Spark data sources.
 
@@ -229,7 +229,7 @@ As mentioned above, in Spark 2.0, DataFrames are just Dataset of Rows in Scala a
 Here we include some basic examples of structured data processing using Datasets
 
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -282,7 +282,7 @@ Here we include some basic examples of structured data processing using Datasets
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -336,7 +336,7 @@ Here we include some basic examples of structured data processing using Datasets
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
 
-* **Python**
+**Python**
 
 In Python it’s possible to access a DataFrame’s columns either by attribute (df.age) or by indexing (df['age']). While the former is convenient for interactive data exploration, users are highly encouraged to use the latter form, which is future proof and won’t break with column names that are also attributes on the DataFrame class.
 
@@ -390,7 +390,7 @@ In Python it’s possible to access a DataFrame’s columns either by attribute 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
 
-* **R**
+**R**
 
 .. code-block:: R
 
@@ -443,7 +443,7 @@ In Python it’s possible to access a DataFrame’s columns either by attribute 
 Running SQL Queries Programmatically
 =========================================
 
-* **Scala**
+**Scala**
 
 The sql function on a SparkSession enables applications to run SQL queries programmatically and returns the result as a DataFrame.
 
@@ -465,7 +465,7 @@ The sql function on a SparkSession enables applications to run SQL queries progr
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 
-* **Java**
+**Java**
 
 The sql function on a SparkSession enables applications to run SQL queries programmatically and returns the result as a Dataset<Row>.
 
@@ -489,7 +489,7 @@ The sql function on a SparkSession enables applications to run SQL queries progr
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
-* **Python**
+**Python**
 
 The sql function on a SparkSession enables applications to run SQL queries programmatically and returns the result as a DataFrame.
 
@@ -511,7 +511,7 @@ The sql function on a SparkSession enables applications to run SQL queries progr
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
 
-* R
+**R**
 
 The sql function enables applications to run SQL queries programmatically and returns the result as a SparkDataFrame.
 
@@ -527,7 +527,7 @@ Global Temporary View
 
 Temporary views in Spark SQL are session-scoped and will disappear if the session that creates it terminates. If you want to have a temporary view that is shared among all sessions and keep alive until the Spark application terminates, you can create a global temporary view. Global temporary view is tied to a system preserved database global_temp, and we must use the qualified name to refer it, e.g. SELECT * FROM global_temp.view1.
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -556,7 +556,7 @@ Temporary views in Spark SQL are session-scoped and will disappear if the sessio
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -585,7 +585,7 @@ Temporary views in Spark SQL are session-scoped and will disappear if the sessio
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
-* **Python**
+**Python**
 
 .. code-block:: Python
 
@@ -614,7 +614,7 @@ Temporary views in Spark SQL are session-scoped and will disappear if the sessio
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
-* **Sql**
+**Sql**
 
 .. code-block:: SQL
 
@@ -627,7 +627,7 @@ Temporary views in Spark SQL are session-scoped and will disappear if the sessio
 
 Datasets are similar to RDDs, however, instead of using Java serialization or Kryo they use a specialized Encoder to serialize the objects for processing or transmitting over the network. While both encoders and standard serialization are responsible for turning an object into bytes, encoders are code generated dynamically and use a format that allows Spark to perform many operations like filtering, sorting and hashing without deserializing the bytes back into an object.
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -662,7 +662,7 @@ Datasets are similar to RDDs, however, instead of using Java serialization or Kr
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -748,7 +748,7 @@ The second method for creating Datasets is through a programmatic interface that
 Inferring the Schema Using Reflection
 -----------------------------------------
 
-* **Scala**
+**Scala**
 
 The Scala interface for Spark SQL supports automatically converting an RDD containing case classes to a DataFrame. The case class defines the schema of the table. The names of the arguments to the case class are read using reflection and become the names of the columns. Case classes can also be nested or contain complex types such as Seqs or Arrays. This RDD can be implicitly converted to a DataFrame and then be registered as a table. Tables can be used in subsequent SQL statements.
 
@@ -797,7 +797,7 @@ The Scala interface for Spark SQL supports automatically converting an RDD conta
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -857,7 +857,7 @@ Spark SQL supports automatically converting an RDD of JavaBeans into a DataFrame
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
 
-* **Python**
+**Python**
 
 Spark SQL can convert an RDD of Row objects to a DataFrame, inferring the datatypes. Rows are constructed by passing a list of key/value pairs as kwargs to the Row class. The keys of this list define the column names of the table, and the types are inferred by sampling the whole dataset, similar to the inference that is performed on JSON files.
 
@@ -892,7 +892,7 @@ Spark SQL can convert an RDD of Row objects to a DataFrame, inferring the dataty
 Programmatically Specifying the Schema
 -----------------------------------------
 
-* **Scala**
+**Scala**
 
 When case classes cannot be defined ahead of time (for example, the structure of records is encoded in a string, or a text dataset will be parsed and fields will be projected differently for different users), a DataFrame can be created programmatically with three steps.
 
@@ -944,7 +944,7 @@ For example:
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 
-* **Java**
+**Java**
 
 When JavaBean classes cannot be defined ahead of time (for example, the structure of records is encoded in a string, or a text dataset will be parsed and fields will be projected differently for different users), a Dataset<Row> can be created programmatically with three steps.
 
@@ -1016,7 +1016,7 @@ For example:
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
 
-* **Python**
+**Python**
 
 When a dictionary of kwargs cannot be defined ahead of time (for example, the structure of records is encoded in a string, or a text dataset will be parsed and fields will be projected differently for different users), a DataFrame can be created programmatically with three steps.
 
@@ -1075,7 +1075,7 @@ Untyped User-Defined Aggregate Functions
 
 Users have to extend the UserDefinedAggregateFunction abstract class to implement a custom untyped aggregate function. For example, a user-defined average can look like:
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -1146,7 +1146,7 @@ Users have to extend the UserDefinedAggregateFunction abstract class to implemen
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/UserDefinedUntypedAggregation.scala" 文件。
 
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -1255,7 +1255,7 @@ Type-Safe User-Defined Aggregate Functions
 
 User-defined aggregations for strongly typed Datasets revolve around the Aggregator abstract class. For example, a type-safe user-defined average can look like:
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -1315,7 +1315,7 @@ User-defined aggregations for strongly typed Datasets revolve around the Aggrega
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/UserDefinedTypedAggregation.scala" 文件。
 
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -1419,7 +1419,7 @@ Generic Load/Save Functions
 
 In the simplest form, the default data source (parquet unless otherwise configured by spark.sql.sources.default) will be used for all operations.
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -1428,7 +1428,7 @@ In the simplest form, the default data source (parquet unless otherwise configur
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -1437,7 +1437,7 @@ In the simplest form, the default data source (parquet unless otherwise configur
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 
-* **Python**
+**Python**
 
 .. code-block:: Python
 
@@ -1446,7 +1446,7 @@ In the simplest form, the default data source (parquet unless otherwise configur
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 
-* **R**
+**R**
 
 .. code-block:: R
 
@@ -1461,7 +1461,7 @@ Manually Specifying Options
 
 You can also manually specify the data source that will be used along with any extra options that you would like to pass to the data source. Data sources are specified by their fully qualified name (i.e., org.apache.spark.sql.parquet), but for built-in sources you can also use their short names (json, parquet, jdbc, orc, libsvm, csv, text). DataFrames loaded from any data source type can be converted into other types using this syntax.
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -1470,7 +1470,7 @@ You can also manually specify the data source that will be used along with any e
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -1480,7 +1480,7 @@ You can also manually specify the data source that will be used along with any e
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 
-* **Python**
+**Python**
 
 .. code-block:: Python
 
@@ -1489,7 +1489,7 @@ You can also manually specify the data source that will be used along with any e
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 
-* **R**
+**R**
 
 .. code-block:: R
 
@@ -1505,7 +1505,7 @@ Run SQL on files directly
 
 Instead of using read API to load a file into DataFrame and query it, you can also query that file directly with SQL.
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -1514,7 +1514,7 @@ Instead of using read API to load a file into DataFrame and query it, you can al
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -1523,7 +1523,7 @@ Instead of using read API to load a file into DataFrame and query it, you can al
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 
-* **Python**
+**Python**
 
 .. code-block:: Python
 
@@ -1531,8 +1531,7 @@ Instead of using read API to load a file into DataFrame and query it, you can al
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 
-* **R**
-^^^^^^^
+**R**
 
 .. code-block:: R
 
@@ -1573,7 +1572,7 @@ Bucketing, Sorting and Partitioning
 
 For file-based data source, it is also possible to bucket and sort or partition the output. Bucketing and sorting are applicable only to persistent tables:
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -1601,7 +1600,7 @@ It is possible to use both partitioning and bucketing for a single table:
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 partitionBy creates a directory structure as described in the Partition Discovery section. Thus, it has limited applicability to columns with high cardinality. In contrast bucketBy distributes data across a fixed number of buckets and can be used when a number of unique values is unbounded.
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -1632,13 +1631,14 @@ It is possible to use both partitioning and bucketing for a single table:
 partitionBy creates a directory structure as described in the Partition Discovery section. Thus, it has limited applicability to columns with high cardinality. In contrast bucketBy distributes data across a fixed number of buckets and can be used when a number of unique values is unbounded.
 
 
-* **Python**
+**Python**
 
 .. code-block:: Python
 
   df.write.bucketBy(42, "name").sortBy("age").saveAsTable("people_bucketed")
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
+
 while partitioning can be used with both save and saveAsTable when using the Dataset APIs.
 
 .. code-block:: Python
@@ -1646,6 +1646,7 @@ while partitioning can be used with both save and saveAsTable when using the Dat
   df.write.partitionBy("favorite_color").format("parquet").save("namesPartByColor.parquet")
 
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
+
 It is possible to use both partitioning and bucketing for a single table:
 
 .. code-block:: Python
@@ -1660,7 +1661,7 @@ It is possible to use both partitioning and bucketing for a single table:
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 partitionBy creates a directory structure as described in the Partition Discovery section. Thus, it has limited applicability to columns with high cardinality. In contrast bucketBy distributes data across a fixed number of buckets and can be used when a number of unique values is unbounded.
 
-* **Sql**
+**Sql**
 
 .. code-block:: SQL
 
@@ -1708,7 +1709,7 @@ Parquet 是一种列式存储格式，很多其它的数据处理系统都支持
 
 仍然使用上面例子中的数据：
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -1735,9 +1736,9 @@ Parquet 是一种列式存储格式，很多其它的数据处理系统都支持
   // |Name: Justin|
   // +------------+
 
-完整示例代码参见 Spark 仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala"
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -1772,9 +1773,9 @@ Parquet 是一种列式存储格式，很多其它的数据处理系统都支持
   // |Name: Justin|
   // +------------+
 
-完整示例代码参见 Spark 仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java”。
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 
-* **Python**
+**Python**
 
 .. code-block:: Python
 
@@ -1798,9 +1799,9 @@ Parquet 是一种列式存储格式，很多其它的数据处理系统都支持
   # |Justin|
   # +------+
 
-完整示例代码参见 Spark  源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 
-* **R**
+**R**
 
 .. code-block:: R
 
@@ -1830,9 +1831,9 @@ Parquet 是一种列式存储格式，很多其它的数据处理系统都支持
   ## Name: Andy
   ## Name: Justin
 
-完整示例代码参见 Spark  源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
-* **Sql**
+**Sql**
 
 .. code-block:: SQL
 
@@ -1892,7 +1893,7 @@ Schema合并
 1. 当读取Parquet文件时，将数据源选项 mergeSchema设置为true（见下面的示例代码）
 2. 或者，将全局SQL选项 spark.sql.parquet.mergeSchema设置为true。
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -1920,9 +1921,9 @@ Schema合并
   // |-- cube: int (nullable = true)
   // |-- key : int (nullable = true)
 
-完整示例代码参见 Spark 仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala”。
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -1987,9 +1988,9 @@ Schema合并
   //  |-- cube: int (nullable = true)
   //  |-- key: int (nullable = true)
 
-完整示例代码参见 Spark 仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java”。
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 
-* **Python**
+**Python**
 
 .. code-block:: Python
 
@@ -2021,9 +2022,9 @@ Schema合并
   #  |-- triple: long (nullable = true)
   #  |-- key: integer (nullable = true)
 
-完整示例代码参见 Spark  源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 
-* **R**
+**R**
 
 .. code-block:: R
 
@@ -2048,7 +2049,7 @@ Schema合并
   ##  |-- triple: double (nullable = true)
   ##  |-- key: integer (nullable = true)
 
-完整示例代码参见 Spark  源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 
 Hive metastore Parquet表转换
@@ -2074,22 +2075,22 @@ Hive/Parquet Schema调整
 
 Spark SQL会缓存Parquet元数据以提高性能。如果启用了Hive metastore Parquet table转换，那么转换后的表的schema也会被缓存起来。如果这些表被Hive或其它外部工具更新, 那么你需要手动地刷新它们以确保元数据一致性。
 
-* **Scala**
+**Scala**
 
 // spark is an existing SparkSession
 spark.catalog.refreshTable("my_table")
 
-* **Java**
+**Java**
 
 // spark is an existing SparkSession
 spark.catalog().refreshTable("my_table");
 
-* **Python**
+**Python**
 
 # spark is an existing HiveContext
 spark.refreshTable("my_table")
 
-* **Sql**
+**Sql**
 
 REFRESH TABLE my_table;
 
@@ -2114,7 +2115,7 @@ spark.sql.parquet.mergeSchema                 false         如果设为true，�
 JSON Datasets
 ==============================
 
-* **Scala**
+**Scala**
 
 Spark SQL可以自动推导JSON数据集的schema并且将其加载为一个 Dataset[Row]。这种转换可以在一个包含String的RDD或一个JSON文件上使用SparkSession.read.json() 来完成。
 
@@ -2161,9 +2162,9 @@ Spark SQL可以自动推导JSON数据集的schema并且将其加载为一个 Dat
   // |[Columbus,Ohio]| Yin|
   // +---------------+----+
 
-完整示例代码参见 Spark 仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala”。
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 
-* **Java**
+**Java**
 
 Spark SQL可以自动推导JSON数据集的schema并且将其加载为一个 Dataset<Row>. 这种转换可以在一个包含String的RDD或一个JSON文件上使用SparkSession.read.json() 来完成。
 
@@ -2209,10 +2210,9 @@ Spark SQL可以自动推导JSON数据集的schema并且将其加载为一个 Dat
   // |[Columbus,Ohio]| Yin|
   // +---------------+----+
 
-完整示例代码参见 Spark 仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java”。
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 
-* **Python**
-------------
+**Python**
 
 Spark SQL可以自动推导JSON数据集的schema并且将其加载为一个 DataFrame。这种转换可以在一个JSON文件上使用SparkSession.read.json 来完成。
 
@@ -2258,9 +2258,9 @@ Spark SQL可以自动推导JSON数据集的schema并且将其加载为一个 Dat
   # |[Columbus,Ohio]| Yin|
   # +---------------+----+
 
-完整示例代码参见 Spark  源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 
-* **R**
+**R**
 
 Spark SQL can automatically infer the schema of a JSON dataset and load it as a DataFrame. using the read.json() function, which loads data from a directory of JSON files where each line of the files is a JSON object.
 
@@ -2291,9 +2291,9 @@ For a regular multi-line JSON file, set a named parameter multiLine to TRUE.
   ##     name
   ## 1 Justin
 
-完整示例代码参见 Spark  源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
-* **Sql**
+**Sql**
 
 .. code-block:: SQL
 
@@ -2315,7 +2315,7 @@ Hive配置是通过将 hive-site.xml，core-site.xml（用于安全配置）以�
 
 如果要使用Hive, 你必须要实例化一个支持Hive的 SparkSession, 包括连接到一个持久化的 Hive metastore, 支持 Hive serdes以及 Hive用户自定义函数。即使用户没有安装部署Hive也仍然可以启用Hive支持。如果没有在 hive-site.xml 文件中配置, Spark应用程序启动之后，上下文会自动在当前目录下创建一个 metastore_db 目录并创建一个由 spark.sql.warehouse.dir 配置的、默认值是当前目录下的 spark-warehouse 目录的目录。请注意: 从 Spark 2.0.0 版本开始, hive-site.xml 中的 hive.metastore.warehouse.dir 属性就已经过时了, 你可以使用 spark.sql.warehouse.dir 来指定仓库中数据库的默认存储位置。你可能还需要给启动Spark应用程序的用户赋予写权限。
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -2390,9 +2390,9 @@ Hive配置是通过将 hive-site.xml，core-site.xml（用于安全配置）以�
   // |  5| val_5|  5| val_5|
   // ...
 
-完整示例代码参见 Spark 仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/hive/SparkHiveExample.scala"。
+完整示例代码参见 Spark 仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/hive/SparkHiveExample.scala" 文件。
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -2495,9 +2495,9 @@ Hive配置是通过将 hive-site.xml，core-site.xml（用于安全配置）以�
   // |  4| val_4|  4| val_4|
   // ...
 
-完整示例代码参见 Spark 仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/hive/JavaSparkHiveExample.java”。
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/hive/JavaSparkHiveExample.java" 文件。
 
-* **Python**
+**Python**
 
 .. code-block:: Python
 
@@ -2565,9 +2565,9 @@ Hive配置是通过将 hive-site.xml，core-site.xml（用于安全配置）以�
   # |  5| val_5|  5| val_5|
   # ...
 
-完整示例代码参见 Spark  源码仓库中的 "examples/src/main/python/sql/hive.py" 文件
+完整示例代码参见 Spark  源码仓库中的 "examples/src/main/python/sql/hive.py" 文件。
 
-* **R**
+**R**
 
 When working with Hive one must instantiate SparkSession with Hive support. This adds support for finding tables in the MetaStore and writing queries using HiveQL.
 
@@ -2654,7 +2654,7 @@ createTableOptions	                              This is a JDBC writer related o
 createTableColumnTypes	                          The database column data types to use instead of the defaults, when creating the table. Data type information should be specified in the same format as CREATE TABLE columns syntax (e.g: "name CHAR(64), comments VARCHAR(1024)"). The specified types should be valid spark sql data types. This option applies only to writing.
 ==========================================        ====================
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -2691,9 +2691,9 @@ createTableColumnTypes	                          The database column data types 
     .option("createTableColumnTypes", "name CHAR(64), comments VARCHAR(1024)")
     .jdbc("jdbc:postgresql:dbserver", "schema.tablename", connectionProperties)
 
-完整示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件
+完整示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -2732,7 +2732,7 @@ createTableColumnTypes	                          The database column data types 
 
 完整示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 
-* **Python**
+**Python**
 
 .. code-block:: Python
 
@@ -2771,7 +2771,7 @@ createTableColumnTypes	                          The database column data types 
 
 完整示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 
-* **R**
+**R**
 
 .. code-block:: R
 
@@ -2783,7 +2783,7 @@ createTableColumnTypes	                          The database column data types 
 
 完整示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
-* **Sql**
+**Sql**
 
 .. code-block:: SQL
 
@@ -2985,7 +2985,7 @@ DataFrame.groupBy保留分组的列
 
 根据用户的反馈，我们改变了DataFrame.groupBy().agg()的默认行为，就是在返回的DataFrame结果中保留分组的列。如果你想保持1.3版本中的行为，可以将spark.sql.retainGroupColumns设置为false。
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -2999,7 +2999,7 @@ DataFrame.groupBy保留分组的列
   // Revert to 1.3 behavior (not retaining grouping column) by:
   sqlContext.setConf("spark.sql.retainGroupColumns", "false")
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -3013,7 +3013,7 @@ DataFrame.groupBy保留分组的列
   // Revert to 1.3 behavior (not retaining grouping column) by:
   sqlContext.setConf("spark.sql.retainGroupColumns", "false");
 
-* **Python**
+**Python**
 
 .. code-block:: Python
 
@@ -3074,13 +3074,13 @@ UDF注册迁移到sqlContext.udf中(Java&Scala)
 
 用于注册UDF的函数，不管是DataFrame DSL还是SQL中用到的，都被迁移到SQLContext中的udf对象中。
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
   sqlContext.udf.register("strLen", (s: String) => s.length())
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -3227,7 +3227,7 @@ Spark SQL 和 DataFrame 支持下面的数据类型：
         * StructField(name, datatype, nullable): 表示 StructType 中的一个字段，name表示字段名，datatype是字段的数据类型，nullable用来表示该字段是否可以为空值。
 
 
-* **Scala**
+**Scala**
 
 Spark SQL 所有的数据类型都位于 org.apache.spark.sql.types 包中。你可以使用下面的语句访问他们:
 
@@ -3262,35 +3262,35 @@ StructField	                       The value type in Scala
                                     the data type IntegerType)	    StructField(name, dataType, [nullable]) Note: The default value of nullable is true.
 =============================      ============================     ============================
 
-* **Java**
+**Java**
 
 Spark SQL 所有的数据类型都位于 org.apache.spark.sql.types 包中。如果想要访问或创建一个数据类型, 请使用 org.apache.spark.sql.types.DataTypes 中提供的工厂方法。
 
-===============================       ==========================        ==========================
-Data type	                            Value type in Java	              API to access or create a data type
-ByteType	                            byte or Byte	                    DataTypes.ByteType
-ShortType	                            short or Short	                  DataTypes.ShortType
-IntegerType	                          int or Integer	                  DataTypes.IntegerType
-LongType	                            long or Long	                    DataTypes.LongType
-FloatType	                            float or Float	                  DataTypes.FloatType
-DoubleType	                          double or Double	                DataTypes.DoubleType
-DecimalType	                          java.math.BigDecimal	            DataTypes.createDecimalType()   DataTypes.createDecimalType(precision, scale).
-StringType	                          String	                          DataTypes.StringType
-BinaryType	                          byte[]	                          DataTypes.BinaryType
-BooleanType	                          boolean or Boolean	              DataTypes.BooleanType
-TimestampType	                        java.sql.Timestamp	              DataTypes.TimestampType
-DateType	                            java.sql.Date	                    DataTypes.DateType
-ArrayType	                            java.util.List	                  DataTypes.createArrayType(elementType) Note: The value of containsNull will be true。DataTypes.createArrayType(elementType, containsNull).
-MapType	                              java.util.Map	                    DataTypes.createMapType(keyType, valueType) Note: The value of valueContainsNull will be true. DataTypes.createMapType(keyType, valueType, valueContainsNull)
-StructType	                          org.apache.spark.sql.Row	        DataTypes.createStructType(fields) Note: fields is a List or an array of StructFields. Also, two fields with the same name are not allowed.
-StructField	                          The value type in Java of         DataTypes.createStructField(name, dataType, nullable)
-                                      the data type of this field
-                                      (For example, int for a
-                                      StructField with the data
-                                      type IntegerType)
-===============================       ==========================        ==========================
+=================================       =============================         ======================
+Data type	                              Value type in Java	                  API to access or create a data type
+ByteType	                              byte or Byte	                        DataTypes.ByteType
+ShortType	                              short or Short	                      DataTypes.ShortType
+IntegerType	                            int or Integer	                      DataTypes.IntegerType
+LongType	                              long or Long	                        DataTypes.LongType
+FloatType	                              float or Float	                      DataTypes.FloatType
+DoubleType	                            double or Double	                    DataTypes.DoubleType
+DecimalType	                            java.math.BigDecimal	                DataTypes.createDecimalType()   DataTypes.createDecimalType(precision, scale).
+StringType	                            String	                              DataTypes.StringType
+BinaryType	                            byte[]	                              DataTypes.BinaryType
+BooleanType	                            boolean or Boolean	                  DataTypes.BooleanType
+TimestampType	                          java.sql.Timestamp	                  DataTypes.TimestampType
+DateType	                              java.sql.Date	                        DataTypes.DateType
+ArrayType	                              java.util.List	                      DataTypes.createArrayType(elementType) Note: The value of containsNull will be true。DataTypes.createArrayType(elementType, containsNull).
+MapType	                                java.util.Map	                        DataTypes.createMapType(keyType, valueType) Note: The value of valueContainsNull will be true. DataTypes.createMapType(keyType, valueType, valueContainsNull)
+StructType	                            org.apache.spark.sql.Row	            DataTypes.createStructType(fields) Note: fields is a List or an array of StructFields. Also, two fields with the same name are not allowed.
+StructField	                            The value type in Java of             DataTypes.createStructField(name, dataType, nullable)
+                                        the data type of this field
+                                        (For example, int for a
+                                        StructField with the data
+                                        type IntegerType)
+=================================       =============================         ======================
 
-* **Python**
+**Python**
 
 Spark SQL 所有的数据类型都位于 pyspark.sql.types 包中。你可以使用下面的语句访问他们:
 
@@ -3298,51 +3298,53 @@ Spark SQL 所有的数据类型都位于 pyspark.sql.types 包中。你可以使
 
   from pyspark.sql.types import *
 
-====================================      ===================================               ===================================
-Data type	                                Value type in Python	                            API to access or create a data type
-====================================      ===================================               ===================================
-ByteType	                                int or long
-                                          Note: Numbers will be converted                   ByteType()
-                                          to 1-byte signed integer numbers
-                                          at runtime. Please make sure that
-                                          numbers are within the range of
-                                          -128 to 127.
-ShortType	                                int or long                                       ShortType()
-                                          Note: Numbers will be converted to
-                                          2-byte signed integer numbers at
-                                          runtime. Please make sure that
-                                          numbers are within the range of
-                                          -32768 to 32767.
-IntegerType	                              int or long	                                      IntegerType()
-LongType	                                long                                              LongType()
-                                          Note: Numbers will be converted to
-                                          8-byte signed integer numbers at
-                                          runtime. Please make sure that
-                                          numbers are within the range of
-                                          -9223372036854775808 to 9223372036854775807.
-                                          Otherwise, please convert data to
-                                          decimal.Decimal and use DecimalType.
-FloatType	                                float                                             FloatType()
-                                          Note: Numbers will be converted to
-                                          4-byte single-precision floating point
-                                          numbers at runtime.
-DoubleType	                              float	DoubleType()
-DecimalType	                              decimal.Decimal	DecimalType()
-StringType	                              string	StringType()
-BinaryType	                              bytearray	BinaryType()
-BooleanType	                              bool	BooleanType()
-TimestampType	                            datetime.datetime	TimestampType()
-DateType	                                datetime.date	DateType()
-ArrayType	                                list, tuple, or array	                            ArrayType(elementType, [containsNull]) Note: The default value of containsNull is True.
-MapType	                                  dict	                                            MapType(keyType, valueType, [valueContainsNull]) Note: The default value of valueContainsNull is True.
-StructType	                              list or tuple	                                    StructType(fields) Note: fields is a Seq of StructFields. Also, two fields with the same name are not allowed.
-StructField	                              The value type in Python of the data type of      StructField(name, dataType, [nullable]) Note: The default value of nullable is True.
-                                          this field (For example, Int for a
-                                          StructField with the data type IntegerType)
-====================================      ===================================               ===================================
+=======================================       ===================================               ===================================
+Data type	                                    Value type in Python	                            API to access or create a data type
+=======================================       ===================================               ===================================
+ByteType	                                    int or long                                       ByteType()
+                                              Note: Numbers will be converted
+                                              to 1-byte signed integer numbers
+                                              at runtime. Please make sure that
+                                              numbers are within the range of
+                                              -128 to 127.
+ShortType	                                    int or long                                       ShortType()
+                                              Note: Numbers will be converted to
+                                              2-byte signed integer numbers at
+                                              runtime. Please make sure that
+                                              numbers are within the range of
+                                              -32768 to 32767.
+IntegerType	                                  int or long	                                      IntegerType()
+LongType	                                    long                                              LongType()
+                                              Note: Numbers will be converted to
+                                              8-byte signed integer numbers at
+                                              runtime. Please make sure that
+                                              numbers are within the range of
+                                              -9223372036854775808 to
+                                              9223372036854775807.
+                                              Otherwise, please convert data to
+                                              decimal.Decimal and use DecimalType.
+FloatType	                                    float                                             FloatType()
+                                              Note: Numbers will be converted to
+                                              4-byte single-precision floating
+                                              point numbers at runtime.
+DoubleType	                                  float	                                            DoubleType()
+DecimalType	                                  decimal.Decimal	                                  DecimalType()
+StringType	                                  string	                                          StringType()
+BinaryType	                                  bytearray	                                        BinaryType()
+BooleanType	                                  bool	                                            BooleanType()
+TimestampType	                                datetime.datetime	                                TimestampType()
+DateType	                                    datetime.date	                                    DateType()
+ArrayType	                                    list, tuple, or array	                            ArrayType(elementType, [containsNull]) Note: The default value of containsNull is True.
+MapType	                                      dict	                                            MapType(keyType, valueType, [valueContainsNull]) Note: The default value of valueContainsNull is True.
+StructType	                                  list or tuple	                                    StructType(fields) Note: fields is a Seq of StructFields. Also, two fields with the same name are not allowed.
+StructField	                                  The value type in Python of the data              StructField(name, dataType, [nullable]) Note: The default value of nullable is True.
+                                              type of this field (For example, Int
+                                              for a StructField with the data type
+                                              IntegerType)
+=======================================       ===================================               ===================================
 
 
-* **R**
+**R**
 
 ===============================================       =============================================       ======================================
 Data type	                                            Value type in R	                                    API to access or create a data type

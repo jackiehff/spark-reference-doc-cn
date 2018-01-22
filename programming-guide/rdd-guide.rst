@@ -17,52 +17,56 @@ Spark 第二个重要抽象概念是共享变量，共享变量是一种可以�
 
 
 ***************
-链接Spark
+链接 Spark
 ***************
 
-Scala
-==============
+* Scala
 
-Spark 2.2.1 使用了Scala 2.11。用Scala写应用的话，你需要使用一个兼容的 Scala 版本（如：2.11.X）
+Spark 2.2.1 使用了Scala 2.11。用Scala写应用的话，你需要使用一个兼容的 Scala 版本(如：2.11.X)
 
-同时，如果你需要在 Maven 中依赖 Spark，可以用如下 maven 构件标识：
+同时，如果你需要在 Maven 中添加 Spark 依赖，可以使用如下 Maven 坐标：
 
-groupId = org.apache.spark
-artifactId = spark-core_2.11
-version = 2.2.1
+.. code-block:: TEXT
 
+  groupId = org.apache.spark
+  artifactId = spark-core_2.11
+  version = 2.2.1
 
-另外，如果你想要访问 HDFS 集群，那么你需要增加相应版本的 hadoop-client 依赖项，其maven构件坐标如下：
+另外，如果你想要访问 HDFS 集群，那么你需要增加相应版本的 hadoop-client 依赖项，其 Maven 坐标如下：
 
-groupId = org.apache.hadoop
-artifactId = hadoop-client
-version = <your-hdfs-version>
+.. code-block:: TEXT
 
+  groupId = org.apache.hadoop
+  artifactId = hadoop-client
+  version = <your-hdfs-version>
 
-最后，你需要如下，在你的代码里导入一些Spark class：
+最后，你需要在代码中导入以下 Spark 类：
 
 .. code-block:: Scala
 
   import org.apache.spark.SparkContext
   import org.apache.spark.SparkConf
 
-（在Spark 1.3.0之前，你需要显示的 import org.apache.spark.SparkContext._ 来启用必要的隐式转换）
+(在Spark 1.3.0之前，你需要显示的 import org.apache.spark.SparkContext._ 来启用必要的隐式转换)
 
-Java
-==============
+* Java
 
 Spark 2.2.1 需要 Java 7 以及更高版本.如果你正在使用 Java 8, Spark 支持 lambda表达式 以便于简洁地编写函数, 否则的话你可以使用 org.apache.spark.api.java.function 包中的类.
 要使用Java来编写一个Spark应用程序, 你需要添加一个Spark的依赖. 可以使用以下坐标在Maven中央仓库中下载Spark依赖:
 
-groupId = org.apache.spark
-artifactId = spark-core_2.11
-version = 2.2.1
+.. code-block:: TEXT
+
+  groupId = org.apache.spark
+  artifactId = spark-core_2.11
+  version = 2.2.1
 
 另外, 如果你想要访问 HDFS 集群, 你还需要添加和你 HDFS 版本对应的 hadoop-client 依赖.
 
-groupId = org.apache.hadoop
-artifactId = hadoop-client
-version = <your-hdfs-version>
+.. code-block:: TEXT
+
+  groupId = org.apache.hadoop
+  artifactId = hadoop-client
+  version = <your-hdfs-version>
 
 最后, 你需要在程序中引入Spark的几个类. 添加下面几行:
 
@@ -73,8 +77,7 @@ version = <your-hdfs-version>
   import org.apache.spark.SparkConf
 
 
-Python
-==============
+* Python
 
 Spark 2.2.1 works with Python 2.7+ or Python 3.4+. It can use the standard CPython interpreter, so C libraries like NumPy can be used. It also works with PyPy 2.3+.
 
@@ -107,11 +110,10 @@ PySpark requires the same minor version of Python in both driver and workers. It
 
 
 ***************
-初始化Spark
+初始化 Spark
 ***************
 
-Scala
-==============
+* Scala
 
 Spark 应用程序需要做的第一件事就是创建一个 SparkContext 对象，SparkContext 对象决定了 Spark 如何访问集群。而要新建一个 SparkContext 对象，你还得需要构造一个 SparkConf 对象，SparkConf对象包含了你的应用程序的配置信息。
 
@@ -122,8 +124,7 @@ Spark 应用程序需要做的第一件事就是创建一个 SparkContext 对象
   val conf = new SparkConf().setAppName(appName).setMaster(master)
   new SparkContext(conf)
 
-Java
-=============
+* Java
 
 The first thing a Spark program must do is to create a JavaSparkContext object, which tells Spark how to access a cluster. To create a SparkContext you first need to build a SparkConf object that contains information about your application.
 
@@ -132,8 +133,7 @@ The first thing a Spark program must do is to create a JavaSparkContext object, 
   SparkConf conf = new SparkConf().setAppName(appName).setMaster(master);
   JavaSparkContext sc = new JavaSparkContext(conf);
 
-Python
-=============
+* Python
 
 The first thing a Spark program must do is to create a SparkContext object, which tells Spark how to access a cluster. To create a SparkContext you first need to build a SparkConf object that contains information about your application.
 
@@ -143,14 +143,13 @@ The first thing a Spark program must do is to create a SparkContext object, whic
   sc = SparkContext(conf=conf)
 
 
-appName参数值是你的应用展示在集群UI上的应用名称。master参数值是Spark, Mesos or YARN cluster URL 或者特殊的“local”（本地模式）。实际上，一般不应该将master参数值硬编码到代码中，而是应该用spark-submit脚本的参数来设置。然而，如果是本地测试或单元测试中，你可以直接在代码里给master参数写死一个”local”值。
+appName 参数值是你的应用展示在集群UI上的应用名称。master参数值是Spark, Mesos or YARN cluster URL 或者特殊的“local”（本地模式）。实际上，一般不应该将master参数值硬编码到代码中，而是应该用spark-submit脚本的参数来设置。然而，如果是本地测试或单元测试中，你可以直接在代码里给master参数写死一个”local”值。
 
 
 使用 Shell
-^^^^^^^^^^^^^^^^^^^^^^^
+====================
 
-Scala
-========================
+* Scala
 
 在Spark Shell中，默认已经为你新建了一个 SparkContext 对象，变量名为sc。所以 spark-shell 里不能自建SparkContext对象。你可以通过–master参数设置要连接到哪个集群，而且可以给–jars参数传一个逗号分隔的jar包列表，以便将这些jar包加到classpath中。你还可以通过–packages设置逗号分隔的maven工件列表，以便增加额外的依赖项。同样，还可以通过–repositories参数增加maven repository地址。下面是一个示例，在本地4个CPU core上运行的实例：
 
@@ -173,8 +172,8 @@ Scala
 spark-shell –help 可以查看完整的选项列表。实际上，spark-shell 是在后台调用 spark-submit 来实现其功能的（spark-submit script.）
 
 
-Python
-=========================
+* Python
+
 In the PySpark shell, a special interpreter-aware SparkContext is already created for you, in the variable called sc. Making your own SparkContext will not work. You can set which master the context connects to using the --master argument, and you can add Python .zip, .egg or .py files to the runtime path by passing a comma-separated list to --py-files. You can also add dependencies (e.g. Spark Packages) to your shell session by supplying a comma-separated list of Maven coordinates to the --packages argument. Any additional repositories where dependencies might exist (e.g. Sonatype) can be passed to the --repositories argument. Any Python dependencies a Spark package has (listed in the requirements.txt of that package) must be manually installed using pip when necessary. For example, to run bin/pyspark on exactly four cores, use:
 
 .. code-block:: Shell
@@ -310,8 +309,7 @@ lineLengths.persist()
 ------------------
 
 
-Scala
-^^^^^^^^^^^^^^^
+* Scala
 
 Spark的API 很多都依赖于在驱动程序中向集群传递操作函数。以下是两种建议的实现方式：
 
@@ -358,8 +356,7 @@ Spark的API 很多都依赖于在驱动程序中向集群传递操作函数。�
   }
 
 
-Java
-^^^^^^^^^^^^
+* Java
 
 Spark’s API relies heavily on passing functions in the driver program to run on the cluster. In Java, functions are represented by classes implementing the interfaces in the org.apache.spark.api.java.function package. There are two ways to create such functions:
 
@@ -394,8 +391,7 @@ Or, if writing the functions inline is unwieldy:
 
 :attention: anonymous inner classes in Java can also access variables in the enclosing scope as long as they are marked final. Spark will ship copies of these variables to each worker node as it does for other languages.
 
-Python
-^^^^^^^^^^^^^^^^^
+* Python
 
 Spark’s API relies heavily on passing functions in the driver program to run on the cluster. There are three recommended ways to do this:
 
@@ -452,11 +448,11 @@ To avoid this issue, the simplest way is to copy field into a local variable ins
 Spark里一个比较难的事情就是，理解在整个集群上跨节点执行的变量和方法的作用域以及生命周期。Spark里一个频繁出现的问题就是RDD算子在变量作用域之外修改了其值。下面的例子，我们将会以foreach() 算子为例，来递增一个计数器counter，不过类似的问题在其他算子上也会出现。
 
 示例
-^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
+
 考虑如下例子，我们将会计算RDD中原生元素的总和，如果不是在同一个JVM中执行，其表现将有很大不同。例如，这段代码如果使用Spark本地模式（–master=local[n]）运行，和在集群上运行（例如，用spark-submit提交到YARN上）结果完全不同。
 
-Scala
-^^^^^^
+* Scala
 
 .. code-block:: Scala
 
@@ -468,8 +464,7 @@ Scala
 
   println("Counter value: " + counter)
 
-Java
-^^^^^^
+* Java
 
 .. code-block:: Java
 
@@ -481,8 +476,7 @@ Java
 
   println("Counter value: " + counter);
 
-Python
-^^^^^^^^^
+* Python
 
 .. code-block:: Python
 

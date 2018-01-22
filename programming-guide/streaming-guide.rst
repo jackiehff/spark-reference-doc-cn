@@ -38,7 +38,7 @@ Spark Streaming 为这种持续的数据流提供了一个高级抽象，即：d
 
 * **Scala**
 
-首先，我们需要导入Spark Streaming的相关class的一些包，以及一些支持 StreamingContext 隐式转换的包（这些隐式转换能给DStream之类的class增加一些有用的方法）。StreamingContext 是 Spark Streaming 的入口。我们将会创建一个本地 StreamingContext 对象，包含两个执行线程，并将批次间隔设为1秒。
+首先，我们需要导入Spark Streaming 的相关class的一些包，以及一些支持 StreamingContext 隐式转换的包（这些隐式转换能给DStream之类的class增加一些有用的方法）。StreamingContext 是 Spark Streaming 的入口。我们将会创建一个本地 StreamingContext 对象，包含两个执行线程，并将批次间隔设为1秒。
 
 .. code-block:: Scala
 

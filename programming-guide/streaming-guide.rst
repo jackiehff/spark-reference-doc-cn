@@ -588,7 +588,7 @@ DataFrame和SQL相关算子
 
 在Streaming应用中可以调用DataFrames and SQL来处理流式数据。开发者可以用通过StreamingContext中的SparkContext对象来创建一个SQLContext，并且，开发者需要确保一旦驱动器（driver）故障恢复后，该SQLContext对象能重新创建出来。同样，你还是可以使用懒惰创建的单例模式来实例化SQLContext，如下面的代码所示，这里我们将最开始的那个小栗子做了一些修改，使用DataFrame和SQL来统计单词计数。其实就是，将每个RDD都转化成一个DataFrame，然后注册成临时表，再用SQL查询这些临时表。
 
-* Scala
+* **Scala**
 
 .. code-block:: Scala
 
@@ -669,7 +669,7 @@ MLlib 提供了很多机器学习算法。首先，你需要关注的是流式�
 
 不过这个行为可以用StreamingContext.getOrCreate来实现，示例如下：
 
-* Scala
+* **Scala**
 
 .. code-block:: Scala
 
@@ -819,7 +819,7 @@ Spark Streaming程序的处理进度可以用StreamingListener接口来监听，
 
 如果接收数据的过程是系统瓶颈，那么可以考虑增加数据接收的并行度。注意，每个输入DStream只包含一个单独的接收器（receiver，运行约worker节点），每个接收器单独接收一路数据流。所以，配置多个输入DStream就能从数据源的不同分区分别接收多个数据流。例如，可以将从Kafka拉取两个topic的数据流分成两个Kafka输入数据流，每个数据流拉取其中一个topic的数据，这样一来会同时有两个接收器并行地接收数据，因而增加了总体的吞吐量。同时，另一方面我们又可以把这些DStream数据流合并成一个，然后可以在合并后的DStream上使用任何可用的transformation算子。示例代码如下：
 
-* Scala
+* **Scala**
 
 .. code-block:: Scala
 
@@ -828,7 +828,7 @@ Spark Streaming程序的处理进度可以用StreamingListener接口来监听，
   val unifiedStream = streamingContext.union(kafkaStreams)
   unifiedStream.print()
 
-* Java
+* **Java**
 
 .. code-block:: Java
 
@@ -840,7 +840,7 @@ Spark Streaming程序的处理进度可以用StreamingListener接口来监听，
   JavaPairDStream<String, String> unifiedStream = streamingContext.union(kafkaStreams.get(0), kafkaStreams.subList(1, kafkaStreams.size()));
   unifiedStream.print();
 
-* Python
+* **Python**
 
 .. code-block:: Python
 

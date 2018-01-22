@@ -18,7 +18,7 @@
 
 Spark Shell 提供了一种简单的方式来学习 Spark API，同时它也是一个强大的交互式数据分析工具。Spark Shell 既支持 Scala(Scala 运行在 Java 虚拟机上，所以可以很方便的引用现有的 Java 库)也支持 Python。
 
-* Scala
+* **Scala**
 
 在 Spark 目录下运行以下命令可以启动 Spark Shell：
 
@@ -59,7 +59,7 @@ Spark 最主要的抽象概念就是一个叫做 Dataset 的分布式数据集�
   res3: Long = 15
 
 
-* Python
+* **Python**
 
 在 Spark 目录下运行以下命令可以启动 Spark Shell：
 
@@ -108,7 +108,7 @@ Spark 最主要的抽象概念就是一个叫做 Dataset 的分布式数据集�
 
 Dataset action 和 transformation 算子可以用于更加复杂的计算。比方说我们想要找到文件中包含单词数最多的行。
 
-* Scala
+* **Scala**
 
 .. code-block:: Shell
 
@@ -140,7 +140,7 @@ Dataset action 和 transformation 算子可以用于更加复杂的计算。比�
   res6: Array[(String, Int)] = Array((means,1), (under,2), (this,3), (Because,1), (Python,2), (agree,1), (cluster.,1), ...)
 
 
-* Python
+* **Python**
 
 .. code-block:: Shell
 
@@ -168,7 +168,7 @@ Dataset action 和 transformation 算子可以用于更加复杂的计算。比�
 
 Spark 还支持把数据集拉到集群范围的内存缓存中。当数据需要反复访问时非常有用，比如查询一个小的热门数据集或者运行一个像 PageRank 这样的迭代算法。作为一个简单的示例，我们把 linesWithSpark 这个数据集缓存起来。
 
-* Scala
+* **Scala**
 
 .. code-block:: Shell
 
@@ -183,7 +183,7 @@ Spark 还支持把数据集拉到集群范围的内存缓存中。当数据需�
 
 用 Spark 浏览和缓存一个 100 行左右的文本文件看起来确实有点傻。但有趣的部分是这些相同的函数可以用于非常大的数据集，即使这些数据集分布在数十或数百个节点上。如 :ref:`rdd_programming_guide` 中描述的那样, 你也可以通过 bin/spark-shell 连接到一个集群，交互式地执行上面那些操作。
 
-* Python
+* **Python**
 
 .. code-block:: Shell
 
@@ -204,7 +204,7 @@ Spark 还支持把数据集拉到集群范围的内存缓存中。当数据需�
 
 假设我们想使用 Spark API 编写一个自包含(self-contained)的 Spark 应用程序。下面我们将快速过一下一个简单的应用程序，分别使用 Scala(sbt编译)，Java(maven编译)和 Python(pip) 编写。
 
-* Scala
+* **Scala**
 
 首先创建一个非常简单的 Spark 应用程序 – 简单到连名字都叫 SimpleApp.scala:
 
@@ -267,7 +267,7 @@ Spark 还支持把数据集拉到集群范围的内存缓存中。当数据需�
   Lines with a: 46, Lines with b: 23
 
 
-* Java
+* **Java**
 
 下面这个示例程序将使用 Maven 来编译一个应用程序 JAR, 但是适用任何类似的构建系统。
 
@@ -345,7 +345,7 @@ Spark 还支持把数据集拉到集群范围的内存缓存中。当数据需�
   Lines with a: 46, Lines with b: 23
 
 
-* Python
+* **Python**
 
 现在我们将展示如何使用 Python API (PySpark) 来编写一个 Spark 应用程序。
 

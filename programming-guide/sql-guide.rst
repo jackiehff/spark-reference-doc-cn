@@ -799,9 +799,9 @@ The Scala interface for Spark SQL supports automatically converting an RDD conta
 
 **Java**
 
-.. code-block:: Java
-
 Spark SQL supports automatically converting an RDD of JavaBeans into a DataFrame. The BeanInfo, obtained using reflection, defines the schema of the table. Currently, Spark SQL does not support JavaBeans that contain Map field(s). Nested JavaBeans and List or Array fields are supported though. You can create a JavaBean by creating a class that implements Serializable and has getters and setters for all of its fields.
+
+.. code-block:: Java
 
   import org.apache.spark.api.java.JavaRDD;
   import org.apache.spark.api.java.function.Function;
@@ -1545,13 +1545,14 @@ Save Modes
 
 Save operations can optionally take a SaveMode, that specifies how to handle existing data if present. It is important to realize that these save modes do not utilize any locking and are not atomic. Additionally, when performing an Overwrite, the data will be deleted before writing out the new data.
 
-==================================    ==================        =============
-Scala/Java                            Any Language	            Meaning
-SaveMode.ErrorIfExists (default)	    "error" (default)	        When saving a DataFrame to a data source, if data already exists, an exception is expected to be thrown.
-SaveMode.Append	                      "append"	                When saving a DataFrame to a data source, if data/table already exists, contents of the DataFrame are expected to be appended to existing data.
-SaveMode.Overwrite	                  "overwrite"	              Overwrite mode means that when saving a DataFrame to a data source, if data/table already exists, existing data is expected to be overwritten by the contents of the DataFrame.
-SaveMode.Ignore	                      "ignore"	                Ignore mode means that when saving a DataFrame to a data source, if data already exists, the save operation is expected to not save the contents of the DataFrame and to not change the existing data. This is similar to a CREATE TABLE IF NOT EXISTS in SQL.
-==================================    ==================        =============
+==================================      ====================      =============
+Scala/Java                              Any Language	            Meaning
+==================================      ====================      =============
+SaveMode.ErrorIfExists(default)	        "error" (default)	        When saving a DataFrame to a data source, if data already exists, an exception is expected to be thrown.
+SaveMode.Append	                        "append"	                When saving a DataFrame to a data source, if data/table already exists, contents of the DataFrame are expected to be appended to existing data.
+SaveMode.Overwrite	                    "overwrite"	              Overwrite mode means that when saving a DataFrame to a data source, if data/table already exists, existing data is expected to be overwritten by the contents of the DataFrame.
+SaveMode.Ignore	                        "ignore"	                Ignore mode means that when saving a DataFrame to a data source, if data already exists, the save operation is expected to not save the contents of the DataFrame and to not change the existing data. This is similar to a CREATE TABLE IF NOT EXISTS in SQL.
+==================================      ====================      =============
 
 Saving to Persistent Tables
 ---------------------------------
@@ -1610,6 +1611,7 @@ partitionBy creates a directory structure as described in the Partition Discover
 while partitioning can be used with both save and saveAsTable when using the Dataset APIs.
 
 .. code-block:: Java
+
   usersDF
     .write()
     .partitionBy("favorite_color")
@@ -1851,33 +1853,37 @@ Parquet 是一种列式存储格式，很多其它的数据处理系统都支持
 
 像Hive这样的系统中，一个常用的优化方式就是表分区。在一个分区表中，数据通常存储在不同的目录中，分区列值被编码到各个分区目录的路径。Parquet数据源现在可以自动发现和推导分区信息。例如，我们可以使用下面的目录结构把之前使用的人口数据存储到一个分区表中，其中2个额外的字段，gender和country，作为分区列：
 
-path
-└── to
-    └── table
-        ├── gender=male
-        │   ├── ...
-        │   │
-        │   ├── country=US
-        │   │   └── data.parquet
-        │   ├── country=CN
-        │   │   └── data.parquet
-        │   └── ...
-        └── gender=female
-            ├── ...
-            │
-            ├── country=US
-            │   └── data.parquet
-            ├── country=CN
-            │   └── data.parquet
-            └── ...
+.. code-block:: TEXT
+
+  path
+  └── to
+      └── table
+          ├── gender=male
+          │   ├── ...
+          │   │
+          │   ├── country=US
+          │   │   └── data.parquet
+          │   ├── country=CN
+          │   │   └── data.parquet
+          │   └── ...
+          └── gender=female
+              ├── ...
+              │
+              ├── country=US
+              │   └── data.parquet
+              ├── country=CN
+              │   └── data.parquet
+              └── ...
 
 通过传递 path/to/table 给 SparkSession.read.parquet 或 SparkSession.read.load, Spark SQL将会自动从路径中提取分区信息。现在返回的DataFrame的schema如下：
 
-root
-|-- name: string (nullable = true)
-|-- age: long (nullable = true)
-|-- gender: string (nullable = true)
-|-- country: string (nullable = true)
+.. code-block:: TEXT
+
+  root
+  |-- name: string (nullable = true)
+  |-- age: long (nullable = true)
+  |-- gender: string (nullable = true)
+  |-- country: string (nullable = true)
 
 注意，分区列的数据类型是自动推导出来的。目前，分区列只支持数值类型和字符串类型。有时候用户可能不想要自动推导分区列的数据类型，对于这种情况，自动类型推导可以通过 spark.sql.sources.partitionColumnTypeInference.enabled来配置，其默认值是true。当禁用类型推导后，字符串类型将用于分区列类型。
 
@@ -2077,22 +2083,30 @@ Spark SQL会缓存Parquet元数据以提高性能。如果启用了Hive metastor
 
 **Scala**
 
-// spark is an existing SparkSession
-spark.catalog.refreshTable("my_table")
+.. code-block:: Scala
+
+  // spark is an existing SparkSession
+  spark.catalog.refreshTable("my_table")
 
 **Java**
 
-// spark is an existing SparkSession
-spark.catalog().refreshTable("my_table");
+.. code-block:: Java
+
+  // spark is an existing SparkSession
+  spark.catalog().refreshTable("my_table");
 
 **Python**
 
-# spark is an existing HiveContext
-spark.refreshTable("my_table")
+.. code-block:: Python
+
+  # spark is an existing HiveContext
+  spark.refreshTable("my_table")
 
 **Sql**
 
-REFRESH TABLE my_table;
+.. code-block:: SQL
+
+  REFRESH TABLE my_table;
 
 
 配置
@@ -2611,7 +2625,7 @@ Spark SQL对Hive最重要的一个支持就是可以和Hive metastore进行交�
 
 ==========================================      ==========================      ==========
 Property Name	                                  Default	                        Meaning
-==========================================
+==========================================      ==========================      ==========
 spark.sql.hive.metastore.version	              1.2.1	                          Version of the Hive metastore. Available options are 0.12.0 through 1.2.1.
 spark.sql.hive.metastore.jars	                  builtin	                        Location of the jars that should be used to instantiate the HiveMetastoreClient. This property can be one of three options:
                                                                                 builtin  Use Hive 1.2.1, which is bundled with the Spark assembly when -Phive is enabled. When this option is chosen, spark.sql.hive.metastore.version must be either 1.2.1 or not defined.
@@ -3056,7 +3070,7 @@ Spark 1.3之前的版本中有两个单独的Java兼容类（JavaSQLContext和Ja
 另外，移除了Java特有的类型API。Scala和Java用户都应该使用org.apache.spark.sql.types包中的类来编程式地描述schema。
 
 隔离隐式转换并删除dsl包(仅针对Scala)
----------------------------------
+--------------------------------------------------
 
 Spark 1.3版本之前的很多示例代码都以 import sqlContext._ 语句作为开头，这样会引入sqlContext的所有函数。在Spark 1.3版本中我们隔离了RDD到DataFrame的隐式转换，将其单独放到SQLContext内部的一个对象中。用户现在应该这样写：import sqlContext.implicits._。
 
@@ -3065,7 +3079,7 @@ Spark 1.3版本之前的很多示例代码都以 import sqlContext._ 语句作�
 使用 DSL（现在被DataFrame API取代）的内部方法时，用户需要引入 import org.apache.spark.sql.catalyst.dsl。而现在应该要使用公用的  DataFrame函数API：import org.apache.spark.sql.functions._
 
 移除org.apache.spark.sql中DataType的类型别名(仅针对Scala)
-------------------------------------------------------
+-------------------------------------------------------------
 
 Spark 1.3版本删除了基础sql包中DataType的类型别名。开发人员应该引入 org.apache.spark.sql.types 中的类。
 
@@ -3298,23 +3312,23 @@ Spark SQL 所有的数据类型都位于 pyspark.sql.types 包中。你可以使
 
   from pyspark.sql.types import *
 
-=======================================       ===================================               ===================================
-Data type	                                    Value type in Python	                            API to access or create a data type
-=======================================       ===================================               ===================================
-ByteType	                                    int or long                                       ByteType()
+=======================================       ======================================      ===================================
+Data type	                                    Value type in Python	                      API to access or create a data type
+=======================================       ======================================      ===================================
+ByteType	                                    int or long                                 ByteType()
                                               Note: Numbers will be converted
                                               to 1-byte signed integer numbers
                                               at runtime. Please make sure that
                                               numbers are within the range of
                                               -128 to 127.
-ShortType	                                    int or long                                       ShortType()
+ShortType	                                    int or long                                 ShortType()
                                               Note: Numbers will be converted to
                                               2-byte signed integer numbers at
                                               runtime. Please make sure that
                                               numbers are within the range of
                                               -32768 to 32767.
-IntegerType	                                  int or long	                                      IntegerType()
-LongType	                                    long                                              LongType()
+IntegerType	                                  int or long	                                IntegerType()
+LongType	                                    long                                        LongType()
                                               Note: Numbers will be converted to
                                               8-byte signed integer numbers at
                                               runtime. Please make sure that
@@ -3323,25 +3337,25 @@ LongType	                                    long                               
                                               9223372036854775807.
                                               Otherwise, please convert data to
                                               decimal.Decimal and use DecimalType.
-FloatType	                                    float                                             FloatType()
+FloatType	                                    float                                       FloatType()
                                               Note: Numbers will be converted to
                                               4-byte single-precision floating
                                               point numbers at runtime.
-DoubleType	                                  float	                                            DoubleType()
-DecimalType	                                  decimal.Decimal	                                  DecimalType()
-StringType	                                  string	                                          StringType()
-BinaryType	                                  bytearray	                                        BinaryType()
-BooleanType	                                  bool	                                            BooleanType()
-TimestampType	                                datetime.datetime	                                TimestampType()
-DateType	                                    datetime.date	                                    DateType()
-ArrayType	                                    list, tuple, or array	                            ArrayType(elementType, [containsNull]) Note: The default value of containsNull is True.
-MapType	                                      dict	                                            MapType(keyType, valueType, [valueContainsNull]) Note: The default value of valueContainsNull is True.
-StructType	                                  list or tuple	                                    StructType(fields) Note: fields is a Seq of StructFields. Also, two fields with the same name are not allowed.
-StructField	                                  The value type in Python of the data              StructField(name, dataType, [nullable]) Note: The default value of nullable is True.
+DoubleType	                                  float	                                      DoubleType()
+DecimalType	                                  decimal.Decimal	                            DecimalType()
+StringType	                                  string	                                    StringType()
+BinaryType	                                  bytearray	                                  BinaryType()
+BooleanType	                                  bool	                                      BooleanType()
+TimestampType	                                datetime.datetime	                          TimestampType()
+DateType	                                    datetime.date	                              DateType()
+ArrayType	                                    list, tuple, or array	                      ArrayType(elementType, [containsNull]) Note: The default value of containsNull is True.
+MapType	                                      dict	                                      MapType(keyType, valueType, [valueContainsNull]) Note: The default value of valueContainsNull is True.
+StructType	                                  list or tuple	                              StructType(fields) Note: fields is a Seq of StructFields. Also, two fields with the same name are not allowed.
+StructField                                   The value type in Python of the data
                                               type of this field (For example, Int
                                               for a StructField with the data type
                                               IntegerType)
-=======================================       ===================================               ===================================
+=======================================       ======================================      ===================================
 
 
 **R**
@@ -3384,9 +3398,9 @@ DateType	                                            Date	                      
 ArrayType	                                            vector or list	                                    list(type="array", elementType=elementType, containsNull=[containsNull]) Note: The default value of containsNull is TRUE.
 MapType	                                              environment	                                        list(type="map", keyType=keyType, valueType=valueType, valueContainsNull=[valueContainsNull]) Note: The default value of valueContainsNull is TRUE.
 StructType	                                          named list	                                        list(type="struct", fields=fields) Note: fields is a Seq of StructFields. Also, two fields with the same name are not allowed.
-StructField	                                          The value type in R of the data type of
+StructField	                                          The value type in R of the data type of             list(name=name, type=dataType, nullable=[nullable]) Note: The default value of nullable is TRUE.
                                                       this field (For example, integer for a
-                                                      StructField with the data type IntegerType)	        list(name=name, type=dataType, nullable=[nullable])Note: The default value of nullable is TRUE.
+                                                      StructField with the data type IntegerType)
 ===============================================       =============================================       ======================================
 
 NaN 语义

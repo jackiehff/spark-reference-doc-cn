@@ -11,7 +11,7 @@ RDD 编程指南
 
 总体上来说，每个 Spark 应用程序都包含一个驱动器（driver）程序，驱动器程序运行用户的 main 函数，并在集群上执行各种并行操作。Spark 最重要的一个抽象概念就是弹性分布式数据集（resilient distributed dataset – RDD）, RDD是一个可分区的元素集合，这些元素分布在集群的各个节点上，并且可以在这些元素上执行并行操作。RDD通常是通过HDFS（或者Hadoop支持的其它文件系统）上的文件，或者驱动器中的Scala集合对象来创建或转换得到；其次，用户也可以请求Spark将RDD持久化到内存里，以便在不同的并行操作里复用之；最后，RDD具备容错性，可以从节点失败中自动恢复。
 
-Spark第二个重要抽象概念是共享变量，共享变量是一种可以在并行操作之间共享使用的变量。默认情况下，当Spark把一系列任务调度到不同节点上运行时，Spark会同时把每个变量的副本和任务代码一起发送给各个节点。但有时候，我们需要在任务之间，或者任务和驱动器之间共享一些变量。Spark 支持两种类型的共享变量：广播变量 和 累加器，广播变量可以用于在各个节点上缓存数据，而累加器则是用来执行跨节点的 "累加" 操作，例如：计数和求和。
+Spark 第二个重要抽象概念是共享变量，共享变量是一种可以在并行操作之间共享使用的变量。默认情况下，当Spark把一系列任务调度到不同节点上运行时，Spark会同时把每个变量的副本和任务代码一起发送给各个节点。但有时候，我们需要在任务之间，或者任务和驱动器之间共享一些变量。Spark 支持两种类型的共享变量：广播变量 和 累加器，广播变量可以用于在各个节点上缓存数据，而累加器则是用来执行跨节点的 "累加" 操作，例如：计数和求和。
 
 本文将会使用 Spark 所支持的所有语言来展示 Spark 的这些特性。如果你能启动 Spark 的交互式shell动手实验一下，效果会更好（对于 Scala shell请使用bin/spark-shell，而对于python，请使用bin/pyspark）。
 
@@ -25,7 +25,7 @@ Scala
 
 Spark 2.2.1 使用了Scala 2.11。用Scala写应用的话，你需要使用一个兼容的 Scala 版本（如：2.11.X）
 
-同时，如果你需要在 maven 中依赖 Spark，可以用如下 maven 工件标识：
+同时，如果你需要在 Maven 中依赖 Spark，可以用如下 maven 构件标识：
 
 groupId = org.apache.spark
 artifactId = spark-core_2.11
@@ -94,7 +94,10 @@ If you wish to access HDFS data, you need to use a build of PySpark linking to y
 
 Finally, you need to import some Spark classes into your program. Add the following line:
 
-from pyspark import SparkContext, SparkConf
+.. code-block:: Python
+
+  from pyspark import SparkContext, SparkConf
+
 PySpark requires the same minor version of Python in both driver and workers. It uses the default python version in PATH, you can specify which version of Python you want to use by PYSPARK_PYTHON, for example:
 
 .. code-block:: Shell

@@ -66,7 +66,7 @@ Spark 中所有功能的入口是 SparkSession 类。要创建一个基本的 Sp
   // For implicit conversions like converting RDDs to DataFrames
   import spark.implicits._
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 
 * **Java**
@@ -83,7 +83,7 @@ Spark 中所有功能的入口是 SparkSession 类。To create a basic SparkSess
     .config("spark.some.config.option", "some-value")
     .getOrCreate();
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
 * **Python**
 
@@ -99,7 +99,7 @@ Spark 中所有功能的入口是 SparkSession 类。To create a basic SparkSess
       .config("spark.some.config.option", "some-value") \
       .getOrCreate()
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/basic.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
 * **R**
 
@@ -109,7 +109,7 @@ Spark 中所有功能的入口是 SparkSession 类。To initialize a basic Spark
 
   sparkR.session(appName = "R Spark SQL basic example", sparkConfig = list(spark.some.config.option = "some-value"))
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/r/RSparkSQLExample.R" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 :attention: when invoked for the first time, sparkR.session() initializes a global SparkSession singleton instance, and always returns a reference to this instance for successive invocations. In this way, users only need to initialize the SparkSession once, then SparkR functions like read.df will be able to access this global instance implicitly, and users don’t need to pass the SparkSession instance around.
 
@@ -140,7 +140,7 @@ As an example, the following creates a DataFrame based on the content of a JSON 
   // |  19| Justin|
   // +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 * **Java**
 
@@ -165,7 +165,7 @@ As an example, the following creates a DataFrame based on the content of a JSON 
   // |  19| Justin|
   // +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
 * **Python**
 
@@ -187,7 +187,7 @@ As an example, the following creates a DataFrame based on the content of a JSON 
   # |  19| Justin|
   # +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/basic.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
 * **R**
 
@@ -216,7 +216,7 @@ As an example, the following creates a DataFrame based on the content of a JSON 
   ## |  19| Justin|
   ## +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/r/RSparkSQLExample.R" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 
 Untyped Dataset Operations (aka DataFrame Operations)
@@ -279,7 +279,7 @@ Here we include some basic examples of structured data processing using Datasets
   // |  30|    1|
   // +----+-----+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 
 * **Java**
@@ -333,7 +333,7 @@ Here we include some basic examples of structured data processing using Datasets
   // |  30|    1|
   // +----+-----+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
 
 * **Python**
@@ -387,7 +387,7 @@ In Python it’s possible to access a DataFrame’s columns either by attribute 
   # |  30|    1|
   # +----+-----+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/basic.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
 
 * **R**
@@ -437,7 +437,7 @@ In Python it’s possible to access a DataFrame’s columns either by attribute 
   ## 2  NA     1
   ## 3  30     1
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/r/RSparkSQLExample.R" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 
 Running SQL Queries Programmatically
@@ -462,7 +462,7 @@ The sql function on a SparkSession enables applications to run SQL queries progr
   // |  19| Justin|
   // +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 
 * **Java**
@@ -487,7 +487,7 @@ The sql function on a SparkSession enables applications to run SQL queries progr
   // |  19| Justin|
   // +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
 * **Python**
 
@@ -508,7 +508,7 @@ The sql function on a SparkSession enables applications to run SQL queries progr
   # |  19| Justin|
   # +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/basic.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
 
 * R
@@ -519,7 +519,7 @@ The sql function enables applications to run SQL queries programmatically and re
 
   df <- sql("SELECT * FROM table")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/r/RSparkSQLExample.R" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 
 Global Temporary View
@@ -554,7 +554,7 @@ Temporary views in Spark SQL are session-scoped and will disappear if the sessio
   // |  19| Justin|
   // +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 * **Java**
 
@@ -583,7 +583,7 @@ Temporary views in Spark SQL are session-scoped and will disappear if the sessio
   // |  19| Justin|
   // +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
 * **Python**
 
@@ -612,7 +612,7 @@ Temporary views in Spark SQL are session-scoped and will disappear if the sessio
   # |  19| Justin|
   # +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/basic.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
 * **Sql**
 
@@ -660,7 +660,7 @@ Datasets are similar to RDDs, however, instead of using Java serialization or Kr
   // |  19| Justin|
   // +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 * **Java**
 
@@ -735,7 +735,7 @@ Datasets are similar to RDDs, however, instead of using Java serialization or Kr
   // |  19| Justin|
   // +----+-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
 
 与 RDD 互操作
@@ -794,7 +794,7 @@ The Scala interface for Spark SQL supports automatically converting an RDD conta
   teenagersDF.map(teenager => teenager.getValuesMap[Any](List("name", "age"))).collect()
   // Array(Map("name" -> "Justin", "age" -> 19))
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 
 * **Java**
@@ -854,7 +854,7 @@ Spark SQL supports automatically converting an RDD of JavaBeans into a DataFrame
   // |Name: Justin|
   // +------------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
 
 * **Python**
@@ -886,7 +886,7 @@ Spark SQL can convert an RDD of Row objects to a DataFrame, inferring the dataty
       print(name)
   # Name: Justin
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/basic.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
 
 Programmatically Specifying the Schema
@@ -941,7 +941,7 @@ For example:
   // | Name: Justin|
   // +-------------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 
 * **Java**
@@ -1013,7 +1013,7 @@ For example:
   // | Name: Justin|
   // +-------------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" 文件。
 
 
 * **Python**
@@ -1062,7 +1062,7 @@ For example:
   # | Justin|
   # +-------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/basic.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/basic.py" 文件。
 
 
 聚合
@@ -1143,7 +1143,7 @@ Users have to extend the UserDefinedAggregateFunction abstract class to implemen
   // |        3750.0|
   // +--------------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/UserDefinedUntypedAggregation.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/UserDefinedUntypedAggregation.scala" 文件。
 
 
 * **Java**
@@ -1247,7 +1247,7 @@ Users have to extend the UserDefinedAggregateFunction abstract class to implemen
   // |        3750.0|
   // +--------------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaUserDefinedUntypedAggregation.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaUserDefinedUntypedAggregation.java" 文件。
 
 
 Type-Safe User-Defined Aggregate Functions
@@ -1312,7 +1312,7 @@ User-defined aggregations for strongly typed Datasets revolve around the Aggrega
   // |        3750.0|
   // +--------------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/UserDefinedTypedAggregation.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/UserDefinedTypedAggregation.scala" 文件。
 
 
 * **Java**
@@ -1404,7 +1404,7 @@ User-defined aggregations for strongly typed Datasets revolve around the Aggrega
   // |        3750.0|
   // +--------------+
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaUserDefinedTypedAggregation.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaUserDefinedTypedAggregation.java" 文件。
 
 
 *****************
@@ -1426,7 +1426,7 @@ In the simplest form, the default data source (parquet unless otherwise configur
   val usersDF = spark.read.load("examples/src/main/resources/users.parquet")
   usersDF.select("name", "favorite_color").write.save("namesAndFavColors.parquet")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 
 * **Java**
 
@@ -1435,7 +1435,7 @@ In the simplest form, the default data source (parquet unless otherwise configur
   Dataset<Row> usersDF = spark.read().load("examples/src/main/resources/users.parquet");
   usersDF.select("name", "favorite_color").write().save("namesAndFavColors.parquet");
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 
 * **Python**
 
@@ -1444,7 +1444,7 @@ In the simplest form, the default data source (parquet unless otherwise configur
   df = spark.read.load("examples/src/main/resources/users.parquet")
   df.select("name", "favorite_color").write.save("namesAndFavColors.parquet")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/datasource.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 
 * **R**
 
@@ -1453,7 +1453,7 @@ In the simplest form, the default data source (parquet unless otherwise configur
   df <- read.df("examples/src/main/resources/users.parquet")
   write.df(select(df, "name", "favorite_color"), "namesAndFavColors.parquet")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/r/RSparkSQLExample.R" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 
 Manually Specifying Options
@@ -1468,7 +1468,7 @@ You can also manually specify the data source that will be used along with any e
   val peopleDF = spark.read.format("json").load("examples/src/main/resources/people.json")
   peopleDF.select("name", "age").write.format("parquet").save("namesAndAges.parquet")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 
 * **Java**
 
@@ -1478,7 +1478,7 @@ You can also manually specify the data source that will be used along with any e
     spark.read().format("json").load("examples/src/main/resources/people.json");
   peopleDF.select("name", "age").write().format("parquet").save("namesAndAges.parquet");
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 
 * **Python**
 
@@ -1487,7 +1487,7 @@ You can also manually specify the data source that will be used along with any e
   df = spark.read.load("examples/src/main/resources/people.json", format="json")
   df.select("name", "age").write.save("namesAndAges.parquet", format="parquet")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/datasource.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 
 * **R**
 
@@ -1497,7 +1497,7 @@ You can also manually specify the data source that will be used along with any e
   namesAndAges <- select(df, "name", "age")
   write.df(namesAndAges, "namesAndAges.parquet", "parquet")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/r/RSparkSQLExample.R" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 
 Run SQL on files directly
@@ -1511,7 +1511,7 @@ Instead of using read API to load a file into DataFrame and query it, you can al
 
   val sqlDF = spark.sql("SELECT * FROM parquet.`examples/src/main/resources/users.parquet`")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 
 
 * **Java**
@@ -1521,7 +1521,7 @@ Instead of using read API to load a file into DataFrame and query it, you can al
   Dataset<Row> sqlDF =
     spark.sql("SELECT * FROM parquet.`examples/src/main/resources/users.parquet`");
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 
 * **Python**
 
@@ -1529,7 +1529,7 @@ Instead of using read API to load a file into DataFrame and query it, you can al
 
   df = spark.sql("SELECT * FROM parquet.`examples/src/main/resources/users.parquet`")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/datasource.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 
 * **R**
 ^^^^^^^
@@ -1538,7 +1538,7 @@ Instead of using read API to load a file into DataFrame and query it, you can al
 
   df <- sql("SELECT * FROM parquet.`examples/src/main/resources/users.parquet`")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/r/RSparkSQLExample.R" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 
 Save Modes
@@ -1579,7 +1579,7 @@ For file-based data source, it is also possible to bucket and sort or partition 
 
   peopleDF.write.bucketBy(42, "name").sortBy("age").saveAsTable("people_bucketed")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 
 while partitioning can be used with both save and saveAsTable when using the Dataset APIs.
 
@@ -1587,7 +1587,7 @@ while partitioning can be used with both save and saveAsTable when using the Dat
 
   usersDF.write.partitionBy("favorite_color").format("parquet").save("namesPartByColor.parquet")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 It is possible to use both partitioning and bucketing for a single table:
 
 .. code-block:: Scala
@@ -1598,7 +1598,7 @@ It is possible to use both partitioning and bucketing for a single table:
     .bucketBy(42, "name")
     .saveAsTable("people_partitioned_bucketed")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件。
 partitionBy creates a directory structure as described in the Partition Discovery section. Thus, it has limited applicability to columns with high cardinality. In contrast bucketBy distributes data across a fixed number of buckets and can be used when a number of unique values is unbounded.
 
 * **Java**
@@ -1607,7 +1607,7 @@ partitionBy creates a directory structure as described in the Partition Discover
 
   peopleDF.write().bucketBy(42, "name").sortBy("age").saveAsTable("people_bucketed");
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 while partitioning can be used with both save and saveAsTable when using the Dataset APIs.
 
 .. code-block:: Java
@@ -1617,7 +1617,7 @@ while partitioning can be used with both save and saveAsTable when using the Dat
     .format("parquet")
     .save("namesPartByColor.parquet");
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 It is possible to use both partitioning and bucketing for a single table:
 
 .. code-block:: Java
@@ -1628,7 +1628,7 @@ It is possible to use both partitioning and bucketing for a single table:
     .bucketBy(42, "name")
     .saveAsTable("people_partitioned_bucketed");
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 partitionBy creates a directory structure as described in the Partition Discovery section. Thus, it has limited applicability to columns with high cardinality. In contrast bucketBy distributes data across a fixed number of buckets and can be used when a number of unique values is unbounded.
 
 
@@ -1638,14 +1638,14 @@ partitionBy creates a directory structure as described in the Partition Discover
 
   df.write.bucketBy(42, "name").sortBy("age").saveAsTable("people_bucketed")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/datasource.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 while partitioning can be used with both save and saveAsTable when using the Dataset APIs.
 
 .. code-block:: Python
 
   df.write.partitionBy("favorite_color").format("parquet").save("namesPartByColor.parquet")
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/datasource.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 It is possible to use both partitioning and bucketing for a single table:
 
 .. code-block:: Python
@@ -1657,7 +1657,7 @@ It is possible to use both partitioning and bucketing for a single table:
       .bucketBy(42, "name")
       .saveAsTable("people_partitioned_bucketed"))
 
-完整的示例代码可以在 Spark 代码仓库中 "examples/src/main/python/sql/datasource.py" 文件中找到。
+完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/python/sql/datasource.py" 文件。
 partitionBy creates a directory structure as described in the Partition Discovery section. Thus, it has limited applicability to columns with high cardinality. In contrast bucketBy distributes data across a fixed number of buckets and can be used when a number of unique values is unbounded.
 
 * **Sql**
@@ -1798,7 +1798,7 @@ Parquet 是一种列式存储格式，很多其它的数据处理系统都支持
   # |Justin|
   # +------+
 
-Find full example code at "examples/src/main/python/sql/datasource.py" in the Spark repo.
+完整示例代码参见 Spark  源码仓库中的的 "examples/src/main/python/sql/datasource.py" 文件
 
 * **R**
 
@@ -1830,7 +1830,7 @@ Find full example code at "examples/src/main/python/sql/datasource.py" in the Sp
   ## Name: Andy
   ## Name: Justin
 
-Find full example code at "examples/src/main/r/RSparkSQLExample.R" in the Spark repo.
+完整示例代码参见 Spark  源码仓库中的的 "examples/src/main/r/RSparkSQLExample.R" 文件
 
 * **Sql**
 
@@ -2021,7 +2021,7 @@ Schema合并
   #  |-- triple: long (nullable = true)
   #  |-- key: integer (nullable = true)
 
-Find full example code at "examples/src/main/python/sql/datasource.py" in the Spark repo.
+完整示例代码参见 Spark  源码仓库中的的 "examples/src/main/python/sql/datasource.py" 文件
 
 * **R**
 
@@ -2048,7 +2048,7 @@ Find full example code at "examples/src/main/python/sql/datasource.py" in the Sp
   ##  |-- triple: double (nullable = true)
   ##  |-- key: integer (nullable = true)
 
-Find full example code at "examples/src/main/r/RSparkSQLExample.R" in the Spark repo.
+完整示例代码参见 Spark  源码仓库中的的 "examples/src/main/r/RSparkSQLExample.R" 文件
 
 
 Hive metastore Parquet表转换
@@ -2258,7 +2258,7 @@ Spark SQL可以自动推导JSON数据集的schema并且将其加载为一个 Dat
   # |[Columbus,Ohio]| Yin|
   # +---------------+----+
 
-Find full example code at "examples/src/main/python/sql/datasource.py" in the Spark repo.
+完整示例代码参见 Spark  源码仓库中的的 "examples/src/main/python/sql/datasource.py" 文件
 
 * **R**
 
@@ -2291,7 +2291,7 @@ For a regular multi-line JSON file, set a named parameter multiLine to TRUE.
   ##     name
   ## 1 Justin
 
-Find full example code at "examples/src/main/r/RSparkSQLExample.R" in the Spark repo.
+完整示例代码参见 Spark  源码仓库中的的 "examples/src/main/r/RSparkSQLExample.R" 文件
 
 * **Sql**
 
@@ -2565,7 +2565,7 @@ Hive配置是通过将 hive-site.xml，core-site.xml（用于安全配置）以�
   # |  5| val_5|  5| val_5|
   # ...
 
-Find full example code at "examples/src/main/python/sql/hive.py" in the Spark repo.
+完整示例代码参见 Spark  源码仓库中的的 "examples/src/main/python/sql/hive.py" 文件
 
 * **R**
 
@@ -2581,7 +2581,7 @@ When working with Hive one must instantiate SparkSession with Hive support. This
   # Queries can be expressed in HiveQL.
   results <- collect(sql("FROM src SELECT key, value"))
 
-Find full example code at "examples/src/main/r/RSparkSQLExample.R" in the Spark repo.
+完整示例代码参见 Spark 源码仓库中的的 "examples/src/main/r/RSparkSQLExample.R" 文件
 
 
 Specifying storage format for Hive tables
@@ -2691,7 +2691,7 @@ createTableColumnTypes	                          The database column data types 
     .option("createTableColumnTypes", "name CHAR(64), comments VARCHAR(1024)")
     .jdbc("jdbc:postgresql:dbserver", "schema.tablename", connectionProperties)
 
-Find full example code at "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" in the Spark repo.
+完整示例代码参见 Spark 源码仓库中的的 "examples/src/main/scala/org/apache/spark/examples/sql/SQLDataSourceExample.scala" 文件
 
 * **Java**
 
@@ -2730,7 +2730,7 @@ Find full example code at "examples/src/main/scala/org/apache/spark/examples/sql
     .option("createTableColumnTypes", "name CHAR(64), comments VARCHAR(1024)")
     .jdbc("jdbc:postgresql:dbserver", "schema.tablename", connectionProperties);
 
-Find full example code at "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" in the Spark repo.
+完整示例代码参见 Spark 源码仓库中的的 "examples/src/main/java/org/apache/spark/examples/sql/JavaSQLDataSourceExample.java" 文件。
 
 * **Python**
 
@@ -2769,7 +2769,7 @@ Find full example code at "examples/src/main/java/org/apache/spark/examples/sql/
       .jdbc("jdbc:postgresql:dbserver", "schema.tablename",
             properties={"user": "username", "password": "password"})
 
-Find full example code at "examples/src/main/python/sql/datasource.py" in the Spark repo.
+完整示例代码参见 Spark 源码仓库中的的 "examples/src/main/python/sql/datasource.py" 文件。
 
 * **R**
 
@@ -2781,7 +2781,7 @@ Find full example code at "examples/src/main/python/sql/datasource.py" in the Sp
   # Saving data to a JDBC source
   write.jdbc(df, "jdbc:postgresql:dbserver", "schema.tablename", user = "username", password = "password")
 
-Find full example code at "examples/src/main/r/RSparkSQLExample.R" in the Spark repo.
+完整示例代码参见 Spark 源码仓库中的的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 * **Sql**
 
@@ -2972,54 +2972,63 @@ Spark SQL 从 1.3 版本升级到 1.4 版本
 =========================================
 
 DataFrame数据读写接口
+---------------------------
 
 根据用户的反馈，我们提供了一个用于数据读入（SQLContext.read）和数据写出（DataFrame.write）的新的、更加流畅的API，同时老的API（如：SQLCOntext.parquetFile, SQLContext.jsonFile）将被废弃。
 
 有关 SQLContext.read ( Scala, Java, Python ) 和 DataFrame.write ( Scala, Java, Python ) 的更多信息，请参考API文档。
 
 DataFrame.groupBy保留分组的列
+------------------------------
 
 根据用户的反馈，我们改变了DataFrame.groupBy().agg()的默认行为，就是在返回的DataFrame结果中保留分组的列。如果你想保持1.3版本中的行为，可以将spark.sql.retainGroupColumns设置为false。
 
 * **Scala**
 
-// In 1.3.x, in order for the grouping column "department" to show up,
-// it must be included explicitly as part of the agg function call.
-df.groupBy("department").agg($"department", max("age"), sum("expense"))
+.. code-block:: Scala
 
-// In 1.4+, grouping column "department" is included automatically.
-df.groupBy("department").agg(max("age"), sum("expense"))
+  // In 1.3.x, in order for the grouping column "department" to show up,
+  // it must be included explicitly as part of the agg function call.
+  df.groupBy("department").agg($"department", max("age"), sum("expense"))
 
-// Revert to 1.3 behavior (not retaining grouping column) by:
-sqlContext.setConf("spark.sql.retainGroupColumns", "false")
+  // In 1.4+, grouping column "department" is included automatically.
+  df.groupBy("department").agg(max("age"), sum("expense"))
+
+  // Revert to 1.3 behavior (not retaining grouping column) by:
+  sqlContext.setConf("spark.sql.retainGroupColumns", "false")
 
 * **Java**
 
-// In 1.3.x, in order for the grouping column "department" to show up,
-// it must be included explicitly as part of the agg function call.
-df.groupBy("department").agg(col("department"), max("age"), sum("expense"));
+.. code-block:: Java
 
-// In 1.4+, grouping column "department" is included automatically.
-df.groupBy("department").agg(max("age"), sum("expense"));
+  // In 1.3.x, in order for the grouping column "department" to show up,
+  // it must be included explicitly as part of the agg function call.
+  df.groupBy("department").agg(col("department"), max("age"), sum("expense"));
 
-// Revert to 1.3 behavior (not retaining grouping column) by:
-sqlContext.setConf("spark.sql.retainGroupColumns", "false");
+  // In 1.4+, grouping column "department" is included automatically.
+  df.groupBy("department").agg(max("age"), sum("expense"));
+
+  // Revert to 1.3 behavior (not retaining grouping column) by:
+  sqlContext.setConf("spark.sql.retainGroupColumns", "false");
 
 * **Python**
 
-import pyspark.sql.functions as func
+.. code-block:: Python
 
-# In 1.3.x, in order for the grouping column "department" to show up,
-# it must be included explicitly as part of the agg function call.
-df.groupBy("department").agg(df["department"], func.max("age"), func.sum("expense"))
+  import pyspark.sql.functions as func
 
-# In 1.4+, grouping column "department" is included automatically.
-df.groupBy("department").agg(func.max("age"), func.sum("expense"))
+  # In 1.3.x, in order for the grouping column "department" to show up,
+  # it must be included explicitly as part of the agg function call.
+  df.groupBy("department").agg(df["department"], func.max("age"), func.sum("expense"))
 
-# Revert to 1.3.x behavior (not retaining grouping column) by:
-sqlContext.setConf("spark.sql.retainGroupColumns", "false")
+  # In 1.4+, grouping column "department" is included automatically.
+  df.groupBy("department").agg(func.max("age"), func.sum("expense"))
+
+  # Revert to 1.3.x behavior (not retaining grouping column) by:
+  sqlContext.setConf("spark.sql.retainGroupColumns", "false")
 
 Behavior change on DataFrame.withColumn
+-------------------------------------------
 
 1.4版本之前, DataFrame.withColumn() 只支持新增一列。在DataFrame结果中指定名称的列总是作为一个新列添加进来，即使已经存在了相同名称的列。从1.4版本开始, DataFrame.withColumn() 支持新增一个和现有列名不重复的新列和替换有相同名称的列。
 
@@ -3031,18 +3040,21 @@ Spark SQL 从 1.0-1.2 版本升级到 1.3 版本
 Spark 1.3版本我们去掉了Spark SQL的 ”Alpha“ 标签并且作为其中的一部分我们在现有的API上做了清理。从Spark 1.3版本开始，Spark SQL将提供1.x系列中其它发行版本的二进制兼容。这个兼容性保证不包括显式地标注为不稳定（例如：DeveloperAPI 或 Experimental）的API。
 
 SchemaRDD重命名为DataFrame
+--------------------------
 
 升级到Spark SQL 1.3后，用户将会注意到最大的改动就是 SchemaRDD 改名为 DataFrame。主要原因是DataFrame不再直接继承于RDD，而是通过自己的实现来提供RDD中提供的绝大多数功能。通过调用 .rdd 方法 DataFrame 仍然可以转换成RDD。
 
 在Scala中有一个从SchemaRDD到DataFrame的类型别名来提供某些使用场景下的代码兼容性。但仍然建议用户在代码中改用DataFrame。Java和Python用户必须要修改代码。
 
 统一Java和Scala API
+--------------------------
 
 Spark 1.3之前的版本中有两个单独的Java兼容类（JavaSQLContext和JavaSchemaRDD）可以映射到 Scala API。Spark 1.3版本将Java API和Scala API进行了统一。两种语言的用户都应该使用SQLContext和DataFrame。通常情况下这些类都会使用两种语言中都支持的类型（例如：使用Array来取代语言特有的集合）。有些情况下没有通用的类型（例如：闭包或maps中用于传值），则会使用函数重载。
 
 另外，移除了Java特有的类型API。Scala和Java用户都应该使用org.apache.spark.sql.types包中的类来编程式地描述schema。
 
 隔离隐式转换并删除dsl包(仅针对Scala)
+---------------------------------
 
 Spark 1.3版本之前的很多示例代码都以 import sqlContext._ 语句作为开头，这样会引入sqlContext的所有函数。在Spark 1.3版本中我们隔离了RDD到DataFrame的隐式转换，将其单独放到SQLContext内部的一个对象中。用户现在应该这样写：import sqlContext.implicits._。
 
@@ -3051,32 +3063,35 @@ Spark 1.3版本之前的很多示例代码都以 import sqlContext._ 语句作�
 使用 DSL（现在被DataFrame API取代）的内部方法时，用户需要引入 import org.apache.spark.sql.catalyst.dsl。而现在应该要使用公用的  DataFrame函数API：import org.apache.spark.sql.functions._
 
 移除org.apache.spark.sql中DataType的类型别名(仅针对Scala)
+------------------------------------------------------
 
 Spark 1.3版本删除了基础sql包中DataType的类型别名。开发人员应该引入 org.apache.spark.sql.types 中的类。
 
 UDF注册迁移到sqlContext.udf中(Java&Scala)
+--------------------------------------------
 
 用于注册UDF的函数，不管是DataFrame DSL还是SQL中用到的，都被迁移到SQLContext中的udf对象中。
 
-* Scala
+* **Scala**
 
 sqlContext.udf.register("strLen", (s: String) => s.length())
 
-* Java
+* **Java**
 
 sqlContext.udf().register("strLen", (String s) -> s.length(), DataTypes.IntegerType);
 
 Python UDF注册保持不变。
 
 Python的DataType不再是单例的
+-----------------------------
 
-在Python中使用DataTypes时，你需要先构造它们（如：StringType()），而不是引用一个单例对象。
+在 Python 中使用DataTypes时，你需要先构造它们（如：StringType()），而不是引用一个单例对象。
 
 
 兼容Apache Hive
 =========================================
 
-Spark SQL在设计时就考虑到了和Hive metastore，SerDes以及UDF之间的兼容性。目前 Hive SerDes 和 UDF 都是基于Hive 1.2.1版本，并且Spark SQL可以连接到不同版本的Hive metastore（从0.12.0到1.2.1，可以参考[与不同版本的Hive Metastore交互]）
+Spark SQL 在设计时就考虑到了和 Hive metastore，SerDes 以及 UDF 之间的兼容性。目前 Hive SerDes 和 UDF 都是基于Hive 1.2.1版本，并且Spark SQL可以连接到不同版本的Hive metastore（从0.12.0到1.2.1，可以参考[与不同版本的Hive Metastore交互]）
 
 在已有的Hive仓库中部署
 -----------------------

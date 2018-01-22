@@ -407,7 +407,7 @@ Spark 还支持把数据集拉到集群范围的内存缓存中。当数据需�
 恭喜您成功运行您的第一个 Spark 应用程序！
 
 * 如果想深入了解 Spark API, 可以从 :ref:`rdd_programming_guide` 和 :ref:`sql_programming_guide`，或者在 "Programming Guides" 菜单下查找其它组件。
-* 如果想了解如何在集群上运行 Spark 应用程序，请前往：:ref:`cluster_overview` 。
+* 如果想了解如何在集群上运行 Spark 应用程序，请前往：:ref:`cluster_overview`。
 * 最后，Spark examples 目录下包含了多个编程语言(Scala, Java, Python, R)版本的示例程序，你可以像下面这样运行它们：
 
 .. code-block:: Shell

@@ -22,9 +22,9 @@ Spark 第二个重要抽象概念是共享变量，共享变量是一种可以�
 
 * **Scala**
 
-Spark 2.2.1 使用了Scala 2.11。用Scala写应用的话，你需要使用一个兼容的 Scala 版本(如：2.11.X)
+Spark 2.2.1 默认使用 Scala 2.11 版本进行构建和分发的。(Spark 也可以使用其它版本的 Scala 进行构建)如果想用 Scala 写应用程序，你需要使用兼容的 Scala 版本(如：2.11.X)
 
-同时，如果你需要在 Maven 中添加 Spark 依赖，可以使用如下 Maven 坐标：
+要编写 Spark 应用程序，你需要添加 Spark 的 Maven 依赖。Spark 依赖可以通过以下 Maven 坐标从 Maven 中央仓库中获得：
 
 .. code-block:: TEXT
 
@@ -32,7 +32,7 @@ Spark 2.2.1 使用了Scala 2.11。用Scala写应用的话，你需要使用一�
   artifactId = spark-core_2.11
   version = 2.2.1
 
-另外，如果你想要访问 HDFS 集群，那么你需要增加相应版本的 hadoop-client 依赖项，其 Maven 坐标如下：
+另外，如果你想要访问 HDFS 集群，那么需要添加对应 HDFS 版本的 hadoop-client 依赖。
 
 .. code-block:: TEXT
 
@@ -40,19 +40,22 @@ Spark 2.2.1 使用了Scala 2.11。用Scala写应用的话，你需要使用一�
   artifactId = hadoop-client
   version = <your-hdfs-version>
 
-最后，你需要在代码中导入以下 Spark 类：
+最后，你需要在程序中添加下面几行来引入一些 Spark 类：
 
 .. code-block:: Scala
 
   import org.apache.spark.SparkContext
   import org.apache.spark.SparkConf
 
-(在Spark 1.3.0之前，你需要显示的 import org.apache.spark.SparkContext._ 来启用必要的隐式转换)
+(在 Spark 1.3.0 版本之前，你需要显示地 import org.apache.spark.SparkContext._ 来启用必要的隐式转换)
 
 * **Java**
 
-Spark 2.2.1 需要 Java 7 以及更高版本.如果你正在使用 Java 8, Spark 支持 lambda表达式 以便于简洁地编写函数, 否则的话你可以使用 org.apache.spark.api.java.function 包中的类.
-要使用Java来编写一个Spark应用程序, 你需要添加一个Spark的依赖. 可以使用以下坐标在Maven中央仓库中下载Spark依赖:
+Spark 2.2.1 对 `Lambda 表达式 <https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html>`_ 的支持可以让我们很简洁地编写函数, 否则的话你可以使用 `org.apache.spark.api.java.function <http://spark.apache.org/docs/latest/api/java/index.html?org/apache/spark/api/java/function/package-summary.html>`_ 包中的类.
+
+:attention: Spark 2.2.0 版本中已经移除对 Java 7 的支持。
+
+要使用 Java 来编写 Spark 应用程序，你需要添加 Spark 的 Maven 依赖。Spark 依赖可以通过以下 Maven 坐标从 Maven 中央仓库中获得:
 
 .. code-block:: TEXT
 
@@ -60,7 +63,7 @@ Spark 2.2.1 需要 Java 7 以及更高版本.如果你正在使用 Java 8, Spark
   artifactId = spark-core_2.11
   version = 2.2.1
 
-另外, 如果你想要访问 HDFS 集群, 你还需要添加和你 HDFS 版本对应的 hadoop-client 依赖.
+另外，如果你想要访问 HDFS 集群，那么需要添加对应 HDFS 版本的 hadoop-client 依赖。
 
 .. code-block:: TEXT
 
@@ -68,7 +71,7 @@ Spark 2.2.1 需要 Java 7 以及更高版本.如果你正在使用 Java 8, Spark
   artifactId = hadoop-client
   version = <your-hdfs-version>
 
-最后, 你需要在程序中引入Spark的几个类. 添加下面几行:
+最后，你需要在程序中添加下面几行来引入一些 Spark 类：
 
 .. code-block:: Java
 
@@ -79,11 +82,11 @@ Spark 2.2.1 需要 Java 7 以及更高版本.如果你正在使用 Java 8, Spark
 
 * **Python**
 
-Spark 2.2.1 works with Python 2.7+ or Python 3.4+. It can use the standard CPython interpreter, so C libraries like NumPy can be used. It also works with PyPy 2.3+.
+Spark 2.2.1 适用于 Python 2.7 及以上版本 或 Python 3.4 及以上版本。它可以使用标准的 CPython 解释器, 因此我们可以使用像 NumPy 这样的 C 语言库。它也适用 PyPy 2.3 及以上版本。
 
-Python 2.6 support was removed in Spark 2.2.0.
+Spark 2.2.0 版本中移除了对 Python 2.6 的支持。
 
-Spark applications in Python can either be run with the bin/spark-submit script which includes Spark at runtime, or by including including it in your setup.py as:
+使用 Python 编写的 Spark 应用程序既可以使用在运行时包含 Spark 的 bin/spark-submit 脚本运行, 也可以像下面这样通过在 setup.py 文件中包含它:
 
 .. code-block:: Python
 
@@ -93,15 +96,15 @@ Spark applications in Python can either be run with the bin/spark-submit script 
 
 To run Spark applications in Python without pip installing PySpark, use the bin/spark-submit script located in the Spark directory. This script will load Spark’s Java/Scala libraries and allow you to submit applications to a cluster. You can also use bin/pyspark to launch an interactive Python shell.
 
-If you wish to access HDFS data, you need to use a build of PySpark linking to your version of HDFS. Prebuilt packages are also available on the Spark homepage for common HDFS versions.
+如果你想要访问 HDFS 数据, you need to use a build of PySpark linking to your version of HDFS. Prebuilt packages are also available on the Spark homepage for common HDFS versions.
 
-Finally, you need to import some Spark classes into your program. Add the following line:
+最后, 你需要添加下面这行来在程序中引入一些 Spark 类:
 
 .. code-block:: Python
 
   from pyspark import SparkContext, SparkConf
 
-PySpark requires the same minor version of Python in both driver and workers. It uses the default python version in PATH, you can specify which version of Python you want to use by PYSPARK_PYTHON, for example:
+PySpark requires the same minor version of Python in both driver and workers. 它使用 PATH 中默认的 Python 版本, 你也可以通过 PYSPARK_PYTHON 指定你想要使用的 Python 版本, 例如:
 
 .. code-block:: Shell
 
@@ -115,7 +118,7 @@ PySpark requires the same minor version of Python in both driver and workers. It
 
 * **Scala**
 
-Spark 应用程序需要做的第一件事就是创建一个 SparkContext 对象，SparkContext 对象决定了 Spark 如何访问集群。而要新建一个 SparkContext 对象，你还得需要构造一个 SparkConf 对象，SparkConf对象包含了你的应用程序的配置信息。
+Spark 程序需要做的第一件事就是创建一个 SparkContext 对象，SparkContext 对象决定了 Spark 如何访问集群。而要新建一个 SparkContext 对象，你还得需要构造一个 SparkConf 对象，SparkConf对象包含了你的应用程序的配置信息。
 
 每个JVM进程中，只能有一个活跃（active）的 SparkContext 对象。如果你非要再新建一个，那首先必须将之前那个活跃的 SparkContext 对象stop()掉。
 
@@ -126,7 +129,7 @@ Spark 应用程序需要做的第一件事就是创建一个 SparkContext 对象
 
 * **Java**
 
-The first thing a Spark program must do is to create a JavaSparkContext object, which tells Spark how to access a cluster. To create a SparkContext you first need to build a SparkConf object that contains information about your application.
+Spark 程序需要做的第一件事就是创建一个 JavaSparkContext 对象, which tells Spark how to access a cluster. To create a SparkContext you first need to build a SparkConf object that contains information about your application.
 
 .. code-block:: Java
 
@@ -135,7 +138,7 @@ The first thing a Spark program must do is to create a JavaSparkContext object, 
 
 * **Python**
 
-The first thing a Spark program must do is to create a SparkContext object, which tells Spark how to access a cluster. To create a SparkContext you first need to build a SparkConf object that contains information about your application.
+Spark 程序需要做的第一件事就是创建一个 SparkContext 对象, which tells Spark how to access a cluster. To create a SparkContext you first need to build a SparkConf object that contains information about your application.
 
 .. code-block:: Python
 
@@ -151,7 +154,7 @@ appName 参数值是你的应用展示在集群UI上的应用名称。master参�
 
 * **Scala**
 
-在Spark Shell中，默认已经为你新建了一个 SparkContext 对象，变量名为sc。所以 spark-shell 里不能自建SparkContext对象。你可以通过–master参数设置要连接到哪个集群，而且可以给–jars参数传一个逗号分隔的jar包列表，以便将这些jar包加到classpath中。你还可以通过–packages设置逗号分隔的maven工件列表，以便增加额外的依赖项。同样，还可以通过–repositories参数增加maven repository地址。下面是一个示例，在本地4个CPU core上运行的实例：
+在 Spark Shell 中，默认已经为你新建了一个 SparkContext 对象，变量名为sc。所以 spark-shell 里不能自建SparkContext对象。你可以通过–master参数设置要连接到哪个集群，而且可以给–jars参数传一个逗号分隔的jar包列表，以便将这些jar包加到classpath中。你还可以通过–packages设置逗号分隔的maven工件列表，以便增加额外的依赖项。同样，还可以通过–repositories参数增加maven repository地址。下面是一个示例，在本地4个CPU core上运行的实例：
 
 .. code-block:: Shell
 
@@ -217,7 +220,7 @@ Spark的核心概念是弹性分布式数据集(RDD)，RDD是一个可容错、�
 
 * **Scala**
 
-并行化集合是以一个已有的集合对象（例如：Scala Seq）为参数，调用 SparkContext.parallelize() 方法创建得到的 RDD。集合对象中所有的元素都将被复制到一个可并行操作的分布式数据集中。例如，以下代码将一个1到5组成的数组并行化成一个RDD：
+并行集合是以一个已有的集合对象（例如：Scala Seq）为参数，调用 SparkContext.parallelize() 方法创建得到的 RDD。集合对象中所有的元素都将被复制到一个可并行操作的分布式数据集中。例如，以下代码将一个1到5组成的数组并行化成一个RDD：
 
 .. code-block:: Scala
 
@@ -249,7 +252,7 @@ Parallelized collections are created by calling SparkContext’s parallelize met
 
 Once created, the distributed dataset (distData) can be operated on in parallel. For example, we can call distData.reduce(lambda a, b: a + b) to add up the elements of the list. We describe operations on distributed datasets later on.
 
-并行化集合的一个重要参数是分区（partition），即这个分布式数据集可以分割为多少片。Spark中每个任务（task）都是基于分区的，每个分区一个对应的任务（task）。典型场景下，一般每个CPU对应2~4个分区。并且一般而言，Spark会基于集群的情况，自动设置这个分区数。当然，你还是可以手动控制这个分区数，只需给parallelize方法再传一个参数即可（如：sc.parallelize(data, 10) ）。注意：Spark代码里有些地方仍然使用分片（slice）这个术语，这只不过是分区的一个别名，主要为了保持向后兼容。
+并行集合的一个重要参数是分区（partition），即这个分布式数据集可以分割为多少片。Spark中每个任务（task）都是基于分区的，每个分区一个对应的任务（task）。典型场景下，一般每个CPU对应2~4个分区。并且一般而言，Spark会基于集群的情况，自动设置这个分区数。当然，你还是可以手动控制这个分区数，只需给parallelize方法再传一个参数即可（如：sc.parallelize(data, 10) ）。注意：Spark代码里有些地方仍然使用分片（slice）这个术语，这只不过是分区的一个别名，主要为了保持向后兼容。
 
 
 外部数据集
@@ -311,7 +314,7 @@ lineLengths.persist()
 
 * **Scala**
 
-Spark的API 很多都依赖于在驱动程序中向集群传递操作函数。以下是两种建议的实现方式：
+Spark 的 API 很多都依赖于在驱动程序中向集群传递操作函数。以下是两种建议的实现方式：
 
 * 匿名函数（Anonymous function syntax），这种方式代码量比较少。
 * 全局单件中的静态方法。例如，你可以按如下方式定义一个 object MyFunctions 并传递其静态成员函数 MyFunctions.func1：
@@ -325,7 +328,7 @@ Spark的API 很多都依赖于在驱动程序中向集群传递操作函数。�
   myRdd.map(MyFunctions.func1)
 
 
-注意，技术上来说，你也可以传递一个类对象实例上的方法（不是单件对象），不过这回导致传递函数的同时，需要把相应的对象也发送到集群中各节点上。例如，我们定义一个MyClass如下：
+注意，技术上来说，你也可以传递一个类对象实例上的方法（不是单例对象），不过这回导致传递函数的同时，需要把相应的对象也发送到集群中各节点上。例如，我们定义一个MyClass如下：
 
 .. code-block:: Scala
 
@@ -395,9 +398,10 @@ Or, if writing the functions inline is unwieldy:
 
 Spark’s API relies heavily on passing functions in the driver program to run on the cluster. There are three recommended ways to do this:
 
-Lambda expressions, for simple functions that can be written as an expression. (Lambdas do not support multi-statement functions or statements that do not return a value.)
+Lambda 表达式, for simple functions that can be written as an expression. (Lambdas do not support multi-statement functions or statements that do not return a value.)
 Local defs inside the function calling into Spark, for longer code.
 Top-level functions in a module.
+
 For example, to pass a longer function than can be supported using a lambda, consider the code below:
 
 .. code-block:: Python
@@ -433,7 +437,8 @@ In a similar way, accessing fields of the outer object will reference the whole 
       def doStuff(self, rdd):
           return rdd.map(lambda s: self.field + s)
 
-To avoid this issue, the simplest way is to copy field into a local variable instead of accessing it externally:
+
+为了避免这个问题, 最简单的方式就是将字段拷贝到一个局部变量中, 而不是外部访问:
 
 .. code-block:: Python
 
@@ -450,7 +455,7 @@ Spark里一个比较难的事情就是，理解在整个集群上跨节点执行
 示例
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-考虑如下例子，我们将会计算RDD中原生元素的总和，如果不是在同一个JVM中执行，其表现将有很大不同。例如，这段代码如果使用Spark本地模式（–master=local[n]）运行，和在集群上运行（例如，用spark-submit提交到YARN上）结果完全不同。
+考虑如下例子，我们将会计算RDD中原生元素的总和，如果不是在同一个 JVM 中执行，其表现将有很大不同。例如，这段代码如果使用Spark本地模式（–master=local[n]）运行，和在集群上运行（例如，用spark-submit提交到YARN上）结果完全不同。
 
 * **Scala**
 
@@ -491,7 +496,7 @@ Spark里一个比较难的事情就是，理解在整个集群上跨节点执行
 
   print("Counter value: ", counter)
 
-本地模式 v.s. 集群模式
+本地模式 VS 集群模式
 ^^^^^^^^^^^^^^^^^^^^^^
 
 上面这段代码其行为是不确定的。在本地模式下运行，所有代码都在运行于单个JVM中，所以RDD的元素都能够被累加并保存到counter变量中，这是因为本地模式下，counter变量和驱动器节点在同一个内存空间中。
@@ -504,7 +509,7 @@ Spark里一个比较难的事情就是，理解在整个集群上跨节点执行
 
 通常来说，闭包（由循环或本地方法组成），不应该改写全局状态。Spark中改写闭包之外对象的行为是未定义的。这种代码，有可能在本地模式下能正常工作，但这只是偶然情况，同样的代码在分布式模式下其行为很可能不是你想要的。所以，如果需要全局聚合，请记得使用累加器（Accumulator）。
 
-打印RDD中的元素
+打印 RDD 中的元素
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 另一种常见习惯是，试图用 rdd.foreach(println) 或者 rdd.map(println) 来打印RDD中所有的元素。如果是在单机上，这种写法能够如预期一样，打印出RDD所有元素。然后，在集群模式下，这些输出将会被打印到执行器的标准输出（stdout）上，因此驱动器的标准输出（stdout）上神马也看不到！如果真要在驱动器上把所有RDD元素都打印出来，你可以先调用collect算子，把RDD元素先拉到驱动器上来，代码可能是这样：rdd.collect().foreach(println)。不过如果RDD很大的话，有可能导致驱动器内存溢出，因为collect会把整个RDD都弄到驱动器所在单机上来；如果你只是需要打印一部分元素，那么take是更安全的选择：rdd.take(100).foreach(println)

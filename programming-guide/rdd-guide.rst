@@ -53,7 +53,7 @@ Spark 2.2.1 默认使用 Scala 2.11 版本进行构建和分发的。(Spark 也�
 
 Spark 2.2.1 对 `Lambda 表达式 <https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html>`_ 的支持可以让我们很简洁地编写函数, 否则的话你可以使用 `org.apache.spark.api.java.function <http://spark.apache.org/docs/latest/api/java/index.html?org/apache/spark/api/java/function/package-summary.html>`_ 包中的类.
 
-:attention: Spark 2.2.0 版本中已经移除对 Java 7 的支持。
+.. attention:: Spark 2.2.0 版本中已经移除对 Java 7 的支持。
 
 要使用 Java 来编写 Spark 应用程序，你需要添加 Spark 的 Maven 依赖。Spark 依赖可以通过以下 Maven 坐标从 Maven 中央仓库中获得:
 

@@ -227,7 +227,7 @@ Spark 还支持把数据集拉到集群范围的内存缓存中。当数据需�
 
 .. attention:: 应用程序需要定义一个 main 方法，而不是继承 scala.App。scala.App 的子类可能不能正常工作。
 
-这个程序只是统计 Spark README 文件中包含‘a’和包含’b’的行数。注意，你需要把 YOUR_SPARK_HOME 替换成 Spark 的安装目录。与之前使用 Spark Shell 的示例不同，因为 Spark Shell 会初始化自己的 SparkSession 对象, 而我们需要初始化 SparkSession 对象作为程序的一部分。
+这个程序只是统计 Spark README 文件中包含‘a’和包含’b’的行数。注意，你需要把 YOUR_SPARK_HOME 替换成 Spark 的安装目录。与之前使用 Spark Shell 的示例不同，Spark Shell 会初始化自己的 SparkSession 对象, 而我们需要初始化 SparkSession 对象作为程序的一部分。
 
 我们调用 SparkSession.builder 来构造一个 [[SparkSession]] 对象, 然后设置应用程序名称, 最后调用 getOrCreate 方法获取 [[SparkSession]] 实例。
 
@@ -294,7 +294,7 @@ Spark 还支持把数据集拉到集群范围的内存缓存中。当数据需�
     }
   }
 
-这个程序只是统计 Spark README 文件中包含‘a’和包含’b’的行数。注意，你需要把 YOUR_SPARK_HOME 替换成 Spark 的安装目录。与之前使用 Spark Shell 的示例不同，因为 Spark Shell 会初始化自己的 SparkSession 对象, 而我们需要初始化 SparkSession 对象作为程序的一部分。
+这个程序只是统计 Spark README 文件中包含‘a’和包含’b’的行数。注意，你需要把 YOUR_SPARK_HOME 替换成 Spark 的安装目录。与之前使用 Spark Shell 的示例不同，Spark Shell 会初始化自己的 SparkSession 对象, 而我们需要初始化 SparkSession 对象作为程序的一部分。
 
 为了构建程序, 我们还需要编写一个 Maven pom.xml 文件将 Spark 列为依赖项。注意，Spark 构件都附加了 Scala 版本号。
 
@@ -406,8 +406,8 @@ Spark 还支持把数据集拉到集群范围的内存缓存中。当数据需�
 
 恭喜您成功运行您的第一个 Spark 应用程序！
 
-* 如果想深入了解 Spark API, 可以从 RDD 编程指南和 SQL 编程指南开始，或者在 "Programming Guides" 菜单下查找其它组件。
-* 如果想了解如何在集群上运行 Spark 应用程序，请前往：deployment overview
+* 如果想深入了解 Spark API, 可以从 :ref:`rdd_programming_guide` 和 :ref:`sql_programming_guide`，或者在 "Programming Guides" 菜单下查找其它组件。
+* 如果想了解如何在集群上运行 Spark 应用程序，请前往：:ref:`cluster_overview` 。
 * 最后，Spark examples 目录下包含了多个编程语言(Scala, Java, Python, R)版本的示例程序，你可以像下面这样运行它们：
 
 .. code-block:: Shell

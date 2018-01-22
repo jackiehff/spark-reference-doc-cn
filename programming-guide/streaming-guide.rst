@@ -36,7 +36,7 @@ Spark Streaming 为这种持续的数据流提供了一个高级抽象，即：d
 在深入 Spark Streaming 编程细节之前，我们先来看看一个简单的小例子以便有个感性认识。假设我们在一个 TCP 端口上监听一个数据服务器的数据，并对收到的文本数据中的单词计数。以下你所需的全部工作：
 
 
-* Scala
+* **Scala**
 
 首先，我们需要导入Spark Streaming的相关class的一些包，以及一些支持 StreamingContext 隐式转换的包（这些隐式转换能给DStream之类的class增加一些有用的方法）。StreamingContext 是 Spark Streaming 的入口。我们将会创建一个本地 StreamingContext 对象，包含两个执行线程，并将批次间隔设为1秒。
 
@@ -135,7 +135,7 @@ Time: 1357008430000 ms
 
 和 Spark 类似，Spark Streaming 也能在 Maven 库中找到。如果你需要编写 Spark Streaming 程序，你就需要将以下依赖加入到你的 SBT 或 Maven 工程依赖中。
 
-* Maven
+* **Maven**
 
 .. code-block:: XML
 
@@ -145,7 +145,7 @@ Time: 1357008430000 ms
       <version>1.6.1</version>
   </dependency>
 
-* SBT
+* **SBT**
 
 .. code-block:: TEXT
 
@@ -169,7 +169,7 @@ Kinesis         spark-streaming-kinesis-asl_2.11 [Amazon Software License]
 
 要初始化任何一个 Spark Streaming 程序，都需要在入口代码中创建一个 StreamingContext 对象。
 
-* Scala
+* **Scala**
 
 而 StreamingContext 对象需要一个 SparkConf 对象作为其构造参数。
 

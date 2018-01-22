@@ -20,7 +20,7 @@ Spark 第二个重要抽象概念是共享变量，共享变量是一种可以�
 链接 Spark
 ***************
 
-* **Scala**
+**Scala**
 
 Spark 2.2.1 默认使用 Scala 2.11 版本进行构建和分发的。(Spark 也可以使用其它版本的 Scala 进行构建)如果想用 Scala 写应用程序，你需要使用兼容的 Scala 版本(如：2.11.X)
 
@@ -49,7 +49,7 @@ Spark 2.2.1 默认使用 Scala 2.11 版本进行构建和分发的。(Spark 也�
 
 (在 Spark 1.3.0 版本之前，你需要显示地 import org.apache.spark.SparkContext._ 来启用必要的隐式转换)
 
-* **Java**
+**Java**
 
 Spark 2.2.1 对 `Lambda 表达式 <https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html>`_ 的支持可以让我们很简洁地编写函数, 否则的话你可以使用 `org.apache.spark.api.java.function <http://spark.apache.org/docs/latest/api/java/index.html?org/apache/spark/api/java/function/package-summary.html>`_ 包中的类.
 
@@ -80,7 +80,7 @@ Spark 2.2.1 对 `Lambda 表达式 <https://docs.oracle.com/javase/tutorial/java/
   import org.apache.spark.SparkConf
 
 
-* **Python**
+**Python**
 
 Spark 2.2.1 适用于 Python 2.7 及以上版本 或 Python 3.4 及以上版本。它可以使用标准的 CPython 解释器, 因此我们可以使用像 NumPy 这样的 C 语言库。它也适用 PyPy 2.3 及以上版本。
 
@@ -116,7 +116,7 @@ PySpark requires the same minor version of Python in both driver and workers. �
 初始化 Spark
 ***************
 
-* **Scala**
+**Scala**
 
 Spark 程序需要做的第一件事就是创建一个 SparkContext 对象，SparkContext 对象决定了 Spark 如何访问集群。而要新建一个 SparkContext 对象，你还得需要构造一个 SparkConf 对象，SparkConf对象包含了你的应用程序的配置信息。
 
@@ -127,7 +127,7 @@ Spark 程序需要做的第一件事就是创建一个 SparkContext 对象，Spa
   val conf = new SparkConf().setAppName(appName).setMaster(master)
   new SparkContext(conf)
 
-* **Java**
+**Java**
 
 Spark 程序需要做的第一件事就是创建一个 JavaSparkContext 对象, which tells Spark how to access a cluster. To create a SparkContext you first need to build a SparkConf object that contains information about your application.
 
@@ -136,7 +136,7 @@ Spark 程序需要做的第一件事就是创建一个 JavaSparkContext 对象, 
   SparkConf conf = new SparkConf().setAppName(appName).setMaster(master);
   JavaSparkContext sc = new JavaSparkContext(conf);
 
-* **Python**
+**Python**
 
 Spark 程序需要做的第一件事就是创建一个 SparkContext 对象, which tells Spark how to access a cluster. To create a SparkContext you first need to build a SparkConf object that contains information about your application.
 
@@ -152,7 +152,7 @@ appName 参数值是你的应用展示在集群UI上的应用名称。master参�
 使用 Shell
 ====================
 
-* **Scala**
+**Scala**
 
 在 Spark Shell 中，默认已经为你新建了一个 SparkContext 对象，变量名为sc。所以 spark-shell 里不能自建SparkContext对象。你可以通过–master参数设置要连接到哪个集群，而且可以给–jars参数传一个逗号分隔的jar包列表，以便将这些jar包加到classpath中。你还可以通过–packages设置逗号分隔的maven工件列表，以便增加额外的依赖项。同样，还可以通过–repositories参数增加maven repository地址。下面是一个示例，在本地4个CPU core上运行的实例：
 
@@ -175,7 +175,7 @@ appName 参数值是你的应用展示在集群UI上的应用名称。master参�
 spark-shell –help 可以查看完整的选项列表。实际上，spark-shell 是在后台调用 spark-submit 来实现其功能的（spark-submit script.）
 
 
-* **Python**
+**Python**
 
 In the PySpark shell, a special interpreter-aware SparkContext is already created for you, in the variable called sc. Making your own SparkContext will not work. You can set which master the context connects to using the --master argument, and you can add Python .zip, .egg or .py files to the runtime path by passing a comma-separated list to --py-files. You can also add dependencies (e.g. Spark Packages) to your shell session by supplying a comma-separated list of Maven coordinates to the --packages argument. Any additional repositories where dependencies might exist (e.g. Sonatype) can be passed to the --repositories argument. Any Python dependencies a Spark package has (listed in the requirements.txt of that package) must be manually installed using pip when necessary. For example, to run bin/pyspark on exactly four cores, use:
 
@@ -218,7 +218,7 @@ Spark的核心概念是弹性分布式数据集(RDD)，RDD是一个可容错、�
 并行集合
 =======================
 
-* **Scala**
+**Scala**
 
 并行集合是以一个已有的集合对象（例如：Scala Seq）为参数，调用 SparkContext.parallelize() 方法创建得到的 RDD。集合对象中所有的元素都将被复制到一个可并行操作的分布式数据集中。例如，以下代码将一个1到5组成的数组并行化成一个RDD：
 
@@ -229,7 +229,7 @@ Spark的核心概念是弹性分布式数据集(RDD)，RDD是一个可容错、�
 
 一旦创建成功，该分布式数据集（上例中的distData）就可以执行一些并行操作。如，distData.reduce((a, b) => a + b)，这段代码会将集合中所有元素加和。后面我们还会继续讨论分布式数据集上的各种操作。
 
-* **Java**
+**Java**
 
 Parallelized collections are created by calling JavaSparkContext’s parallelize method on an existing Collection in your driver program. The elements of the collection are copied to form a distributed dataset that can be operated on in parallel. For example, here is how to create a parallelized collection holding the numbers 1 to 5:
 
@@ -241,7 +241,7 @@ Parallelized collections are created by calling JavaSparkContext’s parallelize
 Once created, the distributed dataset (distData) can be operated on in parallel. For example, we might call distData.reduce((a, b) -> a + b) to add up the elements of the list. We describe operations on distributed datasets later on.
 
 
-* **Python**
+**Python**
 
 Parallelized collections are created by calling SparkContext’s parallelize method on an existing iterable or collection in your driver program. The elements of the collection are copied to form a distributed dataset that can be operated on in parallel. For example, here is how to create a parallelized collection holding the numbers 1 to 5:
 
@@ -311,8 +311,7 @@ lineLengths.persist()
 将函数传给Spark
 ------------------
 
-
-* **Scala**
+**Scala**
 
 Spark 的 API 很多都依赖于在驱动程序中向集群传递操作函数。以下是两种建议的实现方式：
 
@@ -359,7 +358,7 @@ Spark 的 API 很多都依赖于在驱动程序中向集群传递操作函数。
   }
 
 
-* **Java**
+**Java**
 
 Spark’s API relies heavily on passing functions in the driver program to run on the cluster. In Java, functions are represented by classes implementing the interfaces in the org.apache.spark.api.java.function package. There are two ways to create such functions:
 
@@ -394,7 +393,7 @@ Or, if writing the functions inline is unwieldy:
 
 :attention: anonymous inner classes in Java can also access variables in the enclosing scope as long as they are marked final. Spark will ship copies of these variables to each worker node as it does for other languages.
 
-* **Python**
+**Python**
 
 Spark’s API relies heavily on passing functions in the driver program to run on the cluster. There are three recommended ways to do this:
 
@@ -457,7 +456,7 @@ Spark里一个比较难的事情就是，理解在整个集群上跨节点执行
 
 考虑如下例子，我们将会计算RDD中原生元素的总和，如果不是在同一个 JVM 中执行，其表现将有很大不同。例如，这段代码如果使用Spark本地模式（–master=local[n]）运行，和在集群上运行（例如，用spark-submit提交到YARN上）结果完全不同。
 
-* **Scala**
+**Scala**
 
 .. code-block:: Scala
 
@@ -469,7 +468,7 @@ Spark里一个比较难的事情就是，理解在整个集群上跨节点执行
 
   println("Counter value: " + counter)
 
-* **Java**
+**Java**
 
 .. code-block:: Java
 
@@ -481,7 +480,7 @@ Spark里一个比较难的事情就是，理解在整个集群上跨节点执行
 
   println("Counter value: " + counter);
 
-* **Python**
+**Python**
 
 .. code-block:: Python
 

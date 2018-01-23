@@ -391,7 +391,7 @@ Or, if writing the functions inline is unwieldy:
   JavaRDD<Integer> lineLengths = lines.map(new GetLength());
   int totalLength = lineLengths.reduce(new Sum());
 
-:attention: anonymous inner classes in Java can also access variables in the enclosing scope as long as they are marked final. Spark will ship copies of these variables to each worker node as it does for other languages.
+.. attention:: anonymous inner classes in Java can also access variables in the enclosing scope as long as they are marked final. Spark will ship copies of these variables to each worker node as it does for other languages.
 
 **Python**
 
@@ -762,7 +762,7 @@ Spark对所有常见的单元测试框架提供友好的支持。你只需要在
 下一步
 *****************************
 
-你可以去Spark的官网上看看示例程序（example Spark programs）。另外，Spark代码目录下也自带了不少例子，见 examples 目录(Scala,Java, Python, R)。你可以把示例中的类名传给 bin/run-example 脚本来运行这些例子；例如：
+你可以去 Spark 官网上看看示例程序（example Spark programs）。另外，Spark代码目录下也自带了不少例子，见 examples 目录(Scala,Java, Python, R)。你可以把示例中的类名传给 bin/run-example 脚本来运行这些例子；例如：
 
 .. code-block:: Shell
 

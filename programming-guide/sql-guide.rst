@@ -219,14 +219,15 @@ Spark 2.0 中的 SparkSession 提供了对 Hive 特性的内置支持，包括�
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 
-Untyped Dataset Operations (aka DataFrame Operations)
+无类型的 Dataset 操作 (亦即 DataFrame 操作)
 =======================================================
 
-DataFrames provide a domain-specific language for structured data manipulation in Scala, Java, Python and R.
+DataFrame 为 Scala, Java, Python 以及 R 语言中的结构化数据操作提供了一种领域特定语言。
 
-As mentioned above, in Spark 2.0, DataFrames are just Dataset of Rows in Scala and Java API. These operations are also referred as “untyped transformations” in contrast to “typed transformations” come with strongly typed Scala/Java Datasets.
+正如上面所提到的,Spark 2.0 中, Scala 和 Java API 中的 DataFrame 只是 Row 的 Dataset。与使用强类型的 Scala/Java Dataset “强类型转换” 相比，这些操作也被称为 “非强类型转换” 。
+These operations are also referred as “untyped transformations” in contrast to “typed transformations” come with strongly typed Scala/Java Datasets.
 
-Here we include some basic examples of structured data processing using Datasets
+下面是使用 Dataset 处理结构化数据的几个基础示例：
 
 
 **Scala**
@@ -1456,7 +1457,7 @@ In the simplest form, the default data source (parquet unless otherwise configur
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 
-Manually Specifying Options
+手动指定选项
 ---------------------------------
 
 You can also manually specify the data source that will be used along with any extra options that you would like to pass to the data source. Data sources are specified by their fully qualified name (i.e., org.apache.spark.sql.parquet), but for built-in sources you can also use their short names (json, parquet, jdbc, orc, libsvm, csv, text). DataFrames loaded from any data source type can be converted into other types using this syntax.
@@ -1500,7 +1501,7 @@ You can also manually specify the data source that will be used along with any e
 完整的示例代码参见 Spark 源码仓库中的 "examples/src/main/r/RSparkSQLExample.R" 文件。
 
 
-Run SQL on files directly
+直接在文件上运行 SQL
 ---------------------------------
 
 Instead of using read API to load a file into DataFrame and query it, you can also query that file directly with SQL.
@@ -1701,7 +1702,7 @@ It is possible to use both partitioning and bucketing for a single table:
 partitionBy creates a directory structure as described in the Partition Discovery section. Thus, it has limited applicability to columns with high cardinality. In contrast bucketBy distributes data across a fixed number of buckets and can be used when a number of unique values is unbounded.
 
 
-Parquet Files
+Parquet 文件
 ==============================
 
 Parquet 是一种列式存储格式，很多其它的数据处理系统都支持它。Spark SQL 提供了对 Parquet 文件的读写支持，而且 Parquet 文件能够自动保存原始数据的 schema。写 Parquet 文件的时候，所有列都自动地转化成 nullable，以便向后兼容。
@@ -1889,7 +1890,7 @@ Parquet 是一种列式存储格式，很多其它的数据处理系统都支持
 
 从Spark 1.6.0 版本开始，分区发现默认只查找给定路径下的分区。拿上面的例子来说，如果用户传递 path/to/table/gender=male 给 SparkSession.read.parquet 或者 SparkSession.read.load，那么gender将不会被当作分区列。如果用户想要指定分区发现开始的基础目录，可以在数据源选项中设置basePath。例如，如果把 path/to/table/gender=male作为数据目录，并且将basePath设为 path/to/table，那么gender仍然会最为分区键。
 
-Schema合并
+Schema 合并
 -----------------------
 
 和 ProtocolBuffer、Avro 以及 Thrift 一样，Parquet也支持 schema 演变。用户可以从一个简单的 schema 开始，逐渐增加所需要的列。这样的话，用户最终会得到多个Parquet文件, 这些文件的schema不同但互相兼容。Parquet数据源目前已经支持自动检测这种情况并合并所有这些文件的schema。
@@ -2064,6 +2065,7 @@ Hive metastore Parquet表转换
 当读写Hive metastore Parquet表时，为了达到更好的性能, Spark SQL使用它自己的Parquet支持库，而不是Hive SerDe。这一行为是由 spark.sql.hive.convertMetastoreParquet 这个配置项来控制的，它默认是开启的。
 
 Hive/Parquet Schema调整
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 从表 schema 处理的角度来看, Hive和Parquet有2个关键的不同点：
 
@@ -2078,8 +2080,9 @@ Hive/Parquet Schema调整
     * 只出现在Hive metastore schema中的字段将作为nullable字段添加到调整后的schema。
 
 元数据刷新
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Spark SQL会缓存Parquet元数据以提高性能。如果启用了Hive metastore Parquet table转换，那么转换后的表的schema也会被缓存起来。如果这些表被Hive或其它外部工具更新, 那么你需要手动地刷新它们以确保元数据一致性。
+Spark SQL 会缓存 Parquet 元数据以提高性能。如果启用了Hive metastore Parquet table转换，那么转换后的表的schema也会被缓存起来。如果这些表被Hive或其它外部工具更新, 那么你需要手动地刷新它们以确保元数据一致性。
 
 **Scala**
 
@@ -2110,8 +2113,9 @@ Spark SQL会缓存Parquet元数据以提高性能。如果启用了Hive metastor
 
 
 配置
+---------------------------
 
-Parquet配置可以使用 SparkSession上的 setConf方法或者使用SQL语句中的 SET key=value 命令来完成。
+Parquet配置可以使用 SparkSession 上的 setConf 方法或者使用 SQL 语句中的 SET key=value 命令来完成。
 
 ========================================      ========      ========
 属性名                                         默认值         含义
@@ -2180,7 +2184,7 @@ Spark SQL可以自动推导JSON数据集的schema并且将其加载为一个 Dat
 
 **Java**
 
-Spark SQL可以自动推导JSON数据集的schema并且将其加载为一个 Dataset<Row>. 这种转换可以在一个包含String的RDD或一个JSON文件上使用SparkSession.read.json() 来完成。
+Spark SQL 可以自动推导 JSON 数据集的 schema 并且将其加载为一个 Dataset<Row>. 这种转换可以在一个包含String的RDD或一个JSON文件上使用SparkSession.read.json() 来完成。
 
 注意，作为json文件提供的文件并不是一个典型的JSON文件。JSON文件的每一行必须包含一个独立的、完整有效的JSON对象。因此，一个常规的多行json文件经常会加载失败。
 
@@ -2230,7 +2234,7 @@ Spark SQL可以自动推导JSON数据集的schema并且将其加载为一个 Dat
 
 Spark SQL可以自动推导JSON数据集的schema并且将其加载为一个 DataFrame。这种转换可以在一个JSON文件上使用SparkSession.read.json 来完成。
 
-注意，作为json文件提供的文件并不是一个典型的JSON文件。JSON文件的每一行必须包含一个独立的、完整有效的JSON对象。因此，一个常规的多行json文件经常会加载失败。
+注意，作为 json 文件提供的文件并不是一个典型的 JSON 文件。JSON 文件的每一行必须包含一个独立的、完整有效的JSON对象。因此，一个常规的多行json文件经常会加载失败。
 
 .. code-block:: Python
 
@@ -2323,11 +2327,11 @@ For a regular multi-line JSON file, set a named parameter multiLine to TRUE.
 Hive Tables
 ==============================
 
-Spark SQL 还支持从 Apache Hive 读写数据。然而，由于 Hive 依赖项太多，这些依赖没有包含在默认的 Spark 发行版本中。如果在classpath上配置了Hive依赖，那么Spark会自动加载它们。注意，Hive依赖也必须放到所有的worker节点上，因为如果要访问Hive中的数据它们需要访问Hive序列化和反序列化库（SerDes)。
+Spark SQL 还支持从 Apache Hive 读写数据。然而，由于 Hive 依赖项太多，这些依赖没有包含在默认的 Spark 发行版本中。如果在classpath上配置了Hive依赖，那么 Spark 会自动加载它们。注意，Hive 依赖也必须放到所有的 worker 节点上，因为如果要访问 Hive 中的数据它们需要访问 Hive 序列化和反序列化库(SerDes)。
 
-Hive配置是通过将 hive-site.xml，core-site.xml（用于安全配置）以及 hdfs-site.xml（用于HDFS配置）文件放置在conf/目录下来完成的。
+Hive配置是通过将 hive-site.xml，core-site.xml(用于安全配置)以及 hdfs-site.xml(用于 HDFS 配置)文件放置在 conf/ 目录下来完成的。
 
-如果要使用 Hive, 你必须要实例化一个支持 Hive 的 SparkSession, 包括连接到一个持久化的 Hive metastore, 支持 Hive serdes以及 Hive用户自定义函数。即使用户没有安装部署Hive也仍然可以启用Hive支持。如果没有在 hive-site.xml 文件中配置, Spark应用程序启动之后，上下文会自动在当前目录下创建一个 metastore_db 目录并创建一个由 spark.sql.warehouse.dir 配置的、默认值是当前目录下的 spark-warehouse 目录的目录。请注意: 从 Spark 2.0.0 版本开始, hive-site.xml 中的 hive.metastore.warehouse.dir 属性就已经过时了, 你可以使用 spark.sql.warehouse.dir 来指定仓库中数据库的默认存储位置。你可能还需要给启动Spark应用程序的用户赋予写权限。
+如果要使用 Hive, 你必须要实例化一个支持 Hive 的 SparkSession, 包括连接到一个持久化的 Hive metastore, 支持 Hive serdes 以及 Hive 用户自定义函数。即使用户没有安装部署 Hive 也仍然可以启用Hive支持。如果没有在 hive-site.xml 文件中配置, Spark 应用程序启动之后，上下文会自动在当前目录下创建一个 metastore_db 目录并创建一个由 spark.sql.warehouse.dir 配置的、默认值是当前目录下的 spark-warehouse 目录的目录。请注意: 从 Spark 2.0.0 版本开始, hive-site.xml 中的 hive.metastore.warehouse.dir 属性就已经过时了, 你可以使用 spark.sql.warehouse.dir 来指定仓库中数据库的默认存储位置。你可能还需要给启动Spark应用程序的用户赋予写权限。
 
 **Scala**
 
@@ -2988,12 +2992,12 @@ Spark SQL 从 1.4 版本升级到 1.5 版本
 =========================================
 
 * 使用手动管理内存(Tungsten引擎)的执行优化以及用于表达式求值的代码自动生成现在默认是启用的。这些特性可以通过将spark.sql.tungsten.enabled的值设置为false来同时禁用。
-* 默认不启用Parquet schema合并。可以将spark.sql.parquet.mergeSchema的值设置为true来重新启用。
-* Python中对于列的字符串分解现在支持使用点号(.)来限定列或访问内嵌值，例如 df[‘table.column.nestedField’]。然而这也意味着如果你的列名包含任何点号(.)的话，你就必须要使用反引号来转义它们(例如：table.`column.with.dots`.nested)。
+* 默认不启用 Parquet schema 合并。可以将 spark.sql.parquet.mergeSchema 的值设置为true来重新启用。
+* Python 中对于列的字符串分解现在支持使用点号(.)来限定列或访问内嵌值，例如 df[‘table.column.nestedField’]。然而这也意味着如果你的列名包含任何点号(.)的话，你就必须要使用反引号来转义它们(例如：table.`column.with.dots`.nested)。
 * 默认启用内存中列式存储分区修剪。可以通过设置 spark.sql.inMemoryColumarStorage.partitionPruning 值为false来禁用它。
 * 不再支持无精度限制的decimal，相反, Spark SQL现在强制限制最大精度为38位。从BigDecimal对象推导schema时会使用（38，18）这个精度。如果在DDL中没有指定精度，则默认使用精度Decimal(10，0)。
 * 存储的时间戳(Timestamp)现在精确到1us（微秒），而不是1ns（纳秒）
-* 在 sql 方言中，浮点数现在被解析成decimal。HiveQL的解析保持不变。
+* 在 sql 方言中，浮点数现在被解析成decimal。HiveQL 的解析保持不变。
 * SQL/DataFrame函数的规范名称均为小写(例如：sum vs SUM)。
 * JSON数据源不会再自动地加载其他应用程序创建的新文件（例如，不是由Spark SQL插入到dataset中的文件）。对于一个JSON持久化表（例如：存储在Hive metastore中的表的元数据），用户可以使用 REFRESH TABLE 这个SQL命令或者 HiveContext 的 refreshTable 方法来把新文件添加进表。对于一个表示JSON数据集的DataFrame, 用户需要重建这个 DataFrame, 这样新的 DataFrame 就会包含新的文件。
 * pySpark 中的 DataFrame.withColumn 方法支持新增一列或是替换名称相同列。
@@ -3130,9 +3134,9 @@ Spark SQL 在设计时就考虑到了和 Hive metastore，SerDes 以及 UDF 之�
 在已有的Hive仓库中部署
 -----------------------
 
-Spark SQL Thrift JDBC server采用了开箱即用的设计以兼容已有的Hive安装版本。你不需要修改现有的Hive Metastore ,  或者改变数据的位置和表的分区。
+Spark SQL Thrift JDBC server采用了开箱即用的设计以兼容已有的 Hive 安装版本。你不需要修改现有的Hive Metastore ,  或者改变数据的位置和表的分区。
 
-支持的Hive功能
+支持的 Hive 功能
 -----------------------
 
 Spark SQL 支持绝大部分的Hive功能，如：
@@ -3170,7 +3174,7 @@ Spark SQL 支持绝大部分的Hive功能，如：
     * CREATE TABLE
     * CREATE TABLE AS SELECT
     * ALTER TABLE
-* 绝大多数Hive数据类型，包括：
+* 绝大多数 Hive 数据类型，包括：
     * TINYINT
     * SMALLINT
     * INT
@@ -3186,27 +3190,27 @@ Spark SQL 支持绝大部分的Hive功能，如：
     * MAP<>
     * STRUCT<>
 
-不支持的Hive功能
+不支持的 Hive 功能
 -----------------------
 
-以下是目前还不支持的Hive功能列表。在Hive部署中这些功能大部分都用不到。
+以下是目前还不支持的 Hive 功能列表。在 Hive 部署中这些功能大部分都用不到。
 
-Hive核心功能
+Hive 核心功能
 ^^^^^^^^^^^^^^^^
 
-* bucket：bucket是Hive表分区内的一个哈希分区，Spark SQL目前还不支持bucket。
+* bucket：bucket是 Hive 表分区内的一个哈希分区，Spark SQL 目前还不支持 bucket。
 
-Hive高级功能
+Hive 高级功能
 ^^^^^^^^^^^^^^^^
 
 * UNION 类型
 * Unique join
-* 列统计数据收集：Spark SQL目前不依赖扫描来收集列统计数据并且仅支持填充Hive metastore 的 sizeInBytes 字段。
+* 列统计数据收集：Spark SQL 目前不依赖扫描来收集列统计数据并且仅支持填充Hive metastore 的 sizeInBytes 字段。
 
 Hive输入输出格式
 ^^^^^^^^^^^^^^^^
 
-* CLI文件格式：对于回显到CLI中的结果，Spark SQL仅支持TextOutputFormat。
+* CLI文件格式：对于回显到CLI中的结果，Spark SQL 仅支持 TextOutputFormat。
 * Hadoop archive
 
 Hive优化
@@ -3215,10 +3219,10 @@ Hive优化
 有少数Hive优化还没有包含在Spark中。其中一些（比如索引）由于Spark SQL的这种内存计算模型而显得不那么重要。另外一些在Spark SQL未来的版本中会持续跟踪。
 
 * 块级别位图索引和虚拟列（用来建索引）
-* 自动为join和groupBy计算reducer个数：目前在Spark SQL中，你需要使用 ”SET spark.sql.shuffle.partitions=[num_tasks];” 来控制后置混洗的并行程度。
-* 仅查询元数据：对于只需要使用元数据的查询请求，Spark SQL仍需要启动任务来计算结果
-* 数据倾斜标志：Spark SQL不遵循Hive中的数据倾斜标志
-* STREAMTABLE join操作提示：Spark SQL不遵循 STREAMTABLE 提示。
+* 自动为 join 和 groupBy 计算 reducer 个数：目前在 Spark SQL 中，你需要使用 ”SET spark.sql.shuffle.partitions=[num_tasks];” 来控制后置混洗的并行程度。
+* 仅查询元数据：对于只需要使用元数据的查询请求，Spark SQL 仍需要启动任务来计算结果
+* 数据倾斜标志：Spark SQL 不遵循 Hive 中的数据倾斜标志
+* STREAMTABLE join操作提示：Spark SQL 不遵循 STREAMTABLE 提示。
 * 对于查询结果合并多个小文件：如果返回的结果有很多小文件，Hive有个选项设置，来合并小文件，以避免超过HDFS的文件数额度限制。Spark SQL不支持这个。
 
 
@@ -3229,30 +3233,30 @@ Hive优化
 数据类型
 =================
 
-Spark SQL 和 DataFrame 支持下面的数据类型：
+Spark SQL 和 DataFrame 支持以下数据类型：
 
 * 数值类型
-    * ByteType: 表示1字节长的有符号整型，数值范围：-128 到 127.
-    * ShortType: 表示2字节长的有符号整型，数值范围：-32768 到 32767.
-    * IntegerType: 表示4字节长的有符号整型，数值范围：-2147483648 到 2147483647.
-    * LongType: 表示8字节长的有符号整型，数值范围： -9223372036854775808 to 9223372036854775807.
+    * ByteType: 表示1字节长的有符号整型，数值范围：-128 到 127。
+    * ShortType: 表示2字节长的有符号整型，数值范围：-32768 到 32767。
+    * IntegerType: 表示4字节长的有符号整型，数值范围：-2147483648 到 2147483647。
+    * LongType: 表示8字节长的有符号整型，数值范围： -9223372036854775808 to 9223372036854775807。
     * FloatType: 表示4字节长的单精度浮点数。
-    * DoubleType: 表示8字节长的双精度浮点数
-    * DecimalType: 表示任意精度有符号带小数的数值。内部使用 java.math.BigDecimal, 一个 BigDecimal 由一个任意精度的整数非标度值和一个32位的整数标度 (scale) 组成。
+    * DoubleType: 表示8字节长的双精度浮点数。
+    * DecimalType: 表示任意精度的有符号的十进制数。内部使用 java.math.BigDecimal 实现。一个 BigDecimal 由一个任意精度的整数非标度值和一个32位的整数标度组成。
 * 字符串类型
-    * StringType: 表示字符串值
+    * StringType: 表示字符串值。
 * 二进制类型
-    * BinaryType: 表示字节序列值
+    * BinaryType: 表示字节序列值。
 * 布尔类型
-    * BooleanType: 表示布尔值
-* 日期类型
-    * TimestampType: 表示包含年月日、时分秒等字段的日期值
-    * DateType: 表示包含年月日字段的日期值
-* Complex types（复杂类型）
-    * ArrayType(elementType, containsNull)：数组类型，表示一个由类型为elementType的元素组成的序列，containsNull用来表示ArrayType中的元素是否能为null值。
-    * MapType(keyType, valueType, valueContainsNull)：映射类型，表示一个键值对的集合。键的类型由keyType表示，值的类型则由valueType表示。对于一个MapType值，键是不允许为null值。valueContainsNull用来表示一个MapType的值是否能为null值。
+    * BooleanType: 表示布尔值。
+* 时间类型
+    * TimestampType: 表示由年、月、日、时、分以及秒等字段值组成的时间值。
+    * DateType: 表示由年、月、日字段值组成的日期值。
+* 复杂类型
+    * ArrayType(elementType, containsNull)：表示由元素类型为 elementType 的序列组成的值，containsNull 用来标识 ArrayType 中的元素值能否为 null。
+    * MapType(keyType, valueType, valueContainsNull)：表示由一组键值对组成的值。键的数据类型由 keyType 表示，值的数据类型由 valueType 表示。对于 MapType 值，键值不允许为 null。valueContainsNull 用来表示一个 MapType 的值是否能为 null。
 * StructType(fields)：表示由 StructField 序列描述的结构。
-        * StructField(name, datatype, nullable): 表示 StructType 中的一个字段，name表示字段名，datatype是字段的数据类型，nullable用来表示该字段是否可以为空值。
+        * StructField(name, datatype, nullable): 表示 StructType 中的一个字段，name 表示字段名。dataType 表示字段的数据类型，nullable 用来表示该字段的值是否可以为 null。
 
 
 **Scala**
@@ -3266,7 +3270,7 @@ Spark SQL 所有的数据类型都位于 org.apache.spark.sql.types 包中。你
 完整示例代码参见 Spark 源码仓库中的 "examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" 文件。
 
 =============================      ============================     ============================
-Data type	                         Value type in Scala	            API to access or create a data type
+数据类型	                           Scala 中的值类型	                  用于获取或创建一个数据类型的 API
 =============================      ============================     ============================
 ByteType	                         Byte	                            ByteType
 ShortType	                         Short	                          ShortType
@@ -3280,14 +3284,13 @@ BinaryType	                       Array[Byte]	                    BinaryType
 BooleanType	                       Boolean	                        BooleanType
 TimestampType	                     java.sql.Timestamp	              TimestampType
 DateType	                         java.sql.Date	                  DateType
-ArrayType	                         scala.collection.Seq	            ArrayType(elementType, [containsNull]) Note: The default value of containsNull is true.
-MapType	                           scala.collection.Map	            MapType(keyType, valueType, [valueContainsNull]) Note: The default value of valueContainsNull is true.
-StructType	                       org.apache.spark.sql.Row	        StructType(fields) Note: fields is a Seq of StructFields. Also, two fields with the same name are not allowed.
-StructField	                       The value type in Scala
-                                    of the data type of this
-                                    field (For example, Int
-                                    for a StructField with
-                                    the data type IntegerType)	    StructField(name, dataType, [nullable]) Note: The default value of nullable is true.
+ArrayType	                         scala.collection.Seq	            ArrayType(elementType, [containsNull]) 注意：containsNull 的默认值是 true。
+MapType	                           scala.collection.Map	            MapType(keyType, valueType, [valueContainsNull]) 注意：valueContainsNull 的默认值是 true。
+StructType	                       org.apache.spark.sql.Row	        StructType(fields) 注意: fields 表示一个 StructField 序列。另外不允许出现名称重复的字段。
+StructField	                       Scala 中该字段的数据类型对应的值      StructField(name, dataType, [nullable]) 注意: nullable 的默认值是 true。
+                                   类型(例如, StructField 的数据类
+                                   型是 IntegerType，则对应的值类型
+                                   Int)
 =============================      ============================     ============================
 
 **Java**
@@ -3295,27 +3298,27 @@ StructField	                       The value type in Scala
 Spark SQL 所有的数据类型都位于 org.apache.spark.sql.types 包中。如果想要访问或创建一个数据类型, 请使用 org.apache.spark.sql.types.DataTypes 中提供的工厂方法。
 
 =================================       =============================         ======================
-Data type	                              Value type in Java	                  API to access or create a data type
+数据类型   	                              Java 中的值类型	                        用于获取或创建一个数据类型的 API
+=================================       =============================         ======================
 ByteType	                              byte or Byte	                        DataTypes.ByteType
 ShortType	                              short or Short	                      DataTypes.ShortType
 IntegerType	                            int or Integer	                      DataTypes.IntegerType
 LongType	                              long or Long	                        DataTypes.LongType
 FloatType	                              float or Float	                      DataTypes.FloatType
 DoubleType	                            double or Double	                    DataTypes.DoubleType
-DecimalType	                            java.math.BigDecimal	                DataTypes.createDecimalType()   DataTypes.createDecimalType(precision, scale).
+DecimalType	                            java.math.BigDecimal	                DataTypes.createDecimalType()。DataTypes.createDecimalType(precision, scale).
 StringType	                            String	                              DataTypes.StringType
 BinaryType	                            byte[]	                              DataTypes.BinaryType
 BooleanType	                            boolean or Boolean	                  DataTypes.BooleanType
 TimestampType	                          java.sql.Timestamp	                  DataTypes.TimestampType
 DateType	                              java.sql.Date	                        DataTypes.DateType
-ArrayType	                              java.util.List	                      DataTypes.createArrayType(elementType) Note: The value of containsNull will be true。DataTypes.createArrayType(elementType, containsNull).
-MapType	                                java.util.Map	                        DataTypes.createMapType(keyType, valueType) Note: The value of valueContainsNull will be true. DataTypes.createMapType(keyType, valueType, valueContainsNull)
-StructType	                            org.apache.spark.sql.Row	            DataTypes.createStructType(fields) Note: fields is a List or an array of StructFields. Also, two fields with the same name are not allowed.
-StructField	                            The value type in Java of             DataTypes.createStructField(name, dataType, nullable)
-                                        the data type of this field
-                                        (For example, int for a
-                                        StructField with the data
-                                        type IntegerType)
+ArrayType	                              java.util.List	                      DataTypes.createArrayType(elementType) 注意:  containsNull 的默认值是 true。DataTypes.createArrayType(elementType, containsNull).
+MapType	                                java.util.Map	                        DataTypes.createMapType(keyType, valueType) 注意: valueContainsNull 的默认值是true。DataTypes.createMapType(keyType, valueType, valueContainsNull)
+StructType	                            org.apache.spark.sql.Row	            DataTypes.createStructType(fields) fields 表示一个 StructField 列表或数组, 另外不允许出现名称重复的字段。
+StructField	                            Java 中该字段的数据类型对应的值            DataTypes.createStructField(name, dataType, nullable)
+                                        类型(例如, StructField 的数据
+                                        类型是 IntegerType，则对应的值
+                                        类型是 int)
 =================================       =============================         ======================
 
 **Python**
@@ -3327,34 +3330,25 @@ Spark SQL 所有的数据类型都位于 pyspark.sql.types 包中。你可以使
   from pyspark.sql.types import *
 
 =======================================       ======================================      ===================================
-Data type	                                    Value type in Python	                      API to access or create a data type
+数据类型  	                                    Python 中的值类型 	                          用于获取或创建一个数据类型的 API
 =======================================       ======================================      ===================================
-ByteType	                                    int or long                                 ByteType()
-                                              Note: Numbers will be converted
-                                              to 1-byte signed integer numbers
-                                              at runtime. Please make sure that
-                                              numbers are within the range of
-                                              -128 to 127.
-ShortType	                                    int or long                                 ShortType()
-                                              Note: Numbers will be converted to
-                                              2-byte signed integer numbers at
-                                              runtime. Please make sure that
-                                              numbers are within the range of
-                                              -32768 to 32767.
-IntegerType	                                  int or long	                                IntegerType()
+ByteType	                                    int 或 long                                 ByteType()
+                                              注意：数字在运行时会被转化成1字节的有符号整
+                                              数。请确保数字在 -128 到 127 这个范围内。
+ShortType	                                    int 或 long                                 ShortType()
+                                              注意: 数字在运行时会被转化成2字节的有符号整
+                                              数。请确保数字在 -32768 到 32767 这个范
+                                              围内。
+IntegerType	                                  int 或 long	                                IntegerType()
 LongType	                                    long                                        LongType()
-                                              Note: Numbers will be converted to
-                                              8-byte signed integer numbers at
-                                              runtime. Please make sure that
-                                              numbers are within the range of
-                                              -9223372036854775808 to
-                                              9223372036854775807.
-                                              Otherwise, please convert data to
-                                              decimal.Decimal and use DecimalType.
+                                              注意: 数字在运行时会被转化成8字节的有符号整
+                                              数。请确保数字在 -9223372036854775808 到
+                                              9223372036854775807 这个范围内。不然的
+                                              话，需要将数据转化成 decimal.Decimal 并
+                                              使用 DecimalType。
 FloatType	                                    float                                       FloatType()
-                                              Note: Numbers will be converted to
-                                              4-byte single-precision floating
-                                              point numbers at runtime.
+                                              注意: 数字在运行时会被转化成4字节的单精度浮
+                                              点数。
 DoubleType	                                  float	                                      DoubleType()
 DecimalType	                                  decimal.Decimal	                            DecimalType()
 StringType	                                  string	                                    StringType()
@@ -3362,66 +3356,54 @@ BinaryType	                                  bytearray	                         
 BooleanType	                                  bool	                                      BooleanType()
 TimestampType	                                datetime.datetime	                          TimestampType()
 DateType	                                    datetime.date	                              DateType()
-ArrayType	                                    list, tuple, or array	                      ArrayType(elementType, [containsNull]) Note: The default value of containsNull is True.
-MapType	                                      dict	                                      MapType(keyType, valueType, [valueContainsNull]) Note: The default value of valueContainsNull is True.
-StructType	                                  list or tuple	                              StructType(fields) Note: fields is a Seq of StructFields. Also, two fields with the same name are not allowed.
-StructField                                   The value type in Python of the data        StructField(name, dataType, [nullable]) Note: The default value of nullable is True.
-                                              type of this field (For example, Int
-                                              for a StructField with the data type
-                                              IntegerType)
+ArrayType	                                    list, tuple 或 array	                        ArrayType(elementType, [containsNull]) 注意: containsNull 的默认值是 True。
+MapType	                                      dict	                                      MapType(keyType, valueType, [valueContainsNull]) 注意: valueContainsNull 的默认值是True。
+StructType	                                  list 或 tuple	                              StructType(fields) Note: fields 表示一个 StructField 序列，另外不允许出现名称重复的字段。
+StructField                                   Python 中该字段的数据类型对应的值类型(例如,       StructField(name, dataType, [nullable]) 注意: nullable 的默认值是 True。
+                                              StructField 的数据类型是 IntegerType, 则
+                                              对应的值类型是 Int)
 =======================================       ======================================      ===================================
 
 
 **R**
 
 ===============================================       =============================================       ======================================
-Data type	                                            Value type in R	                                    API to access or create a data type
+数据类型	                                              R	中的值类型                                          用于获取或创建一个数据类型的 API
 ===============================================       =============================================       ======================================
 ByteType	                                            integer                                             "byte"
-                                                      Note: Numbers will be converted to
-                                                      1-byte signed integer numbers at
-                                                      runtime. Please make sure that
-                                                      numbers are within the range of -128
-                                                      to 127.
+                                                      注意：数字在运行时会被转化成1字节的有符号整数。请确保
+                                                      数字在 -128 到 127 这个范围内。
 ShortType	                                            integer                                             "short"
-                                                      Note: Numbers will be converted to
-                                                      2-byte signed integer numbers at
-                                                      runtime. Please make sure that
-                                                      numbers are within the range of
-                                                      -32768 to 32767.
+                                                      注意: 数字在运行时会被转化成2字节的有符号整数。请确保
+                                                      数字在 -32768 到 32767 这个范围内。
 IntegerType	                                          integer	                                            "integer"
 LongType	                                            integer                                             "long"
-                                                      Note: Numbers will be converted to
-                                                      8-byte signed integer numbers at
-                                                      runtime. Please make sure that numbers
-                                                      are within the range of
-                                                      -9223372036854775808 to 9223372036854775807.
-                                                      Otherwise, please convert data to
-                                                      decimal.Decimal and use DecimalType.
+                                                      注意: 数字在运行时会被转化成8字节的有符号整数。请确保
+                                                      数字在 -9223372036854775808 到
+                                                      9223372036854775807 这个范围内。不然的话，需要将数
+                                                      据转化成 decimal.Decimal 并使用 DecimalType。
 FloatType	                                            numeric                                             "float"
-                                                      Note: Numbers will be converted to 4-byte
-                                                      single-precision floating point numbers
-                                                      at runtime.
+                                                      注意: 数字在运行时会被转化成4字节的单精度浮点数。
 DoubleType	                                          numeric	                                            "double"
-DecimalType	                                          Not supported	                                      Not supported
+DecimalType	                                          不支持	                                              不支持
 StringType	                                          character	                                          "string"
 BinaryType	                                          raw	                                                "binary"
 BooleanType	                                          logical	                                            "bool"
 TimestampType	                                        POSIXct	                                            "timestamp"
 DateType	                                            Date	                                              "date"
-ArrayType	                                            vector or list	                                    list(type="array", elementType=elementType, containsNull=[containsNull]) Note: The default value of containsNull is TRUE.
-MapType	                                              environment	                                        list(type="map", keyType=keyType, valueType=valueType, valueContainsNull=[valueContainsNull]) Note: The default value of valueContainsNull is TRUE.
-StructType	                                          named list	                                        list(type="struct", fields=fields) Note: fields is a Seq of StructFields. Also, two fields with the same name are not allowed.
-StructField	                                          The value type in R of the data type of             list(name=name, type=dataType, nullable=[nullable]) Note: The default value of nullable is TRUE.
-                                                      this field (For example, integer for a
-                                                      StructField with the data type IntegerType)
+ArrayType	                                            vector 或 list	                                      list(type="array", elementType=elementType, containsNull=[containsNull]) 注意: containsNull 的默认值是 TRUE。
+MapType	                                              environment	                                        list(type="map", keyType=keyType, valueType=valueType, valueContainsNull=[valueContainsNull]) 注意: valueContainsNull 的默认值是 TRUE。
+StructType	                                          named list	                                        list(type="struct", fields=fields) 注意: fields 表示一个 StructField 序列。另外不允许出现名称重复的字段。
+StructField	                                          R 中该字段的数据类型对应的值类型 (例如, StructField       list(name=name, type=dataType, nullable=[nullable]) 注意: nullable 的默认值是 TRUE。
+                                                      的数据类型是 IntegerType, 则对应的值类型是 integer)
 ===============================================       =============================================       ======================================
 
 NaN 语义
 =================
 
-当处理一些不符合标准浮点数语义的 float 或 double 类型时，对于Not-a-Number(NaN)需要做一些特殊处理。具体如下：
-* NaN = NaN返回true。
-* 在聚合操作中，所有NaN值都被分到同一组。
-* 在join key中NaN可以当做一个普通的值。
-* NaN值在升序排序中排到最后，比任何其他数值都大。
+当处理一些不符合标准浮点语义的 float 或 double 类型时，会对 Not-a-Number(NaN) 做一些特殊处理。具体如下：
+
+* NaN = NaN 返回true。
+* 在聚合操作中，所有 NaN 值都被分到同一组。
+* 在连接键中 NaN 被当做普通值。
+* NaN 值按升序排序时排最后，比其他任何数值都大。
